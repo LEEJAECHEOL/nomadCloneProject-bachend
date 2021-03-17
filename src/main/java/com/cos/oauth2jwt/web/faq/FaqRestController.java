@@ -2,9 +2,11 @@ package com.cos.oauth2jwt.web.faq;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,5 +39,17 @@ public class FaqRestController {
 		Faq faqEntity = faqService.저장하기(faq);
 		return faqEntity;
 		
+	}
+	
+	@PutMapping("/faq/{id}")
+	public int update(@PathVariable long id, @RequestBody FaqSaveReqDto dto) {
+		faqService.수정하기(id, dto);
+		return 1;
+	}
+	
+	@DeleteMapping("/faq/{id}")
+	public int deleteById(@PathVariable long id) {
+		faqService.삭제하기(id);
+		return 1;
 	}
 }
