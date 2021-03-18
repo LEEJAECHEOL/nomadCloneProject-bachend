@@ -18,6 +18,7 @@ public class CoursesService {
 	
 	private final CoursesRepository coursesRepository;
 	
+	@Transactional(readOnly = true)
 	public List<CoursesPreviewRespDto> 미리보기전체가져오기(){
 		List<Courses> coursesEntity = coursesRepository.findAll();
 		List<CoursesPreviewRespDto> previewDto = new ArrayList<>();
@@ -41,4 +42,28 @@ public class CoursesService {
 		return coursesRepository.save(courses);
 	}
 	
+	@Transactional
+	public void 삭제하기(Long id) {
+		coursesRepository.deleteById(id);
+	}
+	
+	@Transactional
+	public void 수정하기(Long id, Courses courses) {
+		Courses coursesEntity = coursesRepository.findById(id).get();
+		coursesEntity.setPreviewImage(courses.getPreviewImage());
+		coursesEntity.setMainImage(courses.getMainImage());
+		coursesEntity.setTitle(courses.getTitle());
+		coursesEntity.setSubTitle(courses.getSubTitle());
+		coursesEntity.setBackgroundColor(courses.getBackgroundColor());
+		coursesEntity.setTextColor(courses.getTextColor());
+		coursesEntity.setLevel(courses.getLevel());
+		coursesEntity.setSimpleImage(courses.getSimpleImage());
+		coursesEntity.setVideoInfo(courses.getVideoInfo());
+		coursesEntity.setSimpleInfo(courses.getSimpleInfo());
+		coursesEntity.setConcept(courses.getConcept());
+		coursesEntity.setSkill(courses.getSkill());
+		coursesEntity.setLectureAfter(courses.getLectureAfter());
+		coursesEntity.setVideoId(courses.getVideoId());
+		coursesEntity.setPrice(courses.getPrice());
+	}
 }
