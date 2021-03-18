@@ -43,6 +43,8 @@ public class Community {
 	@Lob
 	private String content;
 	
+	private String category;
+	
 	@ColumnDefault("0")
 	private int count; // 추천 카운트
 
@@ -56,6 +58,6 @@ public class Community {
     @JsonIgnoreProperties({"community"})
 	@OneToMany(mappedBy = "community", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)  // mappedBy : reply의 변수명
 	@OrderBy("id desc")
-	private List<CommunityReply> replys;
+	private List<CReply> replys;
 
 }

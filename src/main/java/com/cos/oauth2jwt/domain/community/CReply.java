@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import com.cos.oauth2jwt.domain.user.User;
 import lombok.AllArgsConstructor;
@@ -20,14 +22,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
-public class CommunityReply {
+public class CReply {
 	@Id // primary key
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	
 	@Column(nullable = false, length = 200)
 	private String content; 
 
+	// 대댓글 뎁스
+	@ColumnDefault("0")
+	private int depth;
+	
 	// 유저
 	@ManyToOne
 	@JoinColumn(name = "userId")

@@ -8,9 +8,14 @@ import lombok.Data;
 public class CommunitySaveReqDto {
 	private String title;
 	private String content;
-
+	private String category;
+	
 	public Community toEntity() {
-		return Community.builder().title(title).content(content).build();
+		return Community.builder()
+				.title(title)
+				.content(content)
+				.category(category)
+				.build();
 				
 	}
 }

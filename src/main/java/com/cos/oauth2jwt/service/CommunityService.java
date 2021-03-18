@@ -30,7 +30,7 @@ public class CommunityService {
 		return communityEntity;
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true) // 쓰는이유 1. 변경감지안함 2. 고립성
 	public Community 한건찾기(long id) {
 		Community communityEntity = communityRepository.findById(id).get();
 		return communityEntity;
