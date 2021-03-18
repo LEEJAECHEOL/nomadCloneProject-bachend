@@ -45,7 +45,7 @@ public class Courses {
 	private String subTitle;
 	private String backgroundColor;
 	private String textColor;
-	private int level;
+	private String level;
 	
 	@Column(name = "simpleImage", columnDefinition = "json")
 	@Convert(converter = JsonToListConverter.class)

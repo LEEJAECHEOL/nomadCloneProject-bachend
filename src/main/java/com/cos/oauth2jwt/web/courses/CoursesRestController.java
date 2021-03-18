@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.oauth2jwt.domain.courses.Courses;
+import com.cos.oauth2jwt.domain.courses.dto.CoursesPreviewRespDto;
 import com.cos.oauth2jwt.service.CoursesService;import com.cos.oauth2jwt.web.dto.CMRespDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,10 +24,13 @@ public class CoursesRestController {
 	private final CoursesService coursesService;
 	
 	@GetMapping("/courses")
-	public String findById() {
-		return "test";
+	public CMRespDto<?> findAllPreview() {
+		List<CoursesPreviewRespDto> entity = coursesService.미리보기전체가져오기();
+		
+		return new CMRespDto<>(HttpStatus.CREATED.value(), "success" , entity);
 	}
 	
+//	관리자가 등록함.
 	@PostMapping("/courses")
 	public CMRespDto<?> save(@RequestBody Courses courses) {
 		System.out.println(courses);
@@ -38,6 +40,5 @@ public class CoursesRestController {
 		}else {
 			return new CMRespDto<>(HttpStatus.BAD_REQUEST.value(), "fail" , null);
 		}
-		
 	}
 }
