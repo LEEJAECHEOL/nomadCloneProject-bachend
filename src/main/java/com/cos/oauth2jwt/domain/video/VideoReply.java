@@ -33,9 +33,12 @@ public class VideoReply {		// 비디오 댓글
 	@Column(nullable=false, length = 300)
 	private String content;
 	
+	@Column(nullable=false, name="recommand")
 	@ColumnDefault("0")
 	private int recommand;
 	
+	
+	@Column(nullable=false, name="depth")
 	@ColumnDefault("0")
 	private int depth;		//대댓글깊이
 	

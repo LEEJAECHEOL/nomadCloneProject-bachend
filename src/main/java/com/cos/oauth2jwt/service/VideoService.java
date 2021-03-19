@@ -23,7 +23,7 @@ public class VideoService {
 		return videoEntity;
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public Video 한건찾기(Long id){
 		Video videoEntity = videoRepository.findById(id).get();
 		return videoEntity;

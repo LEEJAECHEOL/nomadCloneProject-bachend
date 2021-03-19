@@ -1,19 +1,26 @@
 package com.cos.oauth2jwt.domain.video;
 
 import java.sql.Timestamp;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.cos.oauth2jwt.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,19 +36,22 @@ public class Video {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(unique = true)
-	private int folderId;			//폴더	
-	private int order;				//순서
-	private String vimeoId;				//
-	private String title;				//강의 제목
 	
-	@ManyToOne
-	@JoinColumn(name="userId")
-	private User user;
+	@Column(nullable = false)
+	private String title;					//영상 제목
 	
-	@ColumnDefault("true")
-    private boolean isFree;				//무료 여부
-    
+	@Column(nullable = false)
+	private String folderId;				//폴더아이디
+
+	@Column(nullable = false)
+	private Integer videoOrder;				//비디오 순서
+	
     @CreationTimestamp
-    private Timestamp createDate;		//날짜
+    private Timestamp createDate;
+    
+    private String vimeoId;
+    
+    @Column(columnDefinition = "boolean default true")
+    private boolean isFree;
+    
 }

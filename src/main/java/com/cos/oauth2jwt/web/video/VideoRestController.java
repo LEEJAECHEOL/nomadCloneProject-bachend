@@ -34,7 +34,6 @@ public class VideoRestController {
 	@PostMapping("/video")
 	public CMRespDto<?> save(@RequestBody VideoSaveReqDto videoSaveReqDto) {
 		Video videoEntity = videoService.한건저장(videoSaveReqDto);
-		videoEntity.setUser(new User(1L,"ssar","1234","ssar@nate.com","ssar","USER","testImage",new Timestamp(System.currentTimeMillis())));
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공", videoEntity);
 	} 
 	

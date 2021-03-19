@@ -19,26 +19,25 @@ import lombok.RequiredArgsConstructor;
 public class VideoReplyService {
 	private final VideoReplyRepository videoReplyRepository;
 	
-	@Transactional
+	@Transactional		//댓글추가
 	public VideoReply 한건저장(VideoReplySaveReqDto videoReplySaveReqDto) {
 		VideoReply videoReply = videoReplySaveReqDto.toEntity();
 		VideoReply videoReplyEntity = videoReplyRepository.save(videoReply);
 		return videoReplyEntity;
 	}
-	@Transactional
+	@Transactional		//댓글삭제
 	public void 삭제하기(long id) {
 		videoReplyRepository.deleteById(id); // 실패하면 리턴까지 안가고 Exception이 뜬다.
 	}
 	
-	@Transactional
+	@Transactional		//댓글수정하기
 	public VideoReply 수정하기(Long id, VideoReplyUpdateReqDto videoReplyUpdateReqDto){ 
 		VideoReply videoReplyEntity = videoReplyRepository.findById(id).get(); //영속화
 		videoReplyEntity.setContent(videoReplyUpdateReqDto.getContent());
-		videoReplyEntity.setDepth(videoReplyUpdateReqDto.getDepth());
 		return videoReplyEntity;	
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional(readOnly = true)		//
 	public List<VideoReply> 전체찾기(){
 		List<VideoReply> videoReplys = videoReplyRepository.findAll();
 		return videoReplys;

@@ -5,5 +5,4 @@ import lombok.Data;
 @Data
 public class VideoReplyUpdateReqDto {
 	private String content;
-	private int depth;
 }
