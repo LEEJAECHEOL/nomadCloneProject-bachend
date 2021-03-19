@@ -30,8 +30,8 @@ public class Video {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(unique = true)
-	private Integer folderId;			//폴더	
-	private Integer order;				//순서
+	private int folderId;			//폴더	
+	private int order;				//순서
 	private String vimeoId;				//
 	private String title;				//강의 제목
 	

@@ -9,6 +9,8 @@ import com.cos.oauth2jwt.domain.video.Video;
 import com.cos.oauth2jwt.domain.video.VideoReply;
 import com.cos.oauth2jwt.domain.video.VideoReplyRepository;
 import com.cos.oauth2jwt.domain.video.dto.VideoReplySaveReqDto;
+import com.cos.oauth2jwt.domain.video.dto.VideoReplyUpdateReqDto;
+import com.cos.oauth2jwt.domain.video.dto.VideoUpdateReqDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,12 +26,20 @@ public class VideoReplyService {
 		return videoReplyEntity;
 	}
 	@Transactional
-	public void 댓글삭제(long id) {
+	public void 삭제하기(long id) {
 		videoReplyRepository.deleteById(id); // 실패하면 리턴까지 안가고 Exception이 뜬다.
+	}
+	
+	@Transactional
+	public VideoReply 수정하기(Long id, VideoReplyUpdateReqDto videoReplyUpdateReqDto){ 
+		VideoReply videoReplyEntity = videoReplyRepository.findById(id).get(); //영속화
+		videoReplyEntity.setContent(videoReplyUpdateReqDto.getContent());
+		videoReplyEntity.setDepth(videoReplyUpdateReqDto.getDepth());
+		return videoReplyEntity;	
 	}
 
 	@Transactional(readOnly = true)
-	public List<VideoReply> 전체댓글(){
+	public List<VideoReply> 전체찾기(){
 		List<VideoReply> videoReplys = videoReplyRepository.findAll();
 		return videoReplys;
 	}
