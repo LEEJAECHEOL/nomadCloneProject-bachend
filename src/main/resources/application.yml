@@ -6,7 +6,6 @@ server:
       charset: UTF-8
       enabled: true
       force: true
-      
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -25,5 +24,7 @@ spring:
 
   jackson:
     serialization:
-      fail-on-empty-beans: false
+      fail-on-empty-beans: false  servlet:    multipart:      enabled: true      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB                        
 

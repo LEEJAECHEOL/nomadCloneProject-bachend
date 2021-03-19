@@ -7,7 +7,6 @@ import com.cos.oauth2jwt.domain.community.Community;
 import com.cos.oauth2jwt.domain.community.CommunityRepository;
 import com.cos.oauth2jwt.domain.community.dto.CommunitySaveReqDto;
 import com.cos.oauth2jwt.domain.community.dto.CommunityUpdateReqDto;
-import com.cos.oauth2jwt.domain.user.User;
 
 import lombok.RequiredArgsConstructor;
 
