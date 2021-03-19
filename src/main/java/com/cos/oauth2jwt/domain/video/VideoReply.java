@@ -20,28 +20,33 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
-public class Video {
+public class VideoReply {		// 비디오 댓글
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(unique = true)
-	private Integer folderId;			//폴더	
-	private Integer order;				//순서
-	private String vimeoId;				//
-	private String title;				//강의 제목
+	
+	@Column(nullable=false, length = 300)
+	private String content;
+	
+	@ColumnDefault("0")
+	private int recommand;
+	
+	@ColumnDefault("0")
+	private int depth;		//대댓글깊이
 	
 	@ManyToOne
 	@JoinColumn(name="userId")
-	private User user;
+	private User user;	
 	
-	@ColumnDefault("true")
-    private boolean isFree;				//무료 여부
-    
-    @CreationTimestamp
-    private Timestamp createDate;		//날짜
+	@ManyToOne
+	@JoinColumn(name="videoId")
+	private Video video;		//비디오 아이디 (연관관계 ManytoOne) 하나의 비디오에 여러개의 댓글
+	
+	@CreationTimestamp
+    private Timestamp createDate;
 }

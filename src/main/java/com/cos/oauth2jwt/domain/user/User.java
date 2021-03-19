@@ -34,6 +34,7 @@ public class User {
 	private String name;
 	private String roles; // USER, ADMIN
 	private String imageUrl;
+	
     
     @CreationTimestamp
     private Timestamp createDate;
