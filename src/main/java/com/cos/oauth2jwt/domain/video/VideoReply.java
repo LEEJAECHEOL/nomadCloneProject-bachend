@@ -35,12 +35,12 @@ public class VideoReply {		// 비디오 댓글
 	
 	@Column(nullable=false, name="recommand")
 	@ColumnDefault("0")
-	private int recommand;
+	private Integer recommand;
 	
 	
 	@Column(nullable=false, name="depth")
 	@ColumnDefault("0")
-	private int depth;		//대댓글깊이
+	private Integer depth;		//대댓글깊이
 	
 	@ManyToOne
 	@JoinColumn(name="userId")
