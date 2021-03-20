@@ -2,6 +2,7 @@ package com.cos.oauth2jwt.web.user;
 
 import java.security.Principal;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,19 +24,19 @@ public class UserRestController {
 
 	private final UserService userService;
 	
-	// edit profile (email, name)
+	// edit profile (name)
 	@PutMapping("/user/{id}")
 	public CMRespDto<?> findById(@PathVariable Long id, @RequestBody UserUpdateReqDto userUpdateReqDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 		User userEntity = userService.프로필수정(id, userUpdateReqDto);
 		principalDetails.setUser(userEntity);
-		return new CMRespDto<>(1,"성공",null);
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
 	}
 	
 	// 회원탈퇴
 	@DeleteMapping("/user/{id}")
 	public CMRespDto<?> deleteById(@PathVariable Long id) {
 		userService.회원탈퇴(id);
-		return new CMRespDto<>(1,"성공",null);
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
 	}
 	
 	// image update

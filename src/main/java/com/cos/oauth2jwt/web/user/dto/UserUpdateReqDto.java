@@ -4,6 +4,5 @@ import lombok.Data;
 
 @Data
 public class UserUpdateReqDto {
-	private String email;
 	private String name;
 }

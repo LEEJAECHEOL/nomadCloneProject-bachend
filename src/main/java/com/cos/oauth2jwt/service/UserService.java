@@ -17,7 +17,6 @@ public class UserService {
 	@Transactional
 	public User 프로필수정(long id, UserUpdateReqDto userUpdateReqDto) {
 		User userEntity = userRepository.findById(id).get();
-		userEntity.setEmail(userUpdateReqDto.getEmail());
 		userEntity.setName(userUpdateReqDto.getName());
 		return userEntity;
 	}
