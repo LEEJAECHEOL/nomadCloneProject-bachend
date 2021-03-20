@@ -34,7 +34,7 @@ public class VideoReplyRestController {				//댓글
 	@PostMapping("/vreply")
 	public CMRespDto<?> save(@RequestBody VideoReplySaveReqDto videoReplySaveReqDto) {
 		VideoReply videoReplyEntity = videoReplyService.한건저장(videoReplySaveReqDto);
-		videoReplyEntity.setUser(new User(1L,"ssar","1234","ssar@nate.com","ssar","USER","Image",new Timestamp(System.currentTimeMillis())));
+//		videoReplyEntity.setUser(new User(1L,"ssar","1234","ssar@nate.com","ssar","USER","Image",new Timestamp(System.currentTimeMillis())));
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공", videoReplyEntity);
 	} 
 	
