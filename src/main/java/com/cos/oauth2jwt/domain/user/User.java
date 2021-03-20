@@ -32,8 +32,10 @@ public class User {
 	private String password;
 	private String email;
 	private String name;
+	private String provider;
 	private String roles; // USER, ADMIN
 	private String imageUrl;
+	
     
     @CreationTimestamp
     private Timestamp createDate;
