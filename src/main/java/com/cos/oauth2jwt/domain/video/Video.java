@@ -41,15 +41,16 @@ public class Video {
 	private String title;					//영상 제목
 	
 	@Column(nullable = false)
-	private String folderId;				//폴더아이디
+	private Integer folderId;				//폴더아이디
 
 	@Column(nullable = false)
 	private Integer videoOrder;				//비디오 순서
 	
     @CreationTimestamp
-    private Timestamp createDate;
+    private Timestamp createDate;			
     
-    private String vimeoId;
+    @Column(nullable = false)
+    private String vimeoId;					//vimeo
     
     @Column(columnDefinition = "boolean default true")
     private boolean isFree;

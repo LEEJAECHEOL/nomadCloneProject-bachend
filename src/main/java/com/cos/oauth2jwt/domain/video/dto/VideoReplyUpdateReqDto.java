@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class VideoReplyUpdateReqDto {
-	private String content;
+	private String content;			//댓글수정
 }

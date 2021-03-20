@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-public class VideoReplyRestController {
+public class VideoReplyRestController {				//댓글
 	private final VideoReplyService videoReplyService;
 	
 	@GetMapping("/vreply")
@@ -41,6 +41,7 @@ public class VideoReplyRestController {
 	@GetMapping("/vreply/{id}")
 	public CMRespDto<?> findById(@PathVariable long id){
 		VideoReply videoReplyEntity = videoReplyService.한건찾기(id);
+		System.out.println(videoReplyEntity.toString());
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",videoReplyEntity);
 	}
 	
