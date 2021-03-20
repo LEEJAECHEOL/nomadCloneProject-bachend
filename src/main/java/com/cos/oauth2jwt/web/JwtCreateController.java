@@ -50,13 +50,12 @@ public class JwtCreateController {
 			
 			userEntity = userRepository.save(userRequest);
 		}
-		System.out.println(userEntity);
 		
 		String jwtToken = JWT.create()
 				.withSubject(userEntity.getUsername())
 				.withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
 				.withClaim("id", userEntity.getId())
-				.withClaim("name", userEntity.getName())
+				.withClaim("username", userEntity.getUsername())
 				.sign(Algorithm.HMAC512(JwtProperties.SECRET));
 		
 		LoginRespDto loginRespDto = LoginRespDto.builder()

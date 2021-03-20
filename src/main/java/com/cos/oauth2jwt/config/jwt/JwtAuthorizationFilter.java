@@ -36,28 +36,30 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		
-//		System.out.println("인증이나 권한이 필요한 주소 요청이 됨.");
+		System.out.println("인증이나 권한이 필요한 주소 요청이 됨.");
+		System.out.println(JwtProperties.HEADER_STRING);
+		String jwtHeader = request.getHeader(JwtProperties.HEADER_STRING);
+		System.out.println("jwtHeader : " + jwtHeader);
 		
-		String jwtHeader = request.getHeader("Authorization");
-//		System.out.println("jwtHeader : " + jwtHeader);
-		
+//		System.out.println(jwtHeader.startsWith("Bearer"));
 		// header가 있는지 확인
-		if(jwtHeader == null || !jwtHeader.startsWith("Bearer")) {
+		if(jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
+			System.out.println("여기서 실행되나?");
 			chain.doFilter(request, response);
 			return;
 		}
 		
 		// JWT 토큰을 검증해서 정상적인 사용자 인지 확인
 		String jwtToken = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX, "");
-		
+		System.out.println("this is token : " + jwtToken);
 		// 토큰 검증 (이게 인증이기 때문에 AuthenticationManager도 필요 없음)
 		// 내가 SecurityContext에 집적접근해서 세션을 만들때 자동으로 UserDetailsService에 있는 loadByUsername이 호출됨.
 		String username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
-		
+		System.out.println("this is token username : " + username);
 		// 서명이 정상적으로 됨
 		if(username != null) {
 			User userEntity = userRepository.findByUsername(username);
-			
+			System.out.println("토큰검사 : " + userEntity);
 			// 인증은 토큰 검증시 끝. 인증을 하기 위해서가 아닌 스프링 시큐리티가 수행해주는 권한 처리를 위해 
 			// 아래와 같이 토큰을 만들어서 Authentication 객체를 강제로 만들고 그걸 세션에 저장!
 			PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
