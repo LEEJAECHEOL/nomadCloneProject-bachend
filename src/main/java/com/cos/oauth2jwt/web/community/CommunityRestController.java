@@ -36,9 +36,9 @@ public class CommunityRestController {
 	
 	@PostMapping("/community")
 	public CMRespDto<?> save(@RequestBody CommunitySaveReqDto communitySaveReqDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-		System.out.println("community principal : " + principalDetails);
-		Community communityEntity = communityService.글저장(communitySaveReqDto);
-//		communityEntity.setUser(new User(1L,"ssar","1234","test@naver.com","cos","USER","testImage",new Timestamp(System.currentTimeMillis())));
+		Community community = communitySaveReqDto.toEntity();
+		community.setUser(principalDetails.getUser());
+		Community communityEntity = communityService.글저장(community);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공", communityEntity);
 	} 
 	

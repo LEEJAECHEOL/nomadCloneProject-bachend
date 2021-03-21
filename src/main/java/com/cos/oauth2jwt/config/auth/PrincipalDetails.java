@@ -61,4 +61,9 @@ public class PrincipalDetails implements UserDetails {
 		return true;
 	}
 
+	public Long getId() {
+		// TODO Auto-generated method stub
+		return user.getId();
+	}
+
 }
