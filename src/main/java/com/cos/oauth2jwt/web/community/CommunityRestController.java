@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 public class CommunityRestController {
 	
 	private final CommunityService communityService;
-	
+
 	@GetMapping("/community")
 	public CMRespDto<?> findAll() {
 		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityService.전체찾기());
