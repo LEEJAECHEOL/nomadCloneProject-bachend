@@ -30,35 +30,33 @@ import lombok.RequiredArgsConstructor;
 public class CommunityRestController {
 	
 	private final CommunityService communityService;
-	
-	@GetMapping("/com")
-	public CMRespDto<?> findAll(String category) {
+
+	@GetMapping("/community")
+	public CMRespDto<?> findAll() {
 		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityService.전체찾기());
 	}
 	
-	@PostMapping("/com")
-	public CMRespDto<?> save(@RequestBody CommunitySaveReqDto communitySaveReqDto, HttpSession session) {
-		System.out.println("세션 : "+session.getAttribute("principal"));
+	@PostMapping("/community")
+	public CMRespDto<?> save(@RequestBody CommunitySaveReqDto communitySaveReqDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 		Community community = communitySaveReqDto.toEntity();
-//		community.setUser(principalDetails.getUser());
+		community.setUser(principalDetails.getUser());
 		Community communityEntity = communityService.글저장(community);
-//		communityEntity.setUser(new User(1L,"ssar","1234","test@naver.com","cos","USER","testImage",new Timestamp(System.currentTimeMillis())));
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공", communityEntity);
 	} 
 	
-	@GetMapping("/com/{id}")
+	@GetMapping("/community/{id}")
 	public CMRespDto<?> findById(@PathVariable long id){
 		Community communityEntity = communityService.한건찾기(id);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",communityEntity);
 	}
 	
-	@PutMapping("/com/{id}")
+	@PutMapping("/community/{id}")
 	public CMRespDto<?> update(@PathVariable long id, @RequestBody CommunityUpdateReqDto communityUpdateReqDto){
 		Community communityEntity = communityService.수정하기(id,communityUpdateReqDto);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",communityEntity);
 	}
 	
-	@DeleteMapping("/com/{id}")
+	@DeleteMapping("/community/{id}")
 	public CMRespDto<?> delete(@PathVariable long id){
 		communityService.삭제하기(id);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
