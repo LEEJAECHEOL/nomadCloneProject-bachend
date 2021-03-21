@@ -24,8 +24,7 @@ public class CommunityService {
 	}
 	
 	@Transactional
-	public Community 글저장(CommunitySaveReqDto communitySaveReqDto) {
-		Community community = communitySaveReqDto.toEntity();
+	public Community 글저장(Community community) {
 		Community communityEntity = communityRepository.save(community); // 실패하면 리턴까지 안가고 Exception이 뜬다.
 		return communityEntity;
 	}
