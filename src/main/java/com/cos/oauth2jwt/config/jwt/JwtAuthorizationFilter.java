@@ -36,7 +36,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		
-//		System.out.println("인증이나 권한이 필요한 주소 요청이 됨.");
+		System.out.println("인증이나 권한이 필요한 주소 요청이 됨.");
 		
 		String jwtHeader = request.getHeader("Authorization");
 //		System.out.println("jwtHeader : " + jwtHeader);
@@ -53,7 +53,11 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		// 토큰 검증 (이게 인증이기 때문에 AuthenticationManager도 필요 없음)
 		// 내가 SecurityContext에 집적접근해서 세션을 만들때 자동으로 UserDetailsService에 있는 loadByUsername이 호출됨.
 		String username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
-		
+		System.out.println("==========");
+		System.out.println(username);
+		System.out.println("==========");
+		System.out.println(jwtToken);
+		System.out.println("==========");
 		// 서명이 정상적으로 됨
 		if(username != null) {
 			User userEntity = userRepository.findByUsername(username);
