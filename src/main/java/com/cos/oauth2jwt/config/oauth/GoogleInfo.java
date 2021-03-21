@@ -11,7 +11,7 @@ public class GoogleInfo extends OAuth2UserInfo {
 
 	@Override
 	public String getId() {
-		return attributes.get("googleId").toString();
+		return attributes.get("sub").toString(); // googleId
 	}
 	
 	@Override
@@ -26,7 +26,7 @@ public class GoogleInfo extends OAuth2UserInfo {
 
 	@Override
 	public String getImageUrl() {
-		return attributes.get("imageUrl").toString();
+		return attributes.get("picture").toString(); // imageUrl
 	}
 	
 
