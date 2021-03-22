@@ -21,8 +21,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 public class FaqRestController {
-	private final FaqService faqService;
 	
+	private final FaqService faqService;
 	@GetMapping("/faq")
 	public CMRespDto<?> findAll() {
 		List<Faq> faqs = faqService.전체찾기();

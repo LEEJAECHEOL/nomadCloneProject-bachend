@@ -13,6 +13,8 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.cos.oauth2jwt.domain.community.Community;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,8 +34,10 @@ public class User {
 	private String password;
 	private String email;
 	private String name;
+	private String provider;
 	private String roles; // USER, ADMIN
 	private String imageUrl;
+	
     
     @CreationTimestamp
     private Timestamp createDate;
