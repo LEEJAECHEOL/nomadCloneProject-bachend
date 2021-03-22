@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cos.oauth2jwt.domain.faq.Faq;
 import com.cos.oauth2jwt.domain.faq.FaqRepository;
 import com.cos.oauth2jwt.web.faq.dto.FaqSaveReqDto;
+import com.cos.oauth2jwt.web.faq.dto.FaqUpdateReqDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,11 +34,10 @@ public class FaqService {
 	}
 	
 	@Transactional
-	public void 수정하기(long id, FaqSaveReqDto dto) {
+	public void 수정하기(long id, FaqUpdateReqDto dto) {
 		Faq faqEntity = faqRepository.findById(id).get();
-		faqEntity.setGubun(dto.getGubun());
+		faqEntity.setTitle(dto.getTitle());
 		faqEntity.setContent(dto.getContent());
-		faqEntity.setCategory(dto.getCategory());
 	}
 	
 	@Transactional

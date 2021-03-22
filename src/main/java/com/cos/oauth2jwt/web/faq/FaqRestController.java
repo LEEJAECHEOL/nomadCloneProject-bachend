@@ -15,6 +15,7 @@ import com.cos.oauth2jwt.domain.faq.Faq;
 import com.cos.oauth2jwt.service.FaqService;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
 import com.cos.oauth2jwt.web.faq.dto.FaqSaveReqDto;
+import com.cos.oauth2jwt.web.faq.dto.FaqUpdateReqDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -44,7 +45,7 @@ public class FaqRestController {
 	}
 	
 	@PutMapping("/faq/{id}")
-	public CMRespDto<?> update(@PathVariable long id, @RequestBody FaqSaveReqDto dto) {
+	public CMRespDto<?> update(@PathVariable long id, @RequestBody FaqUpdateReqDto dto) {
 		faqService.수정하기(id, dto);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
 	}
