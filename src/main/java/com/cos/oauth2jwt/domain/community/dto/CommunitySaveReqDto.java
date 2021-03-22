@@ -1,5 +1,6 @@
 package com.cos.oauth2jwt.domain.community.dto;
 
+import com.cos.oauth2jwt.domain.community.Category;
 import com.cos.oauth2jwt.domain.community.Community;
 
 import lombok.Data;
@@ -8,13 +9,13 @@ import lombok.Data;
 public class CommunitySaveReqDto {
 	private String title;
 	private String content;
-	private String category;
+	private Long categoryId;
 	
 	public Community toEntity() {
 		return Community.builder()
 				.title(title)
 				.content(content)
-				.category(category)
+				.category(Category.builder().id(categoryId).build())
 				.build();
 				
 	}

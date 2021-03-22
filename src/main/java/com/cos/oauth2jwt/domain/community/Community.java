@@ -41,9 +41,7 @@ public class Community {
 	private String title;
 	
 	@Lob
-	private String content;
-	
-	private String category;
+	private String content;	
 	
 	@ColumnDefault("0")
 	private int count; // 추천 카운트
@@ -51,6 +49,10 @@ public class Community {
 	@ManyToOne // 자동으로 Eager 전략
 	@JoinColumn(name = "userId")
 	private User user;
+	
+	@ManyToOne // 자동으로 Eager 전략
+	@JoinColumn(name = "categoryId")
+	private Category category;
 	
     @CreationTimestamp
     private Timestamp createDate;
