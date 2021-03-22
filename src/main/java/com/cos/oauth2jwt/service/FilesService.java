@@ -12,12 +12,18 @@ import lombok.RequiredArgsConstructor;
 public class FilesService {
 	private final FilesRepository filesRepository;
 	
-	public void save(Files files) {
+	public Files save(Files files) {
 		Files file = new Files();
 		file.setFileName(files.getFileName());
 		file.setFileOriName(files.getFileOriName());
 		file.setFileUrl(files.getFileUrl());
 		
-		filesRepository.save(file);
+		return filesRepository.save(file);
+	}
+	public Files 한건찾기(Long id) {
+		return filesRepository.findById(id).get();
+	}
+	public void 삭제하기(Long id) {
+		filesRepository.deleteById(id);
 	}
 }
