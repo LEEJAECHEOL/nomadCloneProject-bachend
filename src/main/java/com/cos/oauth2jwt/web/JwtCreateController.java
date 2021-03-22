@@ -1,6 +1,7 @@
 package com.cos.oauth2jwt.web;
 
 import java.util.Date;
+
 import java.util.Map;
 import java.util.UUID;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.cos.oauth2jwt.config.jwt.JwtProperties;
+import com.cos.oauth2jwt.config.oauth.GoogleAndroidInfo;
 import com.cos.oauth2jwt.config.oauth.GoogleInfo;
 import com.cos.oauth2jwt.config.oauth.OAuth2UserInfo;
 import com.cos.oauth2jwt.domain.user.User;
@@ -84,7 +86,7 @@ public class JwtCreateController {
 		Map<String, Object> data = mapper.readValue(payload, Map.class);
 		System.out.println("Google" + data);
 		
-		OAuth2UserInfo googleInfo = new GoogleInfo((Map<String, Object>)data);
+		OAuth2UserInfo googleInfo = new GoogleAndroidInfo((Map<String, Object>)data);
 		
 		User userEntity = userRepository.findByUsername("Google_" + googleInfo.getId());
 		UUID uuid = UUID.randomUUID();

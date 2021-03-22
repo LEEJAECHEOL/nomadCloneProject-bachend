@@ -1,9 +1,9 @@
 package com.cos.oauth2jwt.config.oauth;
 import java.util.Map;
 
-public class GooleAndroidInfo extends OAuth2UserInfo {
+public class GoogleAndroidInfo extends OAuth2UserInfo {
 
-	public GooleAndroidInfo(Map<String, Object> attributes) {
+	public GoogleAndroidInfo(Map<String, Object> attributes) {
 		super(attributes);
 		// TODO Auto-generated constructor stub
 	}
