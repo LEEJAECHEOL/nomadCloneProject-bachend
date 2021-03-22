@@ -2,6 +2,7 @@ package com.cos.oauth2jwt.web.faq;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.oauth2jwt.domain.faq.Faq;
 import com.cos.oauth2jwt.service.FaqService;
+import com.cos.oauth2jwt.web.dto.CMRespDto;
 import com.cos.oauth2jwt.web.faq.dto.FaqSaveReqDto;
 
 import lombok.RequiredArgsConstructor;
@@ -19,37 +21,37 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 public class FaqRestController {
-	private final FaqService faqService;
 	
+	private final FaqService faqService;
 	@GetMapping("/faq")
-	public List<Faq> findAll() {
+	public CMRespDto<?> findAll() {
 		List<Faq> faqs = faqService.전체찾기();
-		return faqs;
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",faqs);
 	}
 	
 	@GetMapping("/faq/{id}")
-	public Faq findById(@PathVariable long id) {
+	public CMRespDto<?> findById(@PathVariable long id) {
 		Faq faqEntity = faqService.상세보기(id);
-		return faqEntity;
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",faqEntity);
 	}
 	
 	@PostMapping("/faq")
-	public Faq save(@RequestBody FaqSaveReqDto faqSaveReqDto) {
+	public CMRespDto<?> save(@RequestBody FaqSaveReqDto faqSaveReqDto) {
 		Faq faq = faqSaveReqDto.toEntity();
 		Faq faqEntity = faqService.저장하기(faq);
-		return faqEntity;
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",faqEntity);
 		
 	}
 	
 	@PutMapping("/faq/{id}")
-	public int update(@PathVariable long id, @RequestBody FaqSaveReqDto dto) {
+	public CMRespDto<?> update(@PathVariable long id, @RequestBody FaqSaveReqDto dto) {
 		faqService.수정하기(id, dto);
-		return 1;
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
 	}
 	
 	@DeleteMapping("/faq/{id}")
-	public int deleteById(@PathVariable long id) {
+	public CMRespDto<?> deleteById(@PathVariable long id) {
 		faqService.삭제하기(id);
-		return 1;
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
 	}
 }
