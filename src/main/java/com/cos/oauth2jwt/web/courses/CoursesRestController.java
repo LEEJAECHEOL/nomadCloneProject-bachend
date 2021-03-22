@@ -34,7 +34,7 @@ public class CoursesRestController {
 	}
 	
 //	관리자가 등록함.
-	@PostMapping("/courses")
+	@PostMapping("/admin/courses")
 	public CMRespDto<?> save(@RequestBody Courses courses) {
 		System.out.println(courses);
 		Courses coursesEntity =  coursesService.저장하기(courses);
