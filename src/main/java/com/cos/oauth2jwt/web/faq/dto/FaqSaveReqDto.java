@@ -1,21 +1,23 @@
 package com.cos.oauth2jwt.web.faq.dto;
 
+
 import com.cos.oauth2jwt.domain.faq.Faq;
+import com.cos.oauth2jwt.domain.faq.FaqCategory;
 
 import lombok.Data;
 
 @Data
 public class FaqSaveReqDto {
 
-	private String gubun;
+	private String title;
 	private String content;
-	private String category;
+	private Long categoryId;
 	
 	public Faq toEntity() {
 		return Faq.builder()
-				.gubun(gubun)
+				.title(title)
 				.content(content)
-				.category(category)
+				.faqCategory(FaqCategory.builder().id(categoryId).build())
 				.build();
 	}
 	
