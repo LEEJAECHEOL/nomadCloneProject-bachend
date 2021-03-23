@@ -25,6 +25,7 @@ public class CommunityRestController {
 
 	@GetMapping("/community")
 	public CMRespDto<?> findAll() {
+		System.out.println("파인드 올 실행됨");
 		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityService.전체찾기());
 	}
 	
@@ -39,6 +40,7 @@ public class CommunityRestController {
 	
 	@GetMapping("/community/{id}")
 	public CMRespDto<?> findById(@PathVariable long id){
+		System.out.println("파인드 바이 아이디 실행됨");
 		Community communityEntity = communityService.한건찾기(id);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",communityEntity);
 	}

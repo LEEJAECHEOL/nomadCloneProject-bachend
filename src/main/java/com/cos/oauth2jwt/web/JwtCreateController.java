@@ -33,93 +33,69 @@ import lombok.RequiredArgsConstructor;
 public class JwtCreateController {
 	private final UserRepository userRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	@PostMapping("/oauth/jwt/google")
 	public CMRespDto<?> jwtCreate(@RequestBody Map<String, Object> data) {
 		System.out.println("jwtCreate 실행됨");
 		System.out.println("Google" + data.get("profileObj"));
-		OAuth2UserInfo googleInfo = new GoogleInfo((Map<String, Object>)data.get("profileObj"));
-		
+		OAuth2UserInfo googleInfo = new GoogleInfo((Map<String, Object>) data.get("profileObj"));
+
 		User userEntity = userRepository.findByUsername("Google_" + googleInfo.getId());
 		UUID uuid = UUID.randomUUID();
 		String encPassword = new BCryptPasswordEncoder().encode(uuid.toString());
-		if(userEntity == null) {
-			User userRequest = User.builder()
-					.username("Google_"+googleInfo.getId())
-					.password(encPassword)
-					.email(googleInfo.getEmail())
-					.name(googleInfo.getName())
-					.imageUrl(googleInfo.getImageUrl())
-					.provider("Google")
-					.roles("ROLE_USER")
-					.build();
-			
+		if (userEntity == null) {
+			User userRequest = User.builder().username("Google_" + googleInfo.getId()).password(encPassword)
+					.email(googleInfo.getEmail()).name(googleInfo.getName()).imageUrl(googleInfo.getImageUrl())
+					.provider("Google").roles("ROLE_USER").build();
+
 			userEntity = userRepository.save(userRequest);
 		}
-		
-		String jwtToken = JWT.create()
-				.withSubject(userEntity.getUsername())
+
+		String jwtToken = JWT.create().withSubject(userEntity.getUsername())
 				.withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
-				.withClaim("id", userEntity.getId())
-				.withClaim("username", userEntity.getUsername())
+				.withClaim("id", userEntity.getId()).withClaim("username", userEntity.getUsername())
 				.sign(Algorithm.HMAC512(JwtProperties.SECRET));
-		
+
 		LoginRespDto loginRespDto = LoginRespDto.builder()
-													.name(userEntity.getName())
-													.provider(userEntity.getProvider())
-													.email(userEntity.getEmail())
-													.roles(userEntity.getRoles())
-													.token(jwtToken)
-													.build();
-		
+				.id(userEntity.getId())
+				.name(userEntity.getName()).provider(userEntity.getProvider()).email(userEntity.getEmail())
+				.roles(userEntity.getRoles()).token(jwtToken).build();
 		return new CMRespDto<>(HttpStatus.OK.value(), "", loginRespDto);
 	}
 
 	@PostMapping("android/oauth/jwt/google")
-	public CMRespDto<?> androidJwtCreate(@RequestBody String idToken) throws JsonMappingException, JsonProcessingException {
+	public CMRespDto<?> androidJwtCreate(@RequestBody String idToken)
+			throws JsonMappingException, JsonProcessingException {
 		System.out.println("jwtCreate 실행됨");
 		String payload = idToken.split("\\.")[1];
 		payload = new String(Base64.decodeBase64(payload));
-		System.out.println("payload 디코딩 : "+payload);
-		
+		System.out.println("payload 디코딩 : " + payload);
+
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> data = mapper.readValue(payload, Map.class);
 		System.out.println("Google" + data);
-		
-		OAuth2UserInfo googleInfo = new GoogleAndroidInfo((Map<String, Object>)data);
-		
+
+		OAuth2UserInfo googleInfo = new GoogleAndroidInfo((Map<String, Object>) data);
+
 		User userEntity = userRepository.findByUsername("Google_" + googleInfo.getId());
 		UUID uuid = UUID.randomUUID();
 		String encPassword = new BCryptPasswordEncoder().encode(uuid.toString());
-		if(userEntity == null) {
-			User userRequest = User.builder()
-					.username("Google_"+googleInfo.getId())
-					.password(encPassword)
-					.email(googleInfo.getEmail())
-					.name(googleInfo.getName())
-					.imageUrl(googleInfo.getImageUrl())
-					.provider("Google")
-					.roles("ROLE_USER")
-					.build();
-			
+		if (userEntity == null) {
+			User userRequest = User.builder().username("Google_" + googleInfo.getId()).password(encPassword)
+					.email(googleInfo.getEmail()).name(googleInfo.getName()).imageUrl(googleInfo.getImageUrl())
+					.provider("Google").roles("ROLE_USER").build();
+
 			userEntity = userRepository.save(userRequest);
 		}
 		
-		String jwtToken = JWT.create()
-				.withSubject(userEntity.getUsername())
+		
+		String jwtToken = JWT.create().withSubject(userEntity.getUsername())
 				.withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
-				.withClaim("id", userEntity.getId())
-				.withClaim("username", userEntity.getUsername())
+				.withClaim("id", userEntity.getId()).withClaim("username", userEntity.getUsername())
 				.sign(Algorithm.HMAC512(JwtProperties.SECRET));
-		
-		LoginRespDto loginRespDto = LoginRespDto.builder()
-													.name(userEntity.getName())
-													.provider(userEntity.getProvider())
-													.email(userEntity.getEmail())
-													.roles(userEntity.getRoles())
-													.token(jwtToken)
-													.build();
-		
+
+		LoginRespDto loginRespDto = LoginRespDto.builder().name(userEntity.getName()).provider(userEntity.getProvider())
+				.email(userEntity.getEmail()).roles(userEntity.getRoles()).token(jwtToken).build();
 		return new CMRespDto<>(HttpStatus.OK.value(), "", loginRespDto);
 	}
 }

@@ -25,4 +25,10 @@ public class UserService {
 	public void 회원탈퇴(long id) {
 		userRepository.deleteById(id);
 	}
+	
+	@Transactional(readOnly = true)
+	public User 유저정보(long id) {
+		User userEntity = userRepository.findById(id).get();
+		return userEntity;
+	}
 }
