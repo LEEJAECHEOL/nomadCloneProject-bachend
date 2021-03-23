@@ -23,8 +23,7 @@ public class Faq {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String gubun; //노마드 아카데미, 노마드아카데미... 
-	private String category;		
+	private String title;
 	@Lob
 	private String content;
 	
