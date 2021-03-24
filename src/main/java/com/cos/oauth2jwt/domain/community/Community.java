@@ -50,7 +50,7 @@ public class Community {
 	@JoinColumn(name = "userId")
 	private User user;
 	
-	@ManyToOne(cascade = CascadeType.ALL) // 자동으로 Eager 전략
+	@ManyToOne // 자동으로 Eager 전략
 	@JoinColumn(name = "categoryId")
 	private Category category;
 	
