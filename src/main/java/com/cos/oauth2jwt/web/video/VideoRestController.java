@@ -1,7 +1,5 @@
 package com.cos.oauth2jwt.web.video;
 
-import java.sql.Timestamp;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cos.oauth2jwt.domain.user.User;
 import com.cos.oauth2jwt.domain.video.Video;
 import com.cos.oauth2jwt.domain.video.dto.VideoSaveReqDto;
 import com.cos.oauth2jwt.domain.video.dto.VideoUpdateReqDto;
@@ -25,15 +22,10 @@ import lombok.RequiredArgsConstructor;
 public class VideoRestController {
 	private final VideoService videoService;
 	
-	@GetMapping("/video")
-	public CMRespDto<?> findAll(){	//전체 화면에 뿌리기
-		return new CMRespDto<>(HttpStatus.OK.value(),"성공", videoService.전체찾기());
-	}
-	
-	
-	@PostMapping("/video")
-	public CMRespDto<?> save(@RequestBody VideoSaveReqDto videoSaveReqDto) {
-		Video videoEntity = videoService.한건저장(videoSaveReqDto);
+	@PostMapping("/admin/video")
+	public CMRespDto<?> save(@RequestBody Video video) {
+		System.out.println(video);
+		Video videoEntity = videoService.저장하기(video);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공", videoEntity);
 	} 
 	
@@ -43,11 +35,11 @@ public class VideoRestController {
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",videoEntity);
 	}
 	
-	@PutMapping("/video/{id}")
-	public CMRespDto<?> update(@PathVariable long id, @RequestBody VideoUpdateReqDto videoUpdateReqDto){
-		Video videoEntity = videoService.수정하기(id,videoUpdateReqDto);
-		return new CMRespDto<>(HttpStatus.OK.value(),"성공",videoEntity);
-	}
+//	@PutMapping("/video/{id}")
+//	public CMRespDto<?> update(@PathVariable long id, @RequestBody VideoUpdateReqDto videoUpdateReqDto){
+//		Video videoEntity = videoService.수정하기(id,videoUpdateReqDto);
+//		return new CMRespDto<>(HttpStatus.OK.value(),"성공",videoEntity);
+//	}
 	
 	@DeleteMapping("/video/{id}")
 	public CMRespDto<?> delete(@PathVariable long id){
