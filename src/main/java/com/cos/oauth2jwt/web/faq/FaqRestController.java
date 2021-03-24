@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cos.oauth2jwt.domain.faq.Faq;
 import com.cos.oauth2jwt.service.FaqService;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
+import com.cos.oauth2jwt.web.faq.dto.FaqRespDto;
 import com.cos.oauth2jwt.web.faq.dto.FaqSaveReqDto;
 import com.cos.oauth2jwt.web.faq.dto.FaqUpdateReqDto;
 
@@ -34,7 +35,8 @@ public class FaqRestController {
 	public CMRespDto<?> findById(@PathVariable long id) {
 		System.out.println("한건찾기 실행됨");
 		Faq faqEntity = faqService.상세보기(id);
-		return new CMRespDto<>(HttpStatus.OK.value(),"성공",faqEntity);
+		FaqRespDto faqRespDto = new FaqRespDto(faqEntity);
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",faqRespDto);
 	}
 	
 	@PostMapping("/faq")

@@ -1,35 +1,31 @@
-package com.cos.oauth2jwt.domain.faq;
+package com.cos.oauth2jwt.domain.video;
 
-import java.util.List;
+import java.sql.Timestamp;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
-public class FaqCategory {
+public class VideoFolder {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	private String title;
-	
-	@JsonIgnoreProperties({"faqCategory"})
-	@OneToMany(mappedBy = "faqCategory", fetch = FetchType.EAGER)
-	private List<Faq> faq;
-	
+	private String name;
+	private String vimeoFolderId;
+
+    @CreationTimestamp
+    private Timestamp createDate;
 }
