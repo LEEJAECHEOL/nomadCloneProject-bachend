@@ -1,6 +1,7 @@
 package com.cos.oauth2jwt.web.video;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class VideoFolderRestController {
 	
+	private static final int ResponseEntity = 0;
 	private final VideoFolderService videoFolderService;
 	
 	@GetMapping("/admin/videoFolder")
@@ -30,7 +32,7 @@ public class VideoFolderRestController {
 		VideoFolder videoFolderEntity = videoFolderService.저장하기(videoFolder);
 		
 		if(videoFolderEntity != null) {
-			return new CMRespDto<>(HttpStatus.CREATED.value(),"성공",videoFolderEntity);
+			return new CMRespDto<>(HttpStatus.CREATED.value(), "성공", videoFolderEntity);
 		}else {
 			return new CMRespDto<>(HttpStatus.BAD_REQUEST.value(),"실패",null);
 		}

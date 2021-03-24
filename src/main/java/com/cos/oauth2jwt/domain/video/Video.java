@@ -1,26 +1,22 @@
 package com.cos.oauth2jwt.domain.video;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.cos.oauth2jwt.domain.user.User;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.cos.oauth2jwt.util.JsonToListListConverter;
+import com.cos.oauth2jwt.util.JsonToListStringConverter;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,23 +32,20 @@ public class Video {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(nullable = false)
-	private String title;					//영상 제목
-	
-	@Column(nullable = false)
-	private Integer folderId;				//폴더아이디
 
 	@Column(nullable = false)
-	private Integer videoOrder;				//비디오 순서
+	private Long folderId;	// 폴더아이디
 	
+	@Column(name = "contents", columnDefinition = "json")
+	@Convert(converter = JsonToListStringConverter.class)
+	private List<String> contents = new ArrayList<>();
+	
+	@Column(name = "contentList", columnDefinition = "json")
+	@Convert(converter = JsonToListListConverter.class)
+	private List<List<Map<String, Object>>> contentList = new ArrayList<>();
+    
     @CreationTimestamp
     private Timestamp createDate;			
     
-    @Column(nullable = false)
-    private String vimeoId;					//vimeo
-    
-    @Column(columnDefinition = "boolean default true")
-    private boolean isFree;
     
 }

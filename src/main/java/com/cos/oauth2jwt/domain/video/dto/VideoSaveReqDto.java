@@ -6,15 +6,12 @@ import lombok.Data;
 
 @Data
 public class VideoSaveReqDto {
+	private boolean isHeader;
 	private String title;
-	private String vimeoId;
-	private boolean isFree;
+	private Long folderId;
 	
 	public Video toEntity() {
 		return Video.builder()
-				.title(title)
-				.vimeoId(vimeoId)
-				.isFree(isFree)
 				.build();
 	}
 }
