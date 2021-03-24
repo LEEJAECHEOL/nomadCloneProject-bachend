@@ -33,6 +33,7 @@ public class FaqRestController {
 	
 	@GetMapping("/faq/{id}")
 	public CMRespDto<?> findById(@PathVariable long id) {
+		System.out.println("한건찾기 실행됨");
 		Faq faqEntity = faqService.상세보기(id);
 		FaqRespDto faqRespDto = new FaqRespDto(faqEntity);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",faqRespDto);
@@ -40,14 +41,15 @@ public class FaqRestController {
 	
 	@PostMapping("/faq")
 	public CMRespDto<?> save(@RequestBody FaqSaveReqDto faqSaveReqDto) {
+		System.out.println(faqSaveReqDto.toString());
 		Faq faq = faqSaveReqDto.toEntity();
 		Faq faqEntity = faqService.저장하기(faq);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",faqEntity);
-		
 	}
 	
 	@PutMapping("/faq/{id}")
 	public CMRespDto<?> update(@PathVariable long id, @RequestBody FaqUpdateReqDto dto) {
+		System.out.println("faq업데이트 실행됨?");
 		faqService.수정하기(id, dto);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
 	}

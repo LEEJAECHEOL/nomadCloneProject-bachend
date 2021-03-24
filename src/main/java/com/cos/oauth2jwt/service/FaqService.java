@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cos.oauth2jwt.domain.faq.Faq;
+import com.cos.oauth2jwt.domain.faq.FaqCategoryRepository;
 import com.cos.oauth2jwt.domain.faq.FaqRepository;
 import com.cos.oauth2jwt.web.faq.dto.FaqSaveReqDto;
 import com.cos.oauth2jwt.web.faq.dto.FaqUpdateReqDto;

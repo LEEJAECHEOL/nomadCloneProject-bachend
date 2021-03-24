@@ -1,10 +1,9 @@
 package com.cos.oauth2jwt.web.user;
 
-import java.security.Principal;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +22,13 @@ import lombok.RequiredArgsConstructor;
 public class UserRestController {
 
 	private final UserService userService;
+	
+	@GetMapping("/user/{id}")
+	public CMRespDto<?> findById(@PathVariable Long id){
+		System.out.println("아이디는?"+id);
+		User userEntity = userService.유저정보(id);
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",userEntity);
+	}
 	
 	// edit profile (name)
 	@PutMapping("/user/{id}")
