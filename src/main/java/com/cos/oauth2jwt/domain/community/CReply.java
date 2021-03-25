@@ -1,6 +1,8 @@
 package com.cos.oauth2jwt.domain.community;
 
 import java.sql.Timestamp;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

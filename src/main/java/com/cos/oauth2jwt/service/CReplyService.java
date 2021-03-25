@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.cos.oauth2jwt.domain.community.CReply;
 import com.cos.oauth2jwt.domain.community.CReplyRepository;
-import com.cos.oauth2jwt.domain.community.dto.CReplySaveReqDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,8 +15,7 @@ public class CReplyService {
 	private final CReplyRepository cReplyRepository;
 	
 	@Transactional
-	public CReply 댓글저장(CReplySaveReqDto cReplySaveReqDto) {
-		CReply cReply = cReplySaveReqDto.toEntity();
+	public CReply 댓글저장(CReply cReply) {
 		CReply cReplyEntity = cReplyRepository.save(cReply); // 실패하면 리턴까지 안가고 Exception이 뜬다.
 		return cReplyEntity;
 	}

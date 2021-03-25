@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class FaqRestController {
 	
 	private final FaqService faqService;
+	
 	@GetMapping("/faq")
 	public CMRespDto<?> findAll() {
 		List<Faq> faqs = faqService.전체찾기();
@@ -33,10 +34,10 @@ public class FaqRestController {
 	
 	@GetMapping("/faq/{id}")
 	public CMRespDto<?> findById(@PathVariable long id) {
-		System.out.println("한건찾기 실행됨");
 		Faq faqEntity = faqService.상세보기(id);
-		FaqRespDto faqRespDto = new FaqRespDto(faqEntity);
-		return new CMRespDto<>(HttpStatus.OK.value(),"성공",faqRespDto);
+//		FaqRespDto faqRespDto = new FaqRespDto(faqEntity);
+//		System.out.println("결과값은? : " + faqRespDto.toString());
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",faqEntity);
 	}
 	
 	@PostMapping("/faq")
