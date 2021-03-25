@@ -18,6 +18,11 @@ public class VideoService {
 	private final VideoRepository videoRepository;
 	
 	@Transactional(readOnly = true)
+	public List<Video> 전체가져오기(){
+		return videoRepository.findAll();
+	}
+	
+	@Transactional(readOnly = true)
 	public Video 한건찾기(Long id){
 		Video videoEntity = videoRepository.findById(id).get();
 		return videoEntity;
@@ -29,14 +34,13 @@ public class VideoService {
 		return videoEntity;	
 	}
 	
-//	@Transactional
-//	public Video 수정하기(Long id, VideoUpdateReqDto videoUpdateReqDto){ 
-//		Video videoEntity = videoRepository.findById(id).get(); //영속화
-//		videoEntity.setTitle(videoUpdateReqDto.getTitle());
-//		videoEntity.setVimeoId(videoUpdateReqDto.getVimeoId());
-//		videoEntity.setFree(videoUpdateReqDto.isFree());
-//		return videoEntity;	
-//	}
+	@Transactional
+	public Video 수정하기(Long id, VideoUpdateReqDto videoUpdateReqDto){ 
+		Video videoEntity = videoRepository.findById(id).get(); //영속화
+		videoEntity.setContents(videoUpdateReqDto.getContents());
+		videoEntity.setContentList(videoUpdateReqDto.getContentList());
+		return videoEntity;	
+	}
 	
 	@Transactional
 	public void 삭제하기(Long id) {

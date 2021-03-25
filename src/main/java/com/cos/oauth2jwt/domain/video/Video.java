@@ -29,12 +29,28 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 public class Video {
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	private Long id;
+//
+//	@Column(nullable = false)
+//	private Long folderId;	// 폴더아이디
+//	
+//	@Column(name = "contents", columnDefinition = "json")
+//	@Convert(converter = JsonToListStringConverter.class)
+//	private List<String> contents = new ArrayList<>();
+//	
+//	@Column(name = "contentList", columnDefinition = "json")
+//	@Convert(converter = JsonToListListConverter.class)
+//	private List<List<Map<String, Object>>> contentList = new ArrayList<>();
+//    
+//    @CreationTimestamp
+//    private Timestamp createDate;	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@Column(nullable = false)
-	private Long folderId;	// 폴더아이디
+	private String name;
+	private String vimeoFolderId;
 	
 	@Column(name = "contents", columnDefinition = "json")
 	@Convert(converter = JsonToListStringConverter.class)
@@ -45,7 +61,7 @@ public class Video {
 	private List<List<Map<String, Object>>> contentList = new ArrayList<>();
     
     @CreationTimestamp
-    private Timestamp createDate;			
+    private Timestamp createDate;	
     
     
 }

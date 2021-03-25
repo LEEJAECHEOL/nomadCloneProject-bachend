@@ -1,5 +1,8 @@
 package com.cos.oauth2jwt.web.video;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.oauth2jwt.domain.video.Video;
 import com.cos.oauth2jwt.domain.video.dto.VideoSaveReqDto;
+import com.cos.oauth2jwt.domain.video.dto.VideoSaveRespDto;
 import com.cos.oauth2jwt.domain.video.dto.VideoUpdateReqDto;
 import com.cos.oauth2jwt.service.VideoService;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
@@ -23,25 +27,49 @@ public class VideoRestController {
 	private final VideoService videoService;
 	
 	@PostMapping("/admin/video")
-	public CMRespDto<?> save(@RequestBody Video video) {
-		System.out.println(video);
-		Video videoEntity = videoService.저장하기(video);
-		return new CMRespDto<>(HttpStatus.OK.value(),"성공", videoEntity);
+	public CMRespDto<?> save(@RequestBody VideoSaveReqDto videoSaveReqDto) {
+		Video videoEntity = videoService.저장하기(videoSaveReqDto.toEntity());
+		VideoSaveRespDto respDto = VideoSaveRespDto.builder()
+													.id(videoEntity.getId())
+													.name(videoEntity.getName())
+													.vimeoFolderId(videoEntity.getVimeoFolderId())
+													.build();
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공", respDto);
 	} 
 	
-	@GetMapping("/video/{id}")
+	@GetMapping("/admin/video")
+	public CMRespDto<?> findAll(){
+		List<Video> videosEintity = videoService.전체가져오기();
+		
+		List<VideoSaveRespDto> respDto = videosEintity.stream().map(v->{
+		    return VideoSaveRespDto.builder()
+								.id(v.getId())
+								.name(v.getName())
+								.vimeoFolderId(v.getVimeoFolderId())
+								.build();
+		}).collect(Collectors.toList());
+		System.out.println(respDto);
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공", respDto);
+	}
+	
+	
+	@GetMapping("/admin/video/{id}")
 	public CMRespDto<?> findById(@PathVariable long id){
 		Video videoEntity = videoService.한건찾기(id);
+		if(videoEntity != null) {
+			return new CMRespDto<>(HttpStatus.OK.value(),"성공", videoEntity);
+		}else {
+			return new CMRespDto<>(HttpStatus.NOT_FOUND.value(), "실패", null);
+		}
+	}
+	
+	@PutMapping("/admin/video/{id}")
+	public CMRespDto<?> update(@PathVariable long id, @RequestBody VideoUpdateReqDto videoUpdateReqDto){
+		Video videoEntity = videoService.수정하기(id,videoUpdateReqDto);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",videoEntity);
 	}
 	
-//	@PutMapping("/video/{id}")
-//	public CMRespDto<?> update(@PathVariable long id, @RequestBody VideoUpdateReqDto videoUpdateReqDto){
-//		Video videoEntity = videoService.수정하기(id,videoUpdateReqDto);
-//		return new CMRespDto<>(HttpStatus.OK.value(),"성공",videoEntity);
-//	}
-	
-	@DeleteMapping("/video/{id}")
+	@DeleteMapping("/admin/video/{id}")
 	public CMRespDto<?> delete(@PathVariable long id){
 		videoService.삭제하기(id);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);		//삭제는 null 리턴
