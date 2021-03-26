@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cos.oauth2jwt.domain.courses.Courses;
 import com.cos.oauth2jwt.domain.courses.CoursesRepository;
-import com.cos.oauth2jwt.domain.courses.dto.CoursesPreviewRespDto;
+import com.cos.oauth2jwt.web.courses.dto.CoursesPreviewRespDto;
 
 import lombok.RequiredArgsConstructor;
 

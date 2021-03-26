@@ -1,4 +1,4 @@
-package com.cos.oauth2jwt.domain.community.dto;
+package com.cos.oauth2jwt.web.community.dto;
 
 import com.cos.oauth2jwt.domain.community.Category;
 import com.cos.oauth2jwt.domain.community.Community;

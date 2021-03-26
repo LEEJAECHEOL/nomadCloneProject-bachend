@@ -18,6 +18,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.cos.oauth2jwt.config.auth.PrincipalDetails;
 import com.cos.oauth2jwt.domain.user.User;
 import com.cos.oauth2jwt.domain.user.UserRepository;
+import com.cos.oauth2jwt.handler.myException.MyJWTDecodeException;
 
 // 시큐리티가 filter가지고 있는데 그 필터 중에 BasicAuthenticationFilter라는 것이 있음.
 // 권한이나 인증이 필요한 특정 주소를 요청했을 때 위 필터를 무조건 타게 되어있음.
@@ -47,6 +48,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		if(jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
 			System.out.println("여기서 실행되나?");
 			chain.doFilter(request, response);
+//			throw new MyJWTDecodeException("로그인 후 이용해주세요.");
 			return;
 		}
 		
@@ -56,6 +58,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		// 토큰 검증 (이게 인증이기 때문에 AuthenticationManager도 필요 없음)
 		// 내가 SecurityContext에 집적접근해서 세션을 만들때 자동으로 UserDetailsService에 있는 loadByUsername이 호출됨.
 		String username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
+		System.out.println("test : " + jwtToken);
 
 		System.out.println("this is token username : " + username);
 		// 서명이 정상적으로 됨

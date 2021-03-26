@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.cos.oauth2jwt.config.auth.PrincipalDetails;
 import com.cos.oauth2jwt.domain.community.Community;
-import com.cos.oauth2jwt.domain.community.dto.CommunitySaveReqDto;
-import com.cos.oauth2jwt.domain.community.dto.CommunityUpdateReqDto;
 import com.cos.oauth2jwt.service.CommunityService;
+import com.cos.oauth2jwt.web.community.dto.CommunitySaveReqDto;
+import com.cos.oauth2jwt.web.community.dto.CommunityUpdateReqDto;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
 import lombok.RequiredArgsConstructor;
 
@@ -31,6 +31,7 @@ public class CommunityRestController {
 	@PostMapping("/community")
 	public CMRespDto<?> save(@RequestBody CommunitySaveReqDto communitySaveReqDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 		System.out.println("들어오는데이터는?"+ communitySaveReqDto);
+		System.out.println(principalDetails);
 		Community community = communitySaveReqDto.toEntity();
 		System.out.println(community);
 		community.setUser(principalDetails.getUser());

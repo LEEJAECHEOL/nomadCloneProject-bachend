@@ -23,9 +23,15 @@ public class UserRestController {
 
 	private final UserService userService;
 	
+	
+	@GetMapping("/user/load")
+	public CMRespDto<?> loadUser(@AuthenticationPrincipal PrincipalDetails principalDetails){
+		System.out.println("load : " + principalDetails);
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공", null);
+	}
+	
 	@GetMapping("/user/{id}")
 	public CMRespDto<?> findById(@PathVariable Long id){
-		System.out.println("아이디는?"+id);
 		User userEntity = userService.유저정보(id);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",userEntity);
 	}
