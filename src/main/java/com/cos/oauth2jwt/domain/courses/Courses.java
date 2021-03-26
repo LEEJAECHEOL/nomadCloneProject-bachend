@@ -12,9 +12,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.cos.oauth2jwt.domain.video.Video;
 import com.cos.oauth2jwt.util.JsonToListConverter;
 import com.cos.oauth2jwt.util.JsonToMapConverter;
 
@@ -75,7 +78,9 @@ public class Courses {
 	@Convert(converter = JsonToListConverter.class)
 	private List<Map<String, Object>> lectureAfter = new ArrayList<>();
 	
-	private Long videoId;
+	@OneToOne
+    @JoinColumn(name = "videoId")
+	private Video video;
 	
 	private String price;
 	

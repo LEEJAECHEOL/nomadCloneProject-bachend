@@ -32,6 +32,7 @@ public class CategoryController {
 	
 	@GetMapping("/category")
 	public CMRespDto<?> findAll(){
+		System.out.println("여기에 들어오나용?");
 		List<Category> categoryEntity = categoryService.전체찾기();
 		return new CMRespDto<>(HttpStatus.OK.value(), "성공", categoryEntity);
 	}

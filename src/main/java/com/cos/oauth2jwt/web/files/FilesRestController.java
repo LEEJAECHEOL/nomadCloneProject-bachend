@@ -53,7 +53,7 @@ public class FilesRestController {
 		files.transferTo(destinationFile);
 		file.setFileName(destinationFileName);
 		file.setFileOriName(sourceFileName);
-		file.setFileUrl("http://localhost:8080/images/"+destinationFileName);
+		file.setFileUrl("http://localhost:8005/images/"+destinationFileName);
 		
 		Files fileEntity = filesService.save(file);
 		
