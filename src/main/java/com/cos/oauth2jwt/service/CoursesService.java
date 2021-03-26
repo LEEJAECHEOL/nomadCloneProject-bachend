@@ -37,6 +37,31 @@ public class CoursesService {
 		return previewDto;
 	}
 	
+	@Transactional(readOnly = true)
+	public List<CoursesPreviewRespDto> 미리보기6개가져오기(){
+		List<Courses> coursesEntity = coursesRepository.homeCourses();
+		List<CoursesPreviewRespDto> previewDto = new ArrayList<>();
+		
+		coursesEntity.stream().forEach((item)->{
+			previewDto.add(
+					CoursesPreviewRespDto.builder()
+						.id(item.getId())
+						.title(item.getTitle())
+						.subTitle(item.getSubTitle())
+						.level(item.getLevel())
+						.previewImage(item.getPreviewImage())
+						.build()
+					);
+		});
+		return previewDto;
+	}
+	
+	@Transactional(readOnly = true)
+	public Courses 한건가져오기(long id){
+		Courses coursesEntity = coursesRepository.findById(id).get();
+		return coursesEntity;
+	}
+	
 	@Transactional
 	public Courses 저장하기(Courses courses) {
 		return coursesRepository.save(courses);
@@ -63,7 +88,7 @@ public class CoursesService {
 		coursesEntity.setConcept(courses.getConcept());
 		coursesEntity.setSkill(courses.getSkill());
 		coursesEntity.setLectureAfter(courses.getLectureAfter());
-		coursesEntity.setVideoId(courses.getVideoId());
+		coursesEntity.setVideo(courses.getVideo());
 		coursesEntity.setPrice(courses.getPrice());
 	}
 }

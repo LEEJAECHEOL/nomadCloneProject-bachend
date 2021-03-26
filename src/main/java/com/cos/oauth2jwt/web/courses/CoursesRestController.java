@@ -34,11 +34,24 @@ public class CoursesRestController {
 		return new CMRespDto<>(HttpStatus.OK.value(), "" , entity);
 	}
 	
+	
+	@GetMapping("/homeCourses")
+	public CMRespDto<?> findSixPreview() {
+		List<CoursesPreviewRespDto> entity = coursesService.미리보기6개가져오기();
+		
+		return new CMRespDto<>(HttpStatus.OK.value(), "" , entity);
+	}
+	
+	@GetMapping("/courses/{id}")
+	public CMRespDto<?> findById(@PathVariable long id) {
+		Courses entity = coursesService.한건가져오기(id);
+		return new CMRespDto<>(HttpStatus.OK.value(), "" , entity);
+	}
+	
 //	관리자가 등록함.
 	@PostMapping("/admin/courses")
-	public CMRespDto<?> save(@RequestBody Courses courses) {
-		System.out.println(courses);
-		Courses coursesEntity =  coursesService.저장하기(courses);
+	public CMRespDto<?> save(@RequestBody CoursesSaveReqDto coursesSaveReqDto) {
+		Courses coursesEntity =  coursesService.저장하기(coursesSaveReqDto.toEntity());
 		if(coursesEntity != null){
 			return new CMRespDto<>(HttpStatus.CREATED.value(), "" , null);
 		}else {
@@ -53,8 +66,8 @@ public class CoursesRestController {
 	}
 	
 	@PutMapping("/courses/{id}")
-	public CMRespDto<?> update(@PathVariable Long id, @RequestBody Courses courses){
-		coursesService.수정하기(id, courses);
+	public CMRespDto<?> update(@PathVariable Long id, @RequestBody CoursesSaveReqDto coursesSaveReqDto){
+		coursesService.수정하기(id, coursesSaveReqDto.toEntity());
 		return new CMRespDto<>(HttpStatus.OK.value(), "" , null);
 	}
 	
