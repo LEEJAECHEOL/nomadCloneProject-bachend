@@ -1,4 +1,4 @@
-package com.cos.oauth2jwt.domain.courses.dto;
+package com.cos.oauth2jwt.web.courses.dto;
 
 import java.util.HashMap;
 import java.util.Map;

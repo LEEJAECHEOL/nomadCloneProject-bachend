@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.oauth2jwt.domain.courses.Courses;
-import com.cos.oauth2jwt.domain.courses.dto.CoursesPreviewRespDto;
-import com.cos.oauth2jwt.service.CoursesService;import com.cos.oauth2jwt.web.dto.CMRespDto;
+import com.cos.oauth2jwt.service.CoursesService;
+import com.cos.oauth2jwt.web.courses.dto.CoursesPreviewRespDto;
+import com.cos.oauth2jwt.web.dto.CMRespDto;
 
 import lombok.RequiredArgsConstructor;
 

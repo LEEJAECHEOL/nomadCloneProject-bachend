@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.oauth2jwt.domain.community.Category;
-import com.cos.oauth2jwt.domain.community.dto.CategorySaveReqDto;
 import com.cos.oauth2jwt.domain.faq.FaqCategory;
 import com.cos.oauth2jwt.service.FaqCategoryService;
+import com.cos.oauth2jwt.web.community.dto.CategorySaveReqDto;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
 import com.cos.oauth2jwt.web.faq.dto.FaqCategorySaveReqDto;
 
