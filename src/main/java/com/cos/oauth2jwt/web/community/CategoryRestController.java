@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-public class CategoryController {
+public class CategoryRestController {
 
 	private final CategoryService categoryService;
 	

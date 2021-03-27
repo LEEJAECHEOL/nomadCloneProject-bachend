@@ -21,6 +21,12 @@ public class CommunityService {
 		return CommuniyEntity;
 	}
 	
+	@Transactional(readOnly = true) // 쓰는이유 1. 변경감지안함 2. 고립성
+	public List<Community> 카테고리로찾기(long id){
+		List<Community> CommuniyEntity = communityRepository.categoryCommunity(id);
+		return CommuniyEntity;
+	}
+	
 	@Transactional
 	public Community 글저장(Community community) {
 		Community communityEntity = communityRepository.save(community); // 실패하면 리턴까지 안가고 Exception이 뜬다.

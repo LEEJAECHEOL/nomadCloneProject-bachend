@@ -1,5 +1,7 @@
 package com.cos.oauth2jwt.web.community;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,6 +44,13 @@ public class CommunityRestController {
 	@GetMapping("/community/{id}")
 	public CMRespDto<?> findById(@PathVariable long id){
 		Community communityEntity = communityService.한건찾기(id);
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",communityEntity);
+	}
+	
+	@GetMapping("/community/category/{id}")
+	public CMRespDto<?> findByCategoryId(@PathVariable long id){
+		System.out.println("카테고리아이디는?" + id);
+		List<Community>	 communityEntity = communityService.카테고리로찾기(id);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",communityEntity);
 	}
 	
