@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,10 +16,10 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.cos.oauth2jwt.config.auth.PrincipalDetails;
 import com.cos.oauth2jwt.domain.user.User;
 import com.cos.oauth2jwt.domain.user.UserRepository;
-import com.cos.oauth2jwt.handler.myException.MyJWTDecodeException;
 
 // 시큐리티가 filter가지고 있는데 그 필터 중에 BasicAuthenticationFilter라는 것이 있음.
 // 권한이나 인증이 필요한 특정 주소를 요청했을 때 위 필터를 무조건 타게 되어있음.
@@ -46,19 +47,27 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 //		System.out.println(jwtHeader.startsWith("Bearer"));
 		// header가 있는지 확인
 		if(jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
-			System.out.println("여기서 실행되나?");
 			chain.doFilter(request, response);
-//			throw new MyJWTDecodeException("로그인 후 이용해주세요.");
 			return;
 		}
 		
 		// JWT 토큰을 검증해서 정상적인 사용자 인지 확인
 		String jwtToken = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX, "");
-		System.out.println("this is token : " + jwtToken);
+		// 토큰이 null 이면 로그인 한게 아님.
+		if(jwtToken == null) {
+			chain.doFilter(request, response);
+			return;
+		}
 		// 토큰 검증 (이게 인증이기 때문에 AuthenticationManager도 필요 없음)
 		// 내가 SecurityContext에 집적접근해서 세션을 만들때 자동으로 UserDetailsService에 있는 loadByUsername이 호출됨.
-		String username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
-		System.out.println("test : " + jwtToken);
+		
+		String username = null;
+		try {
+			username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
+		} catch (TokenExpiredException e) {
+			response.sendError(HttpStatus.UNAUTHORIZED.value(), "세션이 만료되었습니다, 로그인 후 이용해주세요!");
+		}
+//		String username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
 
 		System.out.println("this is token username : " + username);
 		// 서명이 정상적으로 됨
@@ -77,5 +86,4 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		}
 		chain.doFilter(request, response);
 	}
-
 }

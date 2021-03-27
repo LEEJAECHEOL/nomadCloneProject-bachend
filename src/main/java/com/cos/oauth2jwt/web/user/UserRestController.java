@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cos.oauth2jwt.config.auth.PrincipalDetails;
 import com.cos.oauth2jwt.domain.user.User;
 import com.cos.oauth2jwt.service.UserService;
+import com.cos.oauth2jwt.web.auth.dto.LoginRespDto;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
 import com.cos.oauth2jwt.web.user.dto.UserUpdateReqDto;
 
@@ -26,8 +27,10 @@ public class UserRestController {
 	
 	@GetMapping("/user/load")
 	public CMRespDto<?> loadUser(@AuthenticationPrincipal PrincipalDetails principalDetails){
-		System.out.println("load : " + principalDetails);
-		return new CMRespDto<>(HttpStatus.OK.value(),"성공", null);
+		User user = principalDetails.getUser();
+		LoginRespDto loginRespDto = LoginRespDto.builder().name(user.getName()).provider(user.getProvider())
+				.email(user.getEmail()).roles(user.getRoles()).build();
+		return new CMRespDto<>(HttpStatus.OK.value(), "", loginRespDto);
 	}
 	
 	@GetMapping("/user/{id}")
