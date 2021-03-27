@@ -59,7 +59,7 @@ public class CoursesSaveReqDto {
 		.concept(concept)
 		.skill(skill)
 		.lectureAfter(lectureAfter)
-		.video(Video.builder().id(videoId).build())
+//		.video(Video.builder().id(videoId).build())
 		.price(price)
 		.build();
 	}
