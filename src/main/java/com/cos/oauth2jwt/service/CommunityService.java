@@ -21,9 +21,21 @@ public class CommunityService {
 		return CommuniyEntity;
 	}
 	
-	@Transactional(readOnly = true) // 쓰는이유 1. 변경감지안함 2. 고립성
+	@Transactional(readOnly = true)
 	public List<Community> 카테고리로찾기(long id){
 		List<Community> CommuniyEntity = communityRepository.categoryCommunity(id);
+		return CommuniyEntity;
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Community> 인기순으로찾기(){
+		List<Community> CommuniyEntity = communityRepository.popularCommunity();
+		return CommuniyEntity;
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Community> 최근작성순으로찾기(){
+		List<Community> CommuniyEntity = communityRepository.createDateCommunity();
 		return CommuniyEntity;
 	}
 	
