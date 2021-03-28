@@ -8,6 +8,5 @@ import lombok.Data;
 
 @Data
 public class VideoUpdateReqDto {
-	private List<String> contents = new ArrayList<>();
-	private List<List<Map<String, Object>>> contentList = new ArrayList<>();
+	private List<Map<String, Object>> contents = new ArrayList<>();
 }

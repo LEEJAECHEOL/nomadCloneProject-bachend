@@ -2,7 +2,6 @@ package com.cos.oauth2jwt.domain.video;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +14,7 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.cos.oauth2jwt.util.JsonToListListConverter;
-import com.cos.oauth2jwt.util.JsonToListStringConverter;
+import com.cos.oauth2jwt.util.JsonToListConverter;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,23 +27,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 public class Video {
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	private Long id;
-//
-//	@Column(nullable = false)
-//	private Long folderId;	// 폴더아이디
-//	
-//	@Column(name = "contents", columnDefinition = "json")
-//	@Convert(converter = JsonToListStringConverter.class)
-//	private List<String> contents = new ArrayList<>();
-//	
-//	@Column(name = "contentList", columnDefinition = "json")
-//	@Convert(converter = JsonToListListConverter.class)
-//	private List<List<Map<String, Object>>> contentList = new ArrayList<>();
-//    
-//    @CreationTimestamp
-//    private Timestamp createDate;	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -53,12 +34,8 @@ public class Video {
 	private String vimeoFolderId;
 	
 	@Column(name = "contents", columnDefinition = "json")
-	@Convert(converter = JsonToListStringConverter.class)
-	private List<String> contents = new ArrayList<>();
-	
-	@Column(name = "contentList", columnDefinition = "json")
-	@Convert(converter = JsonToListListConverter.class)
-	private List<List<Map<String, Object>>> contentList = new ArrayList<>();
+	@Convert(converter = JsonToListConverter.class)
+	private List<Map<String, Object>> contents = new ArrayList<>();
     
     @CreationTimestamp
     private Timestamp createDate;	

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cos.oauth2jwt.config.auth.PrincipalDetails;
 import com.cos.oauth2jwt.domain.video.Video;
 import com.cos.oauth2jwt.domain.video.dto.VideoSaveReqDto;
 import com.cos.oauth2jwt.domain.video.dto.VideoSaveRespDto;
@@ -25,6 +27,20 @@ import lombok.RequiredArgsConstructor;
 @RestController			//controller 에 ResponseBody가 추가된것 = Json형태로 객체를 반환!!
 public class VideoRestController {
 	private final VideoService videoService;
+	
+	@GetMapping("/video/{id}")
+	public CMRespDto<?> userfindById(@PathVariable long id, @AuthenticationPrincipal PrincipalDetails principalDetails){
+		Video videoEntity = videoService.한건찾기(id);
+		// 무료는 다 공개
+		// 결제 했는지 안했는지 참조 -> 결제했으면 다 공개
+		// 관리자 다 공개
+		
+		if(videoEntity != null) {
+			return new CMRespDto<>(HttpStatus.OK.value(),"성공", videoEntity);
+		}else {
+			return new CMRespDto<>(HttpStatus.NOT_FOUND.value(), "실패", null);
+		}
+	}
 	
 	@PostMapping("/admin/video")
 	public CMRespDto<?> save(@RequestBody VideoSaveReqDto videoSaveReqDto) {
@@ -54,7 +70,7 @@ public class VideoRestController {
 	
 	
 	@GetMapping("/admin/video/{id}")
-	public CMRespDto<?> findById(@PathVariable long id){
+	public CMRespDto<?> findById(@PathVariable long id, @AuthenticationPrincipal PrincipalDetails principalDetails){
 		Video videoEntity = videoService.한건찾기(id);
 		if(videoEntity != null) {
 			return new CMRespDto<>(HttpStatus.OK.value(),"성공", videoEntity);
