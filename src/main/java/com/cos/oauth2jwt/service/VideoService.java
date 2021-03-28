@@ -38,7 +38,6 @@ public class VideoService {
 	public Video 수정하기(Long id, VideoUpdateReqDto videoUpdateReqDto){ 
 		Video videoEntity = videoRepository.findById(id).get(); //영속화
 		videoEntity.setContents(videoUpdateReqDto.getContents());
-		videoEntity.setContentList(videoUpdateReqDto.getContentList());
 		return videoEntity;	
 	}
 	

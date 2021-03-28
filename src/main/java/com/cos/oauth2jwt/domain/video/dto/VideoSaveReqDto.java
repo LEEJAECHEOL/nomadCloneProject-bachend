@@ -16,7 +16,6 @@ public class VideoSaveReqDto {
 				.name(name)
 				.vimeoFolderId(vimeoFolderId)
 				.contents(new ArrayList<>())
-				.contentList(new ArrayList<>())
 				.build();
 	}
 }
