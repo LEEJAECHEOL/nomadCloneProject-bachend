@@ -30,6 +30,17 @@ public class CommunityRestController {
 		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityService.전체찾기());
 	}
 	
+	@GetMapping("/community/popular")
+	public CMRespDto<?> findAllByCount() {
+		System.out.println("인기순으로 실행됩니끼?");
+		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityService.인기순으로찾기());
+	}
+	
+	@GetMapping("/community/new")
+	public CMRespDto<?> findAllByCreateDate() {
+		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityService.최근작성순으로찾기());
+	}
+	
 	@PostMapping("/community")
 	public CMRespDto<?> save(@RequestBody CommunitySaveReqDto communitySaveReqDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 		System.out.println("들어오는데이터는?"+ communitySaveReqDto);
