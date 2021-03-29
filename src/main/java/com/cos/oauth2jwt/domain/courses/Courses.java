@@ -13,10 +13,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.cos.oauth2jwt.domain.TechCourses.TechCourses;
+import com.cos.oauth2jwt.domain.tech.Tech;
 import com.cos.oauth2jwt.domain.video.Video;
 import com.cos.oauth2jwt.util.JsonToListConverter;
 import com.cos.oauth2jwt.util.JsonToMapConverter;
@@ -49,6 +53,9 @@ public class Courses {
 	private String backgroundColor;
 	private String textColor;
 	private String level;
+	
+	@OneToMany(mappedBy = "courses")
+	private List<TechCourses> techs;
 	
 	@Column(name = "simpleImage", columnDefinition = "json")
 	@Convert(converter = JsonToListConverter.class)
