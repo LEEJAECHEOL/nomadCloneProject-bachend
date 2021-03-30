@@ -25,9 +25,8 @@ public class CategoryRestController {
 	
 	@PostMapping("/category")
 	public CMRespDto<?> save(@RequestBody CategorySaveReqDto categorySaveReqDto){
-		Category category = categorySaveReqDto.toEntity();
-		Category categoryEntity = categoryService.카테고리저장(category);
-		return new CMRespDto<>(HttpStatus.OK.value(),"성공",categoryEntity);
+		Category categoryEntity = categoryService.카테고리저장(categorySaveReqDto.toEntity());
+		return new CMRespDto<>(HttpStatus.CREATED.value(), "성공", categoryEntity);
 	}
 	
 	@GetMapping("/category")
