@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8100
   servlet:
     context-path: /
     encoding:
@@ -32,4 +32,4 @@ spring:
       enabled: true
       
 file:
-  path: /Users/lee/Desktop/nomadcoder_clone_project/oauth2-jwt/src/main/resources/uploads/
+  path: /Users/Dong/Desktop/NomadWork/nomadCloneProject-bachend/src/main/resources/uploads/

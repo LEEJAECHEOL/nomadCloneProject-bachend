@@ -1,22 +1,14 @@
 package com.cos.oauth2jwt.domain.tech;
 
 import java.sql.Timestamp;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import com.cos.oauth2jwt.domain.file.MyFile;
-import javax.persistence.OneToMany;
-
 import org.hibernate.annotations.CreationTimestamp;
-
-import com.cos.oauth2jwt.domain.TechCourses.TechCourses;
-
+import com.cos.oauth2jwt.domain.file.MyFile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,9 +26,9 @@ public class Tech {
 	
 	private String title;
 	
-//	@ManyToOne // 자동으로 Eager 전략
-//	@JoinColumn(name = "fileId")
-//	private MyFile file;
+	@ManyToOne // 자동으로 Eager 전략
+	@JoinColumn(name = "fileId")
+	private MyFile file;
 	
 	@CreationTimestamp
 	private Timestamp createDate;
