@@ -66,6 +66,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 			username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
 		} catch (TokenExpiredException e) {
 			response.sendError(HttpStatus.UNAUTHORIZED.value(), "세션이 만료되었습니다, 로그인 후 이용해주세요!");
+			return;
 		}
 //		String username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
 
