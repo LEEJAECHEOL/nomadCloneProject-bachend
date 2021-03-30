@@ -13,6 +13,9 @@ public class FileReqDto {
 	private MultipartFile file;
 	private String fileOriName;
 	public Files toEntity(String fileUrl, User userEntity) {
-		return Files.builder().fileUrl(fileUrl).user(userEntity).build();
+		return Files.builder()
+				.fileUrl(fileUrl)
+				.user(userEntity)
+				.build();
 	}
 }

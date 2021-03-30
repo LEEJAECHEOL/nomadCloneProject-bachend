@@ -31,4 +31,5 @@ spring:
       max-request-size: 10MB
       enabled: true
       
-#파일경로잡아서 바꿔주세요  file:     path: C:\Users\LeeBG\git\nomadCloneProject-bachend2\src\main\resources\upload\
+file:
+  path: C:/Users/LeeBG/git/nomadCloneProject-bachend2/src/main/resources/upload/
