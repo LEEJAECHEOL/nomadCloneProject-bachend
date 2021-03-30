@@ -36,9 +36,42 @@ public class FilesRestController {
 	private final FilesService filesService;
 	
 	@PostMapping("/upload")
+<<<<<<< HEAD
+	public FileRespDto fileinsert(@RequestParam("file") MultipartFile files, HttpServletRequest req) throws Exception{
+		String defaultPath = req.getSession().getServletContext().getRealPath("/");
+		String fileUrl = defaultPath + "images/"; 
+		SimpleDateFormat format = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SS_");
+
+		Files file = new Files();
+		String sourceFileName = files.getOriginalFilename(); 
+		String sourceFileNameExtension = FilenameUtils.getExtension(sourceFileName).toLowerCase(); 
+
+		File destinationFile; 
+		String destinationFileName;
+		
+		do { 
+			destinationFileName =format.format(new Date()) + RandomStringUtils.randomAlphanumeric(32) + "." + sourceFileNameExtension; 
+			destinationFile = new File(fileUrl + destinationFileName); 
+		} while (destinationFile.exists());
+		
+		destinationFile.getParentFile().mkdirs(); 
+		files.transferTo(destinationFile);
+		file.setFileName(destinationFileName);
+		file.setFileOriName(sourceFileName);
+		file.setFileUrl("http://localhost:8100/images/"+destinationFileName);
+		
+		Files fileEntity = filesService.save(file);
+		
+		FileRespDto fileRespDto = new FileRespDto();
+		fileRespDto.setId(fileEntity.getId());
+		fileRespDto.setUploaded(true);
+		fileRespDto.setUrl(fileEntity.getFileUrl());
+		return fileRespDto;
+=======
 	public CMRespDto<?> fileinsert(FileReqDto fileReqDto, @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception{
 		Files filesEntity =  filesService.이미지업로드(fileReqDto, principalDetails);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",filesEntity);
+>>>>>>> 413aacb08dc45ce3b90edd1775b122ac3ed717a8
 	}
 	
 	@DeleteMapping("/upload/{id}")
