@@ -10,17 +10,21 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cos.oauth2jwt.config.auth.PrincipalDetails;
 import com.cos.oauth2jwt.domain.file.Files;
 import com.cos.oauth2jwt.service.FilesService;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
+import com.cos.oauth2jwt.web.files.dto.FileReqDto;
 import com.cos.oauth2jwt.web.files.dto.FileRespDto;
 
 import lombok.RequiredArgsConstructor;
@@ -32,6 +36,7 @@ public class FilesRestController {
 	private final FilesService filesService;
 	
 	@PostMapping("/upload")
+<<<<<<< HEAD
 	public FileRespDto fileinsert(@RequestParam("file") MultipartFile files, HttpServletRequest req) throws Exception{
 		String defaultPath = req.getSession().getServletContext().getRealPath("/");
 		String fileUrl = defaultPath + "images/"; 
@@ -62,6 +67,11 @@ public class FilesRestController {
 		fileRespDto.setUploaded(true);
 		fileRespDto.setUrl(fileEntity.getFileUrl());
 		return fileRespDto;
+=======
+	public CMRespDto<?> fileinsert(FileReqDto fileReqDto, @AuthenticationPrincipal PrincipalDetails principalDetails) throws Exception{
+		Files filesEntity =  filesService.이미지업로드(fileReqDto, principalDetails);
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",filesEntity);
+>>>>>>> 413aacb08dc45ce3b90edd1775b122ac3ed717a8
 	}
 	
 	@DeleteMapping("/upload/{id}")

@@ -10,10 +10,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.cos.oauth2jwt.domain.community.Community;
+import com.cos.oauth2jwt.domain.file.Files;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,5 +50,8 @@ public class User {
 		}
 		return new ArrayList<>();
 	}
+	
+	@OneToMany(mappedBy = "user")
+	private List<Files> files;
 	
 }

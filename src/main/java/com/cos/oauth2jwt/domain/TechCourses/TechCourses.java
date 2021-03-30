@@ -1,4 +1,5 @@
-package com.cos.oauth2jwt.domain.file;
+package com.cos.oauth2jwt.domain.TechCourses;
+
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,10 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.cos.oauth2jwt.domain.user.User;
+import com.cos.oauth2jwt.domain.courses.Courses;
+import com.cos.oauth2jwt.domain.tech.Tech;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,17 +19,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Builder
-public class Files {
+public class TechCourses {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "userId")
-	private User user;
+	@JoinColumn(name = "techId")
+	private Tech tech;
 	
-	private String fileName;
-	private String fileOriName;
-	private String fileUrl;
+	@ManyToOne
+	@JoinColumn(name = "coursesId")
+	private Courses courses;
 }
