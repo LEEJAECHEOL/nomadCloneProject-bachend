@@ -18,8 +18,8 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 		
 		registry
-		.addResourceHandler("/upload/**")		// url 패턴 : /upload/파일명 을 낚아챔
-		.addResourceLocations("file:///"+uploadFolder)		//실제 물리적인 경로
+		.addResourceHandler("/uploads/**")		// url 패턴 : /upload/파일명 을 낚아챔
+		.addResourceLocations("file:///" + uploadFolder)		//실제 물리적인 경로
 		.setCachePeriod(60*6*10)
 		.resourceChain(true)
 		.addResolver(new PathResourceResolver());

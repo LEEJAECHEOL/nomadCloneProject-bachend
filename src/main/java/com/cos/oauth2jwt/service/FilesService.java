@@ -5,12 +5,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cos.oauth2jwt.config.auth.PrincipalDetails;
-import com.cos.oauth2jwt.domain.file.FilesRepository;
+import com.cos.oauth2jwt.domain.file.MyFile;
+import com.cos.oauth2jwt.domain.file.MyFileRepository;
 import com.cos.oauth2jwt.web.files.dto.FileReqDto;
 
 import lombok.RequiredArgsConstructor;
@@ -18,28 +22,38 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class FilesService {
-	private final FilesRepository filesRepository;
+	
 	@Value("${file.path}")
 	private String uploadFolder;
 	
+	private final MyFileRepository filesRepository;
+	
 	@Transactional
-	public com.cos.oauth2jwt.domain.file.Files 이미지업로드(FileReqDto fileReqDto, PrincipalDetails principalDetails) {
-		UUID uuid = UUID.randomUUID();
-		String imageFileName = uuid+"_"+fileReqDto.getFile().getOriginalFilename();
-		Path imageFilePath = Paths.get(uploadFolder+imageFileName);
+	public MyFile 이미지업로드(FileReqDto fileReqDto, HttpServletRequest request) {
 		
+		System.out.println(request.getLocalAddr()); // ip주소  ipv4로해야댐.
+		System.out.println(request.getLocalPort());
+		UUID uuid = UUID.randomUUID();
+		String imageFileName = uuid + "_" + fileReqDto.getFile().getOriginalFilename();
+		Path imageFilePath = Paths.get(uploadFolder + imageFileName);
+		String fileUrl = "http://localhost:" +  request.getLocalPort() + "/uploads/" + imageFileName;
 		try {
 			Files.write(imageFilePath, fileReqDto.getFile().getBytes());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		com.cos.oauth2jwt.domain.file.Files files = fileReqDto.toEntity(imageFileName, principalDetails.getUser());
-		com.cos.oauth2jwt.domain.file.Files filesEntity = filesRepository.save(files);
+		MyFile myFile = MyFile.builder()
+									.fileName(imageFileName)
+									.fileOriName(fileReqDto.getFile().getOriginalFilename())
+									.imageFilePath(imageFilePath.toString())
+									.fileUrl(fileUrl)
+									.build();
 		
+		MyFile filesEntity = filesRepository.save(myFile);
 		return filesEntity;
 	}
 	
-	public com.cos.oauth2jwt.domain.file.Files 한건찾기(Long id) {
+	public MyFile 한건찾기(Long id) {
 		return filesRepository.findById(id).get();
 	}
 	public void 삭제하기(Long id) {
