@@ -32,4 +32,4 @@ spring:
       enabled: true
       
 file:
-  path: C:/Users/LeeBG/git/nomadCloneProject-bachend2/src/main/resources/upload/
+  path: /Users/lee/Desktop/nomadcoder_clone_project/oauth2-jwt/src/main/resources/uploads/

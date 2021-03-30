@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.cos.oauth2jwt.domain.file.Files;
+import com.cos.oauth2jwt.domain.file.MyFile;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,9 +34,9 @@ public class Tech {
 	
 	private String title;
 	
-	@ManyToOne // 자동으로 Eager 전략
-	@JoinColumn(name = "fileId")
-	private Files file;
+//	@ManyToOne // 자동으로 Eager 전략
+//	@JoinColumn(name = "fileId")
+//	private MyFile file;
 	
 	@CreationTimestamp
 	private Timestamp createDate;

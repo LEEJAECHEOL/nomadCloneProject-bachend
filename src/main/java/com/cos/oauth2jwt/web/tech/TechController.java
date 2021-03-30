@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.cos.oauth2jwt.domain.file.Files;
+import com.cos.oauth2jwt.domain.file.MyFile;
 import com.cos.oauth2jwt.domain.tech.Tech;
 import com.cos.oauth2jwt.service.FilesService;
 import com.cos.oauth2jwt.service.TechService;
@@ -39,7 +39,7 @@ public class TechController {
 		String fileUrl = defaultPath + "images/"; 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SS_");
 
-		Files file = new Files();
+		MyFile file = new MyFile();
 		String sourceFileName = files.getOriginalFilename(); 
 		String sourceFileNameExtension = FilenameUtils.getExtension(sourceFileName).toLowerCase(); 
 
