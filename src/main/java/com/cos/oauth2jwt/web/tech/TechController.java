@@ -57,13 +57,14 @@ public class TechController {
 		file.setFileOriName(sourceFileName);
 		file.setFileUrl("http://localhost:8080/images/"+destinationFileName);
 		
-		Files fileEntity = filesService.save(file);
-		
-		Tech tech = new Tech();
-		tech.setTitle(title);
-		tech.setFile(fileEntity);
-		
-		Tech TechEntity = techService.save(tech); 
-		return new CMRespDto<>(HttpStatus.OK.value(), "ok" ,TechEntity);
+//		Files fileEntity = filesService.save(file);
+//		
+//		Tech tech = new Tech();
+//		tech.setTitle(title);
+//		tech.setFile(fileEntity);
+//		
+//		Tech TechEntity = techService.save(tech); 
+//		return new CMRespDto<>(HttpStatus.OK.value(), "ok" ,TechEntity);
+		return null;
 	}
 }
