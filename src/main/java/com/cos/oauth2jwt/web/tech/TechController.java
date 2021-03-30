@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.oauth2jwt.domain.file.MyFile;
 import com.cos.oauth2jwt.domain.tech.Tech;
-import com.cos.oauth2jwt.service.FilesService;
+import com.cos.oauth2jwt.service.MyFileService;
 import com.cos.oauth2jwt.service.TechService;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
 
@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class TechController {
 	
 	private final TechService techService;
-	private final FilesService filesService;
+	private final MyFileService filesService;
 	
 	@PostMapping("/tech")
 	public CMRespDto<?> save(@RequestParam("file") MultipartFile files, String title, HttpServletRequest req) throws IllegalStateException, IOException{

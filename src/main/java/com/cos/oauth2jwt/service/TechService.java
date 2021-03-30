@@ -1,14 +1,8 @@
 package com.cos.oauth2jwt.service;
 
 import org.springframework.stereotype.Service;
+
 import com.cos.oauth2jwt.domain.tech.Tech;
-import com.cos.oauth2jwt.domain.tech.TechRepositroy;
-import java.util.List;
-
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.cos.oauth2jwt.domain.tech.TechRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class TechService {
 
-	private final TechRepositroy techRepositroy;
+	private final TechRepository techRepositroy;
 
 	public Tech save(Tech tech) {
 		Tech techEntity = techRepositroy.save(tech);

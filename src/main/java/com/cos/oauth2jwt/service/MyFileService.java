@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class FilesService {
+public class MyFileService {
 	
 	@Value("${file.path}")
 	private String uploadFolder;

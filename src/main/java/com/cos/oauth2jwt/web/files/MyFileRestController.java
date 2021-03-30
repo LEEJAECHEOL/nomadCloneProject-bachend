@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.oauth2jwt.domain.file.MyFile;
-import com.cos.oauth2jwt.service.FilesService;
+import com.cos.oauth2jwt.service.MyFileService;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
 import com.cos.oauth2jwt.web.files.dto.FileReqDto;
 import com.cos.oauth2jwt.web.files.dto.FileRespDto;
@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class MyFileRestController {
 
-	private final FilesService filesService;
+	private final MyFileService filesService;
 	
 	@PostMapping("/upload")
 	public FileRespDto fileinsert(FileReqDto fileReqDto, HttpServletRequest request) throws Exception{
