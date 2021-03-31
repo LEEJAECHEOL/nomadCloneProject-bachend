@@ -82,7 +82,7 @@ public class CoursesService {
 		coursesEntity.setBackgroundColor(courses.getBackgroundColor());
 		coursesEntity.setTextColor(courses.getTextColor());
 		coursesEntity.setLevel(courses.getLevel());
-		coursesEntity.setSimpleImage(courses.getSimpleImage());
+		coursesEntity.setTech(courses.getTech());
 		coursesEntity.setVideoInfo(courses.getVideoInfo());
 		coursesEntity.setSimpleInfo(courses.getSimpleInfo());
 		coursesEntity.setConcept(courses.getConcept());
