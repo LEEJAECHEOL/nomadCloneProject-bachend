@@ -10,10 +10,10 @@ public interface CommunityRepository extends JpaRepository<Community, Long>{
 	@Query(value="SELECT * FROM community where categoryId = ?", nativeQuery=true)
 	public List<Community> categoryCommunity(long id);
 	
-	@Query(value="SELECT * FROM community ORDER BY count DESC", nativeQuery=true)
-	public List<Community> popularCommunity();
+	@Query(value="SELECT * FROM community where categoryId = ? ORDER BY count DESC", nativeQuery=true)
+	public List<Community> popularCommunity(long id);
 	
-	@Query(value="SELECT * FROM community ORDER BY createDate DESC", nativeQuery=true)
-	public List<Community> createDateCommunity();
+	@Query(value="SELECT * FROM community where categoryId = ? ORDER BY createDate DESC", nativeQuery=true)
+	public List<Community> createDateCommunity(long id);
 	
 }

@@ -22,58 +22,72 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 public class CommunityRestController {
-	
+
 	private final CommunityService communityService;
 
 	@GetMapping("/community")
-	public CMRespDto<?> findAll() {
-		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityService.전체찾기());
+	public CMRespDto<?> findAll(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+		if (principalDetails == null) {
+			System.out.println("필터링?1");
+			List<Community> communityEntity = communityService.전체찾기();
+			return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
+		} 
+		
+		else {
+			System.out.println("필터링?");
+			long principalId = principalDetails.getUser().getId();
+			List<Community> communityEntity = communityService.전체찾기(principalId);
+			return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
+		}
 	}
-	
-	@GetMapping("/community/popular")
-	public CMRespDto<?> findAllByCount() {
-		System.out.println("인기순으로 실행됩니끼?");
-		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityService.인기순으로찾기());
+
+	@GetMapping("/community/popular/{id}")
+	public CMRespDto<?> findAllByCount(@PathVariable long id) {
+		List<Community> communityEntity = communityService.카테고리별인기순으로찾기(id);
+		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
 	}
-	
-	@GetMapping("/community/new")
-	public CMRespDto<?> findAllByCreateDate() {
-		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityService.최근작성순으로찾기());
+
+	@GetMapping("/community/new/{id}")
+	public CMRespDto<?> findAllByCreateDate(@PathVariable long id) {
+		List<Community> communityEntity = communityService.카테고리별최신순으로찾기(id);
+		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
 	}
-	
+
 	@PostMapping("/community")
-	public CMRespDto<?> save(@RequestBody CommunitySaveReqDto communitySaveReqDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-		System.out.println("들어오는데이터는?"+ communitySaveReqDto);
+	public CMRespDto<?> save(@RequestBody CommunitySaveReqDto communitySaveReqDto,
+			@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		System.out.println("들어오는데이터는?" + communitySaveReqDto);
 		System.out.println(principalDetails);
 		Community community = communitySaveReqDto.toEntity();
 		System.out.println(community);
 		community.setUser(principalDetails.getUser());
 		Community communityEntity = communityService.글저장(community);
-		return new CMRespDto<>(HttpStatus.OK.value(),"성공", communityEntity);
-	} 
-	
+		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
+	}
+
 	@GetMapping("/community/{id}")
-	public CMRespDto<?> findById(@PathVariable long id){
+	public CMRespDto<?> findById(@PathVariable long id) {
 		Community communityEntity = communityService.한건찾기(id);
-		return new CMRespDto<>(HttpStatus.OK.value(),"성공",communityEntity);
+		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
 	}
-	
+
 	@GetMapping("/community/category/{id}")
-	public CMRespDto<?> findByCategoryId(@PathVariable long id){
+	public CMRespDto<?> findByCategoryId(@PathVariable long id) {
 		System.out.println("카테고리아이디는?" + id);
-		List<Community>	 communityEntity = communityService.카테고리로찾기(id);
-		return new CMRespDto<>(HttpStatus.OK.value(),"성공",communityEntity);
+		List<Community> communityEntity = communityService.카테고리로찾기(id);
+		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
 	}
-	
+
 	@PutMapping("/community/{id}")
-	public CMRespDto<?> update(@PathVariable long id, @RequestBody CommunityUpdateReqDto communityUpdateReqDto){
-		Community communityEntity = communityService.수정하기(id,communityUpdateReqDto);
-		return new CMRespDto<>(HttpStatus.OK.value(),"성공",communityEntity);
+	public CMRespDto<?> update(@PathVariable long id, @RequestBody CommunityUpdateReqDto communityUpdateReqDto) {
+		Community communityEntity = communityService.수정하기(id, communityUpdateReqDto);
+		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
 	}
-	
+
 	@DeleteMapping("/community/{id}")
-	public CMRespDto<?> delete(@PathVariable long id){
+	public CMRespDto<?> delete(@PathVariable long id) {
 		communityService.삭제하기(id);
-		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
+		return new CMRespDto<>(HttpStatus.OK.value(), "성공", null);
 	}
 }
