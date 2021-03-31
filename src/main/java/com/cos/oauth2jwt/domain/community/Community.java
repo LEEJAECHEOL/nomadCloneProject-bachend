@@ -15,10 +15,12 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.cos.oauth2jwt.domain.likes.Likes;
 import com.cos.oauth2jwt.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -43,9 +45,6 @@ public class Community {
 	@Lob
 	private String content;	
 	
-	@ColumnDefault("0")
-	private int count; // 추천 카운트
-
 	@ManyToOne // 자동으로 Eager 전략
 	@JoinColumn(name = "userId")
 	private User user;
@@ -61,5 +60,15 @@ public class Community {
 	@OneToMany(mappedBy = "community", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)  // mappedBy : reply의 변수명
 	@OrderBy("id desc")
 	private List<CReply> replys;
+    
+    @JsonIgnoreProperties({"community"})
+    @OneToMany(mappedBy = "community")
+	private List<Likes> likes; 
+    
+    @Transient
+    private boolean likeCheck;
+    
+    @Transient
+	private int likeCount; // 추천 카운트
 
 }

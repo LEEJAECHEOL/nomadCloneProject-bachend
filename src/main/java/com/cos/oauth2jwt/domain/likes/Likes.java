@@ -2,8 +2,6 @@ package com.cos.oauth2jwt.domain.likes;
 
 
 import java.sql.Timestamp;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,9 +29,13 @@ public class Likes {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Long userId;
+	@ManyToOne
+	@JoinColumn(name = "communityId")
+	private Community community;
 	
-	private Long communityId;
+	@ManyToOne
+	@JoinColumn(name = "userId")
+	private User user;
 	
 	@CreationTimestamp
 	private Timestamp createDate;

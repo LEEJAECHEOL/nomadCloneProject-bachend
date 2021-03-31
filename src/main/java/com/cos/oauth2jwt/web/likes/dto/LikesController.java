@@ -22,17 +22,10 @@ public class LikesController {
 private final LikeService likeService;
 	
 	@PostMapping("/like")		// 좋아요 UP
-	public CMRespDto<?> save(@RequestBody LikeSaveReqDto likeSaveReqDto, @AuthenticationPrincipal PrincipalDetails principalDetails){
-		System.out.println(principalDetails.toString());
+	public CMRespDto<?> save(@RequestBody Long communityId, @AuthenticationPrincipal PrincipalDetails principalDetails){
+		LikeSaveReqDto likeSaveReqDto = LikeSaveReqDto.builder().communityId(communityId).userId(principalDetails.getUser().getId()).build();
 		Likes like = likeSaveReqDto.toEntity();
-		like.setUserId(principalDetails.getId());
-		Likes likeEntity = likeService.좋아요(like);
-		return new CMRespDto<>(HttpStatus.OK.value(),"성공",likeEntity);
-	}
-	
-	@DeleteMapping("/like/{id}")	// 좋아요 취소
-	public CMRespDto<?> delete(@PathVariable long id){
-		likeService.좋아요취소(id);
+		likeService.좋아요(like);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
 	}
 
