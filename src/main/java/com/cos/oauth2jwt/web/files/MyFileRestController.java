@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.oauth2jwt.domain.file.MyFile;
+import com.cos.oauth2jwt.domain.user.User;
 import com.cos.oauth2jwt.service.MyFileService;
+import com.cos.oauth2jwt.service.UserService;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
 import com.cos.oauth2jwt.web.files.dto.FileReqDto;
 import com.cos.oauth2jwt.web.files.dto.FileRespDto;

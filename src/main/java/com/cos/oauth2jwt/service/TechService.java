@@ -26,28 +26,10 @@ public class TechService {
 	public List<Tech> 테크전체찾기() {
 		return techRepository.findAll();
 	}
-//	
-//	@Transactional
-//	public void 테크저장(TechSaveReqDto techSaveReqDto) {
-//		
-//		// 이미지 업로드 해야함
-//		
-//		Tech tech = techSaveReqDto.toEntity();
-//		techRepository.save(tech);
-//	}
-//	
-//	
-//	@Transactional
-//	public void 테크삭제(long id) {
-//		techRepository.deleteById(id);
-//	}
-//	
-//	@Transactional
-//	public void 테크수정(long id, TechSaveReqDto techSaveReqDto) {
-//		
-//		// 이미지 업로드 해야함
-//		
-//		Tech techEntity = techRepository.findById(id).get();
-//		techEntity.setName(techSaveReqDto.getName());
-//	}
+	
+	@Transactional
+	public void 테크삭제(long id) {
+		techRepository.deleteById(id);
+	}
+	
 }
