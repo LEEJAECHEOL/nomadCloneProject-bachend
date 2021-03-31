@@ -6,7 +6,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,16 +32,16 @@ public class TechRestController {
 
 	@PostMapping("/admin/tech")
 	public CMRespDto<?> save(TechSaveReqDto techSaveReqDto, HttpServletRequest request){
+		System.out.println(techSaveReqDto.toString());
 		MyFile fileEntity =  myFileService.이미지업로드(techSaveReqDto.getFile(), request);
 		Tech tech = Tech.builder().title(techSaveReqDto.getTitle())
 									.isFilter(techSaveReqDto.isFilter())
 									.file(MyFile.builder().id(fileEntity.getId()).build())
 									.build();
+		System.out.println(tech);
 		techService.테크저장(tech);
 		return new CMRespDto<>(HttpStatus.CREATED.value(),"성공",null);
 	}
-	
-	
 	
 	// 코스 테크 선택시 사용
 	@GetMapping("/tech")
@@ -54,11 +56,11 @@ public class TechRestController {
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공", techResp);
 	}
 //	
-//	@DeleteMapping("/tech/{id}")
-//	public CMRespDto<?> deleteById(@PathVariable long id){
-//		techService.테크삭제(id);
-//		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
-//	}
+	@DeleteMapping("/tech/{id}")
+	public CMRespDto<?> deleteById(@PathVariable long id){
+		techService.테크삭제(id);
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
+	}
 //	
 //	
 //	@PutMapping("/tech/{id}")

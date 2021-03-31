@@ -10,7 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -40,7 +42,10 @@ public class User {
 	private String roles; // USER, ADMIN
 	private String imageUrl;
 	
-    
+	@OneToOne // 자동으로 Eager 전략
+	@JoinColumn(name = "fileId")
+	private MyFile file;
+	
     @CreationTimestamp
     private Timestamp createDate;
 	

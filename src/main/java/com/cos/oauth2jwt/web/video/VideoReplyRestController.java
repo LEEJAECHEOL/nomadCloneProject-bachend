@@ -1,7 +1,5 @@
 package com.cos.oauth2jwt.web.video;
 
-import java.sql.Timestamp;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,8 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.cos.oauth2jwt.domain.user.User;
 import com.cos.oauth2jwt.domain.video.VideoReply;
 import com.cos.oauth2jwt.domain.video.dto.VideoReplySaveReqDto;
 import com.cos.oauth2jwt.domain.video.dto.VideoReplyUpdateReqDto;
