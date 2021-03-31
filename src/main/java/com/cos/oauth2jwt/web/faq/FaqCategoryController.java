@@ -1,5 +1,6 @@
 package com.cos.oauth2jwt.web.faq;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -25,10 +26,10 @@ public class FaqCategoryController {
 
 	private final FaqCategoryService faqCategoryService;
 	
-	@PostMapping("/faq/category")
+	@PostMapping("/admin/faq/category")
 	public CMRespDto<?> save(@RequestBody FaqCategorySaveReqDto faqCategorySaveReqDto){
-		FaqCategory faqCategory = faqCategorySaveReqDto.toEntity();
-		FaqCategory faqCategoryEntity = faqCategoryService.카테고리저장(faqCategory);
+		FaqCategory faqCategoryEntity = faqCategoryService.카테고리저장(faqCategorySaveReqDto.toEntity());
+		faqCategoryEntity.setFaq(new ArrayList<>());
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",faqCategoryEntity);
 	}
 	
@@ -38,7 +39,7 @@ public class FaqCategoryController {
 		return new CMRespDto<>(HttpStatus.OK.value(), "성공", faqCategoryEntity);
 	}
 	
-	@DeleteMapping("/faq/category/{id}")
+	@DeleteMapping("/admin/faq/category/{id}")
 	public CMRespDto<?> delete(@PathVariable long id){
 		faqCategoryService.삭제하기(id);
 		return new CMRespDto<>(HttpStatus.OK.value(), "성공", null);
