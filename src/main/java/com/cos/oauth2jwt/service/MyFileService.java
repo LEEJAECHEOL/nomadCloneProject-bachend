@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.oauth2jwt.config.auth.PrincipalDetails;
 import com.cos.oauth2jwt.domain.file.MyFile;
@@ -29,22 +30,21 @@ public class MyFileService {
 	private final MyFileRepository filesRepository;
 	
 	@Transactional
-	public MyFile 이미지업로드(FileReqDto fileReqDto, HttpServletRequest request) {
-		
-		System.out.println(request.getLocalAddr()); // ip주소  ipv4로해야댐.
-		System.out.println(request.getLocalPort());
+	public MyFile 이미지업로드(MultipartFile file, HttpServletRequest request) {
+//		System.out.println(request.getLocalAddr()); // ip주소  ipv4로해야댐.
+//		System.out.println(request.getLocalPort());
 		UUID uuid = UUID.randomUUID();
-		String imageFileName = uuid + "_" + fileReqDto.getFile().getOriginalFilename();
+		String imageFileName = uuid + "_" + file.getOriginalFilename();
 		Path imageFilePath = Paths.get(uploadFolder + imageFileName);
 		String fileUrl = "http://localhost:" +  request.getLocalPort() + "/uploads/" + imageFileName;
 		try {
-			Files.write(imageFilePath, fileReqDto.getFile().getBytes());
+			Files.write(imageFilePath, file.getBytes());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		MyFile myFile = MyFile.builder()
 									.fileName(imageFileName)
-									.fileOriName(fileReqDto.getFile().getOriginalFilename())
+									.fileOriName(file.getOriginalFilename())
 									.imageFilePath(imageFilePath.toString())
 									.fileUrl(fileUrl)
 									.build();

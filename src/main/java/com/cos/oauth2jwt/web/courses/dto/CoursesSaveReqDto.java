@@ -1,4 +1,4 @@
-package com.cos.oauth2jwt.web.courses;
+package com.cos.oauth2jwt.web.courses.dto;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class CoursesSaveReqDto {
 	private String backgroundColor;
 	private String textColor;
 	private String level;
-	private List<Map<String, Object>> simpleImage = new ArrayList<>();
+	private List<Map<String, Object>> tech = new ArrayList<>();
 	private Map<String, Object> videoInfo = new HashMap<>();
 	private List<Map<String, Object>> simpleInfo = new ArrayList<>();
 	private List<Map<String, Object>> levelContent = new ArrayList<>();
@@ -52,7 +52,7 @@ public class CoursesSaveReqDto {
 		.backgroundColor(backgroundColor)
 		.textColor(textColor)
 		.level(level)
-		.simpleImage(simpleImage)
+		.tech(tech)
 		.videoInfo(videoInfo)
 		.simpleInfo(simpleInfo)
 		.levelContent(levelContent)

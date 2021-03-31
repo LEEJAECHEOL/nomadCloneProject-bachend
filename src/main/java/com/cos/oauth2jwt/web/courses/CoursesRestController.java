@@ -1,11 +1,9 @@
 package com.cos.oauth2jwt.web.courses;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cos.oauth2jwt.domain.courses.Courses;
 import com.cos.oauth2jwt.service.CoursesService;
 import com.cos.oauth2jwt.web.courses.dto.CoursesPreviewRespDto;
+import com.cos.oauth2jwt.web.courses.dto.CoursesSaveReqDto;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
 
 import lombok.RequiredArgsConstructor;

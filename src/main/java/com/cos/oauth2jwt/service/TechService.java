@@ -1,6 +1,9 @@
 package com.cos.oauth2jwt.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cos.oauth2jwt.domain.tech.Tech;
 import com.cos.oauth2jwt.domain.tech.TechRepository;
@@ -11,17 +14,18 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class TechService {
 
-	private final TechRepository techRepositroy;
+	private final TechRepository techRepository;
 
-	public Tech save(Tech tech) {
-		Tech techEntity = techRepositroy.save(tech);
+	@Transactional
+	public Tech 테크저장(Tech tech) {
+		Tech techEntity = techRepository.save(tech);
 		return techEntity;
 	}
 	
-//	@Transactional(readOnly = true)
-//	public List<Tech> 테크전체찾기() {
-//		return techRepository.findAll();
-//	}
+	@Transactional(readOnly = true)
+	public List<Tech> 테크전체찾기() {
+		return techRepository.findAll();
+	}
 //	
 //	@Transactional
 //	public void 테크저장(TechSaveReqDto techSaveReqDto) {
