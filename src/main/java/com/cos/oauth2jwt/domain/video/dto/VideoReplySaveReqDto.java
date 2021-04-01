@@ -1,5 +1,6 @@
 package com.cos.oauth2jwt.domain.video.dto;
 
+import com.cos.oauth2jwt.domain.video.Video;
 import com.cos.oauth2jwt.domain.video.VideoReply;
 
 import lombok.Data;
@@ -7,12 +8,12 @@ import lombok.Data;
 @Data
 public class VideoReplySaveReqDto {
 	private String content;
-	private int depth;
+	private Long videoId;
 	
 	public VideoReply toEntity() {
 		return VideoReply.builder()
 				.content(content)
-				.depth(depth)
+				.video(Video.builder().id(videoId).build())
 				.build();
 	}
 }

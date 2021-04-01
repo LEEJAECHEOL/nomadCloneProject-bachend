@@ -54,7 +54,7 @@ public class Community {
 	private Category category;
 	
     @CreationTimestamp
-    private Timestamp createDate;
+    private Timestamp createDate;	
 	
     @JsonIgnoreProperties({"community"})
 	@OneToMany(mappedBy = "community", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)  // mappedBy : reply의 변수명

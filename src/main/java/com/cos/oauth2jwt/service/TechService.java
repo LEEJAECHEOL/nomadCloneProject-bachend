@@ -36,11 +36,11 @@ public class TechService {
 //		techRepository.save(tech);
 //	}
 //	
-//	
-//	@Transactional
-//	public void 테크삭제(long id) {
-//		techRepository.deleteById(id);
-//	}
+	
+	@Transactional
+	public void 테크삭제(long id) {
+		techRepository.deleteById(id);
+	}
 //	
 //	@Transactional
 //	public void 테크수정(long id, TechSaveReqDto techSaveReqDto) {

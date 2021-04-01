@@ -4,13 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.cos.oauth2jwt.domain.video.Video;
 import com.cos.oauth2jwt.domain.video.VideoReply;
 import com.cos.oauth2jwt.domain.video.VideoReplyRepository;
-import com.cos.oauth2jwt.domain.video.dto.VideoReplySaveReqDto;
 import com.cos.oauth2jwt.domain.video.dto.VideoReplyUpdateReqDto;
-import com.cos.oauth2jwt.domain.video.dto.VideoUpdateReqDto;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,8 +17,7 @@ public class VideoReplyService {
 	private final VideoReplyRepository videoReplyRepository;
 	
 	@Transactional		//댓글추가
-	public VideoReply 한건저장(VideoReplySaveReqDto videoReplySaveReqDto) {
-		VideoReply videoReply = videoReplySaveReqDto.toEntity();
+	public VideoReply 한건저장(VideoReply videoReply) {
 		VideoReply videoReplyEntity = videoReplyRepository.save(videoReply);
 		return videoReplyEntity;
 	}

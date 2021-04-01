@@ -18,7 +18,6 @@ public class CommunityService {
 	@Transactional(readOnly = true) // 쓰는이유 1. 변경감지안함 2. 고립성
 	public List<Community> 전체찾기(long principalId) {
 		List<Community> CommuniyEntity = communityRepository.findAll();
-		System.out.println("여기들어오나?");
 		CommuniyEntity.forEach((community) -> {
 
 			int likeCount = community.getLikes().size();
@@ -38,7 +37,6 @@ public class CommunityService {
 	@Transactional(readOnly = true) // 쓰는이유 1. 변경감지안함 2. 고립성
 	public List<Community> 전체찾기() {
 		List<Community> CommuniyEntity = communityRepository.findAll();
-
 		CommuniyEntity.forEach((community) -> {
 
 			int likeCount = community.getLikes().size();

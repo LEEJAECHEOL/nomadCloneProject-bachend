@@ -28,7 +28,7 @@ public class UserRestController {
 	@GetMapping("/user/load")
 	public CMRespDto<?> loadUser(@AuthenticationPrincipal PrincipalDetails principalDetails){
 		User user = principalDetails.getUser();
-		LoginRespDto loginRespDto = LoginRespDto.builder().name(user.getName()).provider(user.getProvider())
+		LoginRespDto loginRespDto = LoginRespDto.builder().id(user.getId()).name(user.getName()).provider(user.getProvider())
 				.email(user.getEmail()).roles(user.getRoles()).build();
 		return new CMRespDto<>(HttpStatus.OK.value(), "", loginRespDto);
 	}
@@ -53,7 +53,5 @@ public class UserRestController {
 		userService.회원탈퇴(id);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
 	}
-	
-	// image update
 	
 }
