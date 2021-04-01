@@ -32,15 +32,17 @@ public class TechRestController {
 
 	@PostMapping("/admin/tech")
 	public CMRespDto<?> save(TechSaveReqDto techSaveReqDto, HttpServletRequest request){
+		System.out.println(techSaveReqDto.toString());
 		MyFile fileEntity =  myFileService.이미지업로드(techSaveReqDto.getFile(), request);
 		Tech tech = Tech.builder().title(techSaveReqDto.getTitle())
 									.isFilter(techSaveReqDto.isFilter())
 									.file(MyFile.builder().id(fileEntity.getId()).build())
 									.build();
+		System.out.println(tech);
 		techService.테크저장(tech);
 		return new CMRespDto<>(HttpStatus.CREATED.value(),"성공",null);
 	}
-		
+
 	// 코스 테크 선택시 사용
 	@GetMapping("/tech")
 	public CMRespDto<?> findAll(){
@@ -53,13 +55,13 @@ public class TechRestController {
 		});
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공", techResp);
 	}
-	
+
 	@DeleteMapping("/tech/{id}")
 	public CMRespDto<?> deleteById(@PathVariable long id){
 		techService.테크삭제(id);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
 	}
-	
+
 //	
 //	@PutMapping("/tech/{id}")
 //	public CMRespDto<?> update(@PathVariable long id, @RequestBody TechSaveReqDto techSaveReqDto){

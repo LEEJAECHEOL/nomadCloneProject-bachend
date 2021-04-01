@@ -2,9 +2,14 @@ package com.cos.oauth2jwt.service;
 
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.cos.oauth2jwt.Query.CommunityQuery;
 import com.cos.oauth2jwt.domain.community.Community;
 import com.cos.oauth2jwt.domain.community.CommunityRepository;
+import com.cos.oauth2jwt.web.community.dto.CommunityListRespDto;
 import com.cos.oauth2jwt.web.community.dto.CommunityUpdateReqDto;
 
 import lombok.RequiredArgsConstructor;
@@ -34,11 +39,27 @@ public class CommunityService {
 		return CommuniyEntity;
 	}
 
-	@Transactional(readOnly = true) // 쓰는이유 1. 변경감지안함 2. 고립성
+//	@Transactional(readOnly = true)
+//	public List<Community> 전체찾기(long principalId) {
+//		List<Community> CommuniyEntity = communityRepository.findAll();
+//		
+//		CommuniyEntity.forEach((community) -> {
+//			int likeCount = community.getLikes().size();
+//			community.setLikeCount(likeCount);
+//			community.getLikes().forEach((like) -> {
+//				if (like.getUser().getId() == principalId) {
+//					community.setLikeCheck(true);
+//				}
+//			});
+//		});
+//
+//		return CommuniyEntity;
+//	}
+
+	@Transactional(readOnly = true)
 	public List<Community> 전체찾기() {
 		List<Community> CommuniyEntity = communityRepository.findAll();
 		CommuniyEntity.forEach((community) -> {
-
 			int likeCount = community.getLikes().size();
 			community.setLikeCount(likeCount);
 		});
