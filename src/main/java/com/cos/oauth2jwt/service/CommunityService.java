@@ -19,24 +19,11 @@ import lombok.RequiredArgsConstructor;
 public class CommunityService {
 
 	private final CommunityRepository communityRepository;
-
-	@Transactional(readOnly = true) // 쓰는이유 1. 변경감지안함 2. 고립성
-	public List<Community> 전체찾기(long principalId) {
-		List<Community> CommuniyEntity = communityRepository.findAll();
-		CommuniyEntity.forEach((community) -> {
-
-			int likeCount = community.getLikes().size();
-			community.setLikeCount(likeCount);
-			
-			community.getLikes().forEach((like) -> {
-				if (like.getUser().getId() == principalId) {
-					System.out.println("여기들어오나?");
-					community.setLikeCheck(true);
-				}
-			});
-		});
-
-		return CommuniyEntity;
+	private final CommunityQuery communityQuery;
+	
+	@Transactional(readOnly = true)
+	public List<CommunityListRespDto> 전체찾기(String sort, Long categoryId, Long principalId, Pageable pageable ) {
+		return communityQuery.findAllByCategoryAndSort(sort, categoryId, principalId, pageable);
 	}
 
 //	@Transactional(readOnly = true)
@@ -59,6 +46,7 @@ public class CommunityService {
 	@Transactional(readOnly = true)
 	public List<Community> 전체찾기() {
 		List<Community> CommuniyEntity = communityRepository.findAll();
+
 		CommuniyEntity.forEach((community) -> {
 			int likeCount = community.getLikes().size();
 			community.setLikeCount(likeCount);
