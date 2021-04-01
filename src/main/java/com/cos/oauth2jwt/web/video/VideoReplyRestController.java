@@ -26,7 +26,6 @@ public class VideoReplyRestController {				//댓글
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공", videoReplyService.전체찾기());
 	}
 	
-	
 	@PostMapping("/vreply")
 	public CMRespDto<?> save(@RequestBody VideoReplySaveReqDto videoReplySaveReqDto) {
 		VideoReply videoReplyEntity = videoReplyService.한건저장(videoReplySaveReqDto);

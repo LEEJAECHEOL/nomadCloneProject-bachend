@@ -42,8 +42,8 @@ public class UserService {
 	}
 	
 	@Transactional
-	public int 프로필수정(long fileId, long id) {
-		int result = userRepository.updateProfile(fileId, id);
+	public int 프로필수정(long fileId, String fileUrl ,long id) {
+		int result = userRepository.updateProfile(fileId, fileUrl, id);
 		return result;
 	}
 	

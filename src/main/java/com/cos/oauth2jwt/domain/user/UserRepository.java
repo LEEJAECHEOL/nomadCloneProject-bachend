@@ -9,8 +9,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	public User findByUsername(String username);
 
 	@Modifying
-	@Query(value="update user set fileId = ? where id = ?", nativeQuery=true)
-	public int updateProfile(long fileId, long id);
+	@Query(value="update user set fileId = ?, imageUrl = ? where id = ?", nativeQuery=true)
+	public int updateProfile(long fileId, String fileUrl, long id);
 	
 	@Modifying
 	@Query(value="update user set name = ? where id = ?", nativeQuery=true)
