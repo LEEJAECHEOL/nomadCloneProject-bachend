@@ -7,12 +7,12 @@ import lombok.Data;
 @Data
 public class VideoReplySaveReqDto {
 	private String content;
-	private int depth;
+	private long videoId;
 	
 	public VideoReply toEntity() {
 		return VideoReply.builder()
+				.id(videoId)
 				.content(content)
-				.depth(depth)
 				.build();
 	}
 }

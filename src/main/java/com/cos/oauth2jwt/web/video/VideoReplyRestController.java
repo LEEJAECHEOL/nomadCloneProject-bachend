@@ -21,32 +21,32 @@ import lombok.RequiredArgsConstructor;
 public class VideoReplyRestController {				//댓글
 	private final VideoReplyService videoReplyService;
 	
-	@GetMapping("/vreply")
+	@GetMapping("/vReply")
 	public CMRespDto<?> findAll(){	//전체 화면에 뿌리기
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공", videoReplyService.전체찾기());
 	}
 	
-	@PostMapping("/vreply")
+	@PostMapping("/vReply")
 	public CMRespDto<?> save(@RequestBody VideoReplySaveReqDto videoReplySaveReqDto) {
 		VideoReply videoReplyEntity = videoReplyService.한건저장(videoReplySaveReqDto);
 //		videoReplyEntity.setUser(new User(1L,"ssar","1234","ssar@nate.com","ssar","USER","Image",new Timestamp(System.currentTimeMillis())));
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공", videoReplyEntity);
 	} 
 	
-	@GetMapping("/vreply/{id}")
+	@GetMapping("/vReply/{id}")
 	public CMRespDto<?> findById(@PathVariable long id){
 		VideoReply videoReplyEntity = videoReplyService.한건찾기(id);
 		System.out.println(videoReplyEntity.toString());
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",videoReplyEntity);
 	}
 	
-	@PutMapping("/vreply/{id}")
+	@PutMapping("/vReply/{id}")
 	public CMRespDto<?> update(@PathVariable long id, @RequestBody VideoReplyUpdateReqDto videoReplyUpdateReqDto){
 		VideoReply videoReplyEntity = videoReplyService.수정하기(id,videoReplyUpdateReqDto);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",videoReplyEntity);
 	}
 	
-	@DeleteMapping("/vreply/{id}")
+	@DeleteMapping("/vReply/{id}")
 	public CMRespDto<?> delete(@PathVariable long id){
 		videoReplyService.삭제하기(id);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);		//삭제는 null 리턴
