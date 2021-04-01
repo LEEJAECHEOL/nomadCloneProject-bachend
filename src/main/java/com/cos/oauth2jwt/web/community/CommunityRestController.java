@@ -2,6 +2,9 @@ package com.cos.oauth2jwt.web.community;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cos.oauth2jwt.config.auth.PrincipalDetails;
 import com.cos.oauth2jwt.domain.community.Community;
 import com.cos.oauth2jwt.service.CommunityService;
+import com.cos.oauth2jwt.web.community.dto.CommunityListRespDto;
 import com.cos.oauth2jwt.web.community.dto.CommunitySaveReqDto;
 import com.cos.oauth2jwt.web.community.dto.CommunityUpdateReqDto;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
@@ -24,23 +28,27 @@ import lombok.RequiredArgsConstructor;
 public class CommunityRestController {
 
 	private final CommunityService communityService;
-
+	
 	@GetMapping("/community")
-	public CMRespDto<?> findAll(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-
-		if (principalDetails == null) {
-			System.out.println("필터링?1");
-			List<Community> communityEntity = communityService.전체찾기();
-			return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
+	public CMRespDto<?> findAll(String sort, Long categoryId,
+								@PageableDefault(size = 10)Pageable pageable, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+		long principalId = 0;
+		if (principalDetails != null) {
+			principalId = principalDetails.getUser().getId();
 		} 
-		
-		else {
-			System.out.println("필터링?");
-			long principalId = principalDetails.getUser().getId();
-			List<Community> communityEntity = communityService.전체찾기(principalId);
-			return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
-		}
+		List<CommunityListRespDto> communityEntity = communityService.전체찾기(sort, categoryId, principalId, pageable);
+		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
 	}
+	
+//	@GetMapping("/community")
+//	public CMRespDto<?> findAll(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+//		long principalId = 0;
+//		if (principalDetails != null) {
+//			principalId = principalDetails.getUser().getId();
+//		} 
+//		List<Community> communityEntity = communityService.전체찾기();
+//		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
+//	}
 
 	@GetMapping("/community/popular/{id}")
 	public CMRespDto<?> findAllByCount(@PathVariable long id) {
@@ -57,10 +65,7 @@ public class CommunityRestController {
 	@PostMapping("/community")
 	public CMRespDto<?> save(@RequestBody CommunitySaveReqDto communitySaveReqDto,
 			@AuthenticationPrincipal PrincipalDetails principalDetails) {
-		System.out.println("들어오는데이터는?" + communitySaveReqDto);
-		System.out.println(principalDetails);
 		Community community = communitySaveReqDto.toEntity();
-		System.out.println(community);
 		community.setUser(principalDetails.getUser());
 		Community communityEntity = communityService.글저장(community);
 		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
