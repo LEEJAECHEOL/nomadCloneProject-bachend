@@ -18,7 +18,6 @@ import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.cos.oauth2jwt.domain.community.CReply;
 import com.cos.oauth2jwt.util.JsonToListConverter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -33,23 +32,23 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 public class Video {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String name;
-	private String vimeoFolderId;
-	
-	@Column(name = "contents", columnDefinition = "json")
-	@Convert(converter = JsonToListConverter.class)
-	private List<Map<String, Object>> contents = new ArrayList<>();
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long id;
+   private String name;
+   private String vimeoFolderId;
+   
+   @Column(name = "contents", columnDefinition = "json")
+   @Convert(converter = JsonToListConverter.class)
+   private List<Map<String, Object>> contents = new ArrayList<>();
     
-	@JsonIgnoreProperties({"video"})
-	@OneToMany(mappedBy = "video", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)  // mappedBy : reply의 변수명
-	@OrderBy("id desc")
-	private List<VideoReply> videoReplys;
-	
+   @JsonIgnoreProperties({"video"})
+   @OneToMany(mappedBy = "video", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)  // mappedBy : reply의 변수명
+   @OrderBy("id desc")
+   private List<VideoReply> vReplys;
+   
     @CreationTimestamp
-    private Timestamp createDate;	
+    private Timestamp createDate;   
     
     
 }

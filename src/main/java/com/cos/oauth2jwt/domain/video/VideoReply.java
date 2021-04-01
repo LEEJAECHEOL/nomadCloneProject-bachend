@@ -25,22 +25,27 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-public class VideoReply {		// 비디오 댓글
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(nullable=false, length = 300)
-	private String content;
-	
-	@ManyToOne
-	@JoinColumn(name = "userId")
-	private User user;	
-	
-	@ManyToOne
-	@JoinColumn(name = "videoId")	//댓글단 비디오
-	private Video video;		//비디오 아이디 (연관관계 ManytoOne) 하나의 비디오에 여러개의 댓글
-	
-	@CreationTimestamp
+public class VideoReply {      // 비디오 댓글
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long id;
+   
+   @Column(nullable=false, length = 300)
+   private String content;
+   
+   @Column(nullable=false, name="recommand")
+   @ColumnDefault("0")
+   private Integer recommand;
+   
+   
+   @ManyToOne
+   @JoinColumn(name="userId")
+   private User user;   
+   
+   @ManyToOne
+   @JoinColumn(name="videoId")   //댓글단 비디오
+   private Video video;      //비디오 아이디 (연관관계 ManytoOne) 하나의 비디오에 여러개의 댓글
+   
+   @CreationTimestamp
     private Timestamp createDate;
 }

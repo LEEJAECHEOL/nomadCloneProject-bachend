@@ -15,42 +15,42 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class UserService {
-	private final UserRepository userRepository;
-	
-	@Transactional
-	public User 프로필수정(long id, UserUpdateReqDto userUpdateReqDto) {
-		User userEntity = userRepository.findById(id).get();
-		userEntity.setName(userUpdateReqDto.getName());
-		return userEntity;
-	}
-	
-	@Transactional
-	public void 회원탈퇴(long id) {
-		userRepository.deleteById(id);
-	}
-	
-	@Transactional(readOnly = true)
-	public User 유저정보(long id) {
-		User userEntity = userRepository.findById(id).get();
-		return userEntity;
-	}
-	
-	@Transactional(readOnly = true)
-	public List<User> 유저전체찾기() {
-		List<User> userEntity = userRepository.findAll();
-		return userEntity;
-	}
-	
-	@Transactional
-	public int 프로필수정(long fileId, long id) {
-		int result = userRepository.updateProfile(fileId, id);
-		return result;
-	}
-	
-	@Transactional
-	public int 이름수정(String name, long id) {
-		int result = userRepository.updateName(name, id);
-		return result;
-	}
-	
+    private final UserRepository userRepository;
+
+    @Transactional
+    public User 프로필수정(long id, UserUpdateReqDto userUpdateReqDto) {
+        User userEntity = userRepository.findById(id).get();
+        userEntity.setName(userUpdateReqDto.getName());
+        return userEntity;
+    }
+
+    @Transactional
+    public void 회원탈퇴(long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public User 유저정보(long id) {
+        User userEntity = userRepository.findById(id).get();
+        return userEntity;
+    }
+
+    @Transactional(readOnly = true)
+    public List<User> 유저전체찾기() {
+        List<User> userEntity = userRepository.findAll();
+        return userEntity;
+    }
+
+    @Transactional
+    public int 프로필수정(long fileId, String fileUrl ,long id) {
+        int result = userRepository.updateProfile(fileId, fileUrl, id);
+        return result;
+    }
+
+    @Transactional
+    public int 이름수정(String name, long id) {
+        int result = userRepository.updateName(name, id);
+        return result;
+    }
+
 }
