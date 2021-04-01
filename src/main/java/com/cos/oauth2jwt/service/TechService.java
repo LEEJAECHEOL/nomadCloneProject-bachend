@@ -26,10 +26,9 @@ public class TechService {
 	public List<Tech> 테크전체찾기() {
 		return techRepository.findAll();
 	}
-	
+
 	@Transactional
 	public void 테크삭제(long id) {
 		techRepository.deleteById(id);
 	}
-	
 }

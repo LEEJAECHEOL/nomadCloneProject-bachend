@@ -46,7 +46,7 @@ public class Video {
 	@JsonIgnoreProperties({"video"})
 	@OneToMany(mappedBy = "video", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)  // mappedBy : reply의 변수명
 	@OrderBy("id desc")
-	private List<VideoReply> vReplys;
+	private List<VideoReply> videoReplys;
 	
     @CreationTimestamp
     private Timestamp createDate;	
