@@ -25,8 +25,9 @@ private final LikeService likeService;
 	public CMRespDto<?> save(@RequestBody Long communityId, @AuthenticationPrincipal PrincipalDetails principalDetails){
 		LikeSaveReqDto likeSaveReqDto = LikeSaveReqDto.builder().communityId(communityId).userId(principalDetails.getUser().getId()).build();
 		Likes like = likeSaveReqDto.toEntity();
-		likeService.좋아요(like);
-		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
+		
+		LikeClickRespDto respdto = likeService.좋아요(like);
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",respdto);
 	}
 
 }

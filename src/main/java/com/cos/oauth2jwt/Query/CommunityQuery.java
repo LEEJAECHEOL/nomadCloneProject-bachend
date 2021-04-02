@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.cos.oauth2jwt.web.community.dto.CommunityListRespDto;
+import com.cos.oauth2jwt.web.likes.dto.LikeClickRespDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -52,4 +53,26 @@ public class CommunityQuery {
 	    System.out.println("커뮤니티 값은? : " + respDto);
 		return respDto;
 	}
+	
+	
+	public LikeClickRespDto LikeClick(Long principalId, Long communityId) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("select com.id, ");
+		sb.append("(SELECT COUNT(*) FROM likes l WHERE l.communityId = ?) likeCount, ");
+		sb.append("if((select true FROM likes l WHERE l.communityId = com.id AND l.userId = ?), 'true', 'false') likeCheck ");
+		sb.append("FROM Community com ");
+		sb.append("where com.id = ? ");
+		
+	    Query query = em.createNativeQuery(sb.toString());
+	    query.setParameter(1, communityId);
+	    query.setParameter(2, principalId);
+	    query.setParameter(3, communityId);
+	   
+	    JpaResultMapper result  = new JpaResultMapper();
+	    LikeClickRespDto respDto = result.uniqueResult(query,LikeClickRespDto.class);
+	    
+	    System.out.println("커뮤니티 값은? : " + respDto);
+		return respDto;
+	}
+
 }
