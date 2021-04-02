@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.oauth2jwt.config.auth.PrincipalDetails;
 import com.cos.oauth2jwt.domain.file.MyFile;
@@ -30,64 +31,74 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class UserRestController {
 
-   private final UserService userService;
-   private final MyFileService myFileService;
+	private final UserService userService;
+	private final MyFileService myFileService;
    
-   @GetMapping("/user")
-   public CMRespDto<?> findAll(){
+	@GetMapping("/user")
+	public CMRespDto<?> findAll(){
       List<User> userEntity = userService.유저전체찾기();
       return new CMRespDto<>(HttpStatus.OK.value(), "", userEntity);
-   }
+	}
    
-   @GetMapping("/user/load")
-   public CMRespDto<?> loadUser(@AuthenticationPrincipal PrincipalDetails principalDetails){
+	@GetMapping("/user/load")
+	public CMRespDto<?> loadUser(@AuthenticationPrincipal PrincipalDetails principalDetails){
       User user = principalDetails.getUser();
       LoginRespDto loginRespDto = LoginRespDto.builder().id(user.getId()).name(user.getName()).provider(user.getProvider())
             .email(user.getEmail()).roles(user.getRoles()).build();
       return new CMRespDto<>(HttpStatus.OK.value(), "", loginRespDto);
-   }
+	}
    
-   @GetMapping("/user/{id}")
-   public CMRespDto<?> findById(@PathVariable Long id){
+	@GetMapping("/user/{id}")
+	public CMRespDto<?> findById(@PathVariable Long id){
       User userEntity = userService.유저정보(id);
       return new CMRespDto<>(HttpStatus.OK.value(),"성공",userEntity);
-   }
+	}
    
    //edit profile (name)
-   @PutMapping("/user/{id}")
-   public CMRespDto<?> findById(@PathVariable Long id, @RequestBody UserUpdateReqDto userUpdateReqDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+	@PutMapping("/user/{id}")
+	public CMRespDto<?> findById(@PathVariable Long id, @RequestBody UserUpdateReqDto userUpdateReqDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
       User userEntity = userService.프로필수정(id, userUpdateReqDto);
       principalDetails.setUser(userEntity);
       return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
-   }
+	}
    
    // 회원탈퇴
-   @DeleteMapping("/user/{id}")
-   public CMRespDto<?> deleteById(@PathVariable Long id) {
+	@DeleteMapping("/user/{id}")
+	public CMRespDto<?> deleteById(@PathVariable Long id) {
       userService.회원탈퇴(id);
       return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
-   }
+	}
    
    // 리액트 프로필이미지 수정(수정할때 User객체에 imageUrl도 같이 바꿔줘야함.)
-   @PostMapping("/profile/{id}")
-   public CMRespDto<?> profile(@PathVariable long id, UserProfileUpdateDto userProfileUpdateDto, HttpServletRequest request){
+	@PostMapping("/profile/{id}")
+	public CMRespDto<?> profile(@PathVariable long id, UserProfileUpdateDto userProfileUpdateDto, HttpServletRequest request){
       MyFile fileEntity =  myFileService.이미지업로드(userProfileUpdateDto.getFile(), request);
       int result = userService.프로필수정(fileEntity.getId(), fileEntity.getFileUrl(), id);
       if(result!=1) {
          throw new IllegalArgumentException();
       }
       return new CMRespDto<>(HttpStatus.CREATED.value(),"성공",null);
-   }
+	}
    
    // 리액트 프로필 이름 수정   
-   @PostMapping("/user/{id}")
-   public CMRespDto<?> username(@PathVariable long id, @RequestBody String name){
-      String updateName = name.replaceAll("\\\"","");
-      int result = userService.이름수정(updateName, id);
-      if(result!=1) {
-         throw new IllegalArgumentException();
-      }
-      return new CMRespDto<>(HttpStatus.CREATED.value(),"성공",null);
-   }
+	@PostMapping("/user/{id}")
+	public CMRespDto<?> username(@PathVariable long id, @RequestBody String name){
+		String updateName = name.replaceAll("\\\"","");
+		int result = userService.이름수정(updateName, id);
+		if(result!=1) {
+			throw new IllegalArgumentException();
+		}
+		return new CMRespDto<>(HttpStatus.CREATED.value(),"성공",null);
+	}
+   // 안드로이드 프로필이미지 수정
+    @PostMapping("/profile")
+    public CMRespDto<?> androidProfile(MultipartFile uploadFile, HttpServletRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails){
+		MyFile fileEntity =  myFileService.안드로이드이미지업로드(uploadFile, request);
+		int result = userService.프로필수정(fileEntity.getId(),fileEntity.getFileUrl() ,principalDetails.getUser().getId());
+		if(result!=1) {
+			throw new IllegalArgumentException();
+		}
+		return new CMRespDto<>(HttpStatus.CREATED.value(),"성공",null);
+	}
    
 }
