@@ -35,6 +35,7 @@ public class CommunityRestController {
 		if (principalDetails != null) {
 			principalId = principalDetails.getUser().getId();
 		} 
+		
 		List<CommunityListRespDto> communityEntity = communityService.전체찾기(sort, categoryId, principalId, pageable);
 		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
 	}
