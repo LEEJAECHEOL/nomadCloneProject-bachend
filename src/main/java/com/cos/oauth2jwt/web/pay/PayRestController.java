@@ -2,6 +2,7 @@ package com.cos.oauth2jwt.web.pay;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,11 @@ import lombok.RequiredArgsConstructor;
 public class PayRestController {
 	
 	private final PayService payService;
+	
+	@GetMapping("/admin/pay")
+	public CMRespDto<?> findAll(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		return new CMRespDto<>(HttpStatus.OK.value(), "" , payService.전체찾기());
+	}
 	
 	@PostMapping("/pay")
 	public CMRespDto<?> save(@RequestBody PaySaveReqDto paySaveReqDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
