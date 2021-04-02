@@ -31,10 +31,6 @@ public class CReply {
 	
 	@Column(nullable = false, length = 200)
 	private String content; 
-
-	// 대댓글 뎁스
-	@ColumnDefault("0")
-	private int depth;
 	
 	// 유저
 	@ManyToOne
