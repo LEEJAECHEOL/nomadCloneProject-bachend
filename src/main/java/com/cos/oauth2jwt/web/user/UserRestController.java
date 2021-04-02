@@ -70,7 +70,7 @@ public class UserRestController {
 	}
    
    // 리액트 프로필이미지 수정(수정할때 User객체에 imageUrl도 같이 바꿔줘야함.)
-	@PostMapping("/profile/{id}")
+	@PostMapping("/user/profile/{id}")
 	public CMRespDto<?> profile(@PathVariable long id, UserProfileUpdateDto userProfileUpdateDto, HttpServletRequest request){
       MyFile fileEntity =  myFileService.이미지업로드(userProfileUpdateDto.getFile(), request);
       int result = userService.프로필수정(fileEntity.getId(), fileEntity.getFileUrl(), id);
@@ -90,6 +90,7 @@ public class UserRestController {
 		}
 		return new CMRespDto<>(HttpStatus.CREATED.value(),"성공",null);
 	}
+	
    // 안드로이드 프로필이미지 수정
     @PostMapping("/profile")
     public CMRespDto<?> androidProfile(MultipartFile uploadFile, HttpServletRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails){

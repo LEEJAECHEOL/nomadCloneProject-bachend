@@ -49,6 +49,7 @@ public class CommunityQuery {
 	    JpaResultMapper result  = new JpaResultMapper();
 	    List<CommunityListRespDto> respDto = result.list(query, CommunityListRespDto.class);
 	    
+	    System.out.println("커뮤니티 값은? : " + respDto);
 		return respDto;
 	}
 }

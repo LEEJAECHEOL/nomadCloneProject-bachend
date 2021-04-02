@@ -32,23 +32,17 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 public class Video {
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long id;
-   private String name;
-   private String vimeoFolderId;
-   
-   @Column(name = "contents", columnDefinition = "json")
-   @Convert(converter = JsonToListConverter.class)
-   private List<Map<String, Object>> contents = new ArrayList<>();
-    
-   @JsonIgnoreProperties({"video"})
-   @OneToMany(mappedBy = "video", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)  // mappedBy : reply의 변수명
-   @OrderBy("id desc")
-   private List<VideoReply> vReplys;
-   
-    @CreationTimestamp
-    private Timestamp createDate;   
-    
-    
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String name;
+	private String vimeoFolderId;
+
+	@Column(name = "contents", columnDefinition = "json")
+	@Convert(converter = JsonToListConverter.class)
+	private List<Map<String, Object>> contents = new ArrayList<>();
+
+	@CreationTimestamp
+	private Timestamp createDate;
+
 }
