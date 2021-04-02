@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.oauth2jwt.config.auth.PrincipalDetails;
 import com.cos.oauth2jwt.domain.file.MyFile;
@@ -89,5 +90,16 @@ public class UserRestController {
       }
       return new CMRespDto<>(HttpStatus.CREATED.value(),"성공",null);
    }
+   
+   // 안드로이드 프로필이미지 수정
+   @PostMapping("/profile")
+   public CMRespDto<?> androidProfile(MultipartFile uploadFile, HttpServletRequest request, @AuthenticationPrincipal PrincipalDetails principalDetails){
+	   MyFile fileEntity =  myFileService.안드로이드이미지업로드(uploadFile, request);
+	   int result = userService.프로필수정(fileEntity.getId(),fileEntity.getFileUrl() ,principalDetails.getUser().getId());
+	   if(result!=1) {
+		   throw new IllegalArgumentException();
+	   }
+	   return new CMRespDto<>(HttpStatus.CREATED.value(),"성공",null);
+	}
    
 }
