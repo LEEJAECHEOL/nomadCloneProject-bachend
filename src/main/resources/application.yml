@@ -16,7 +16,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update #create update none
+      ddl-auto: update  #create update none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
@@ -30,4 +30,4 @@ spring:
   servlet:    multipart:      max-file-size: 10MB      max-request-size: 10MB
       enabled: true           
 file:
-  path: C:/Users/Dong/Desktop/NomadWork/nomadServer/nomadCloneProject-bachend/src/main/resources/uploads/
+  path: /Users/lee/Desktop/nomadcoder_clone_project/oauth2-jwt/src/main/resources/uploads/
