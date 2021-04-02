@@ -30,4 +30,4 @@ spring:
   servlet:    multipart:      max-file-size: 10MB      max-request-size: 10MB
       enabled: true           
 file:
-  path: /Users/lee/Desktop/nomadcoder_clone_project/oauth2-jwt/src/main/resources/uploads/
+  path: C:/Users/Dong/Desktop/NomadWork/nomadCloneProject-bachend/src/main/resources/uploads/

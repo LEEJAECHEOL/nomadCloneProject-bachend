@@ -13,13 +13,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.cos.oauth2jwt.Query.CommunityQuery;
 import com.cos.oauth2jwt.config.auth.PrincipalDetails;
 import com.cos.oauth2jwt.domain.community.Community;
+import com.cos.oauth2jwt.domain.likes.Likes;
 import com.cos.oauth2jwt.service.CommunityService;
+import com.cos.oauth2jwt.service.LikeService;
+import com.cos.oauth2jwt.web.community.dto.CommunityItemRespDto;
 import com.cos.oauth2jwt.web.community.dto.CommunityListRespDto;
 import com.cos.oauth2jwt.web.community.dto.CommunitySaveReqDto;
 import com.cos.oauth2jwt.web.community.dto.CommunityUpdateReqDto;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
+import com.cos.oauth2jwt.web.likes.dto.LikeClickRespDto;
+import com.cos.oauth2jwt.web.likes.dto.LikeSaveReqDto;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -27,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 public class CommunityRestController {
 
 	private final CommunityService communityService;
+	private final CommunityQuery communityQuery;
 	
 	@GetMapping("/community")
 	public CMRespDto<?> findAll(String sort, Long categoryId,
@@ -72,9 +81,17 @@ public class CommunityRestController {
 	}
 
 	@GetMapping("/community/{id}")
-	public CMRespDto<?> findById(@PathVariable long id) {
+	public CMRespDto<?> findById(@PathVariable long id,@AuthenticationPrincipal PrincipalDetails principalDetails) {
 		Community communityEntity = communityService.한건찾기(id);
-		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
+		
+		LikeClickRespDto respdto = communityQuery.LikeClick(principalDetails.getUser().getId(), communityEntity.getId());
+		
+		CommunityItemRespDto communityRespDto = new CommunityItemRespDto();
+		communityRespDto.setCommunity(communityEntity);
+		communityRespDto.setId(respdto.getId());
+		communityRespDto.setLikeCount(respdto.getLikeCount());
+		communityRespDto.setLikeCheck(respdto.getLikeCheck());		
+		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityRespDto);
 	}
 
 	@GetMapping("/community/category/{id}")

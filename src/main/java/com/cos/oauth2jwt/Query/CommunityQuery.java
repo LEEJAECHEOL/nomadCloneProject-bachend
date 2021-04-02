@@ -54,7 +54,6 @@ public class CommunityQuery {
 		return respDto;
 	}
 	
-	
 	public LikeClickRespDto LikeClick(Long principalId, Long communityId) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("select com.id, ");
