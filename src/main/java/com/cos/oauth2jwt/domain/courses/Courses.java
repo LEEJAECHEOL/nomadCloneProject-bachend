@@ -18,7 +18,6 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.cos.oauth2jwt.domain.TechCourses.TechCourses;
 import com.cos.oauth2jwt.domain.video.Video;
 import com.cos.oauth2jwt.util.JsonToListConverter;
 import com.cos.oauth2jwt.util.JsonToMapConverter;
@@ -51,9 +50,6 @@ public class Courses {
 	private String backgroundColor;
 	private String textColor;
 	private String level;
-	
-	@OneToMany(mappedBy = "courses")
-	private List<TechCourses> techs;
 	
 	@Column(name = "tech", columnDefinition = "json")
 	@Convert(converter = JsonToListConverter.class)

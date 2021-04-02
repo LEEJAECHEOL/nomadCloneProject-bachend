@@ -32,15 +32,16 @@ public class TechRestController {
 
 	@PostMapping("/admin/tech")
 	public CMRespDto<?> save(TechSaveReqDto techSaveReqDto, HttpServletRequest request){
-		System.out.println(techSaveReqDto.toString());
 		MyFile fileEntity =  myFileService.이미지업로드(techSaveReqDto.getFile(), request);
 		Tech tech = Tech.builder().title(techSaveReqDto.getTitle())
 									.isFilter(techSaveReqDto.isFilter())
 									.file(MyFile.builder().id(fileEntity.getId()).build())
 									.build();
-		System.out.println(tech);
-		techService.테크저장(tech);
-		return new CMRespDto<>(HttpStatus.CREATED.value(),"성공",null);
+		Tech techEntity = techService.테크저장(tech); 
+		MyFile image = myFileService.한건찾기(techEntity.getFile().getId());
+		image.setImageFilePath("");
+		techEntity.setFile(image);
+		return new CMRespDto<>(HttpStatus.CREATED.value(),"성공", techEntity);
 	}
 
 	// 코스 테크 선택시 사용
