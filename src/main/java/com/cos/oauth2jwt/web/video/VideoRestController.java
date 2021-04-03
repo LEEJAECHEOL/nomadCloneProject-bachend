@@ -1,6 +1,9 @@
 package com.cos.oauth2jwt.web.video;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -14,10 +17,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.oauth2jwt.config.auth.PrincipalDetails;
+import com.cos.oauth2jwt.domain.courses.Courses;
+import com.cos.oauth2jwt.domain.pay.Pay;
+import com.cos.oauth2jwt.domain.user.User;
 import com.cos.oauth2jwt.domain.video.Video;
 import com.cos.oauth2jwt.domain.video.dto.VideoSaveReqDto;
 import com.cos.oauth2jwt.domain.video.dto.VideoSaveRespDto;
 import com.cos.oauth2jwt.domain.video.dto.VideoUpdateReqDto;
+import com.cos.oauth2jwt.service.CoursesService;
+import com.cos.oauth2jwt.service.PayService;
 import com.cos.oauth2jwt.service.VideoService;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
 
@@ -27,14 +35,48 @@ import lombok.RequiredArgsConstructor;
 @RestController			//controller 에 ResponseBody가 추가된것 = Json형태로 객체를 반환!!
 public class VideoRestController {
 	private final VideoService videoService;
+	private final CoursesService coursesService;
+	private final PayService payService;
 	
 	@GetMapping("/video/{id}")
 	public CMRespDto<?> userfindById(@PathVariable long id, @AuthenticationPrincipal PrincipalDetails principalDetails){
 		Video videoEntity = videoService.한건찾기(id);
-		// 무료는 다 공개
+		// 무료는 다 공개 -> 그러면 코스 데이터를 가져와야 됨.
 		// 결제 했는지 안했는지 참조 -> 결제했으면 다 공개
 		// 관리자 다 공개
-		
+		Courses course = coursesService.한건가져오기(id);
+		if(principalDetails != null) { // 로그인 한 경우
+			User user = principalDetails.getUser();
+//			Pay pay = payService.
+			if(!(user.getRoles()).equals("ROLE_ADMIN")) {
+				// 유저가 결제 안했을 때 
+//				if(!course.getPrice().equals("0")) { // 무료가 아닐 때
+//					List<Map<String, Object>> contents = videoEntity.getContents();
+//					contents.stream().forEach((content)->{ // 강의 리스트
+//						List<Map<String, Object>> contentItem = (List<Map<String, Object>>) content.get("list");
+//						contentItem.stream().forEach((item)->{ // 영상 리스트
+//							Map<String, Object> originItem = item;
+//							if(!(boolean) originItem.get("isFree")) {
+//								originItem.replace("vimeoId", "");
+//							}
+//						});
+//					});
+//				}
+			}
+		}else {	// 로그인 안한 경우
+			if(!course.getPrice().equals("0")) { // 무료가 아닐 때
+				List<Map<String, Object>> contents = videoEntity.getContents();
+				contents.stream().forEach((content)->{ // 강의 리스트
+					List<Map<String, Object>> contentItem = (List<Map<String, Object>>) content.get("list");
+					contentItem.stream().forEach((item)->{ // 영상 리스트
+						Map<String, Object> originItem = item;
+						if(!(boolean) originItem.get("isFree")) {
+							originItem.replace("vimeoId", "");
+						}
+					});
+				});
+			}
+		}
 		if(videoEntity != null) {
 			return new CMRespDto<>(HttpStatus.OK.value(),"성공", videoEntity);
 		}else {
