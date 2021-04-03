@@ -22,6 +22,11 @@ public class PayService {
 		return payRepository.findAll();
 	}
 	
+	@Transactional(readOnly = true)
+	public List<Pay> 유저아이디로찾기(long userId){
+		return payRepository.findUserId(userId);
+	}
+	
 	@Transactional
 	public Pay 저장하기(Pay pay) {
 		return payRepository.save(pay);
