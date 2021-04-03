@@ -13,6 +13,8 @@ import com.cos.oauth2jwt.domain.pay.Pay;
 import com.cos.oauth2jwt.domain.user.User;
 import com.cos.oauth2jwt.service.PayService;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
+import com.cos.oauth2jwt.web.pay.dto.FreeSaveReqDto;
+import com.cos.oauth2jwt.web.pay.dto.PayCheckReqDto;
 import com.cos.oauth2jwt.web.pay.dto.PaySaveReqDto;
 import com.cos.oauth2jwt.web.user.dto.UserIdRespDto;
 
@@ -21,36 +23,74 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 public class PayRestController {
-	
+
 	private final PayService payService;
-	
+
 	@GetMapping("/admin/pay")
 	public CMRespDto<?> findAll(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-		return new CMRespDto<>(HttpStatus.OK.value(), "" , payService.전체찾기());	
+		return new CMRespDto<>(HttpStatus.OK.value(), "", payService.전체찾기());
 	}
-	
+
 	@GetMapping("/pay/{id}")
 	public CMRespDto<?> findByUserId(@PathVariable long id) {
 		System.out.println("=======");
 		System.out.println("회원 결제조회");
 		System.out.println("=======");
-		return new CMRespDto<>(HttpStatus.OK.value(), "" , payService.유저아이디로찾기(id));
+		return new CMRespDto<>(HttpStatus.OK.value(), "", payService.유저아이디로찾기(id));
 	}
-	
+
 	@PostMapping("/pay")
-	public CMRespDto<?> save(@RequestBody PaySaveReqDto paySaveReqDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+	public CMRespDto<?> save(@RequestBody PaySaveReqDto paySaveReqDto,
+			@AuthenticationPrincipal PrincipalDetails principalDetails) {
 		User user = principalDetails.getUser();
 		Pay pay = paySaveReqDto.toEntity();
 		pay.setUser(user);
 		Pay payEntity = payService.저장하기(pay);
-		
-		if(payEntity != null) {
+
+		if (payEntity != null) {
 			UserIdRespDto dto = new UserIdRespDto();
 			dto.setId(principalDetails.getId());
-			return new CMRespDto<>(HttpStatus.CREATED.value(), "" , dto);
-		}else {
-			return new CMRespDto<>(HttpStatus.BAD_REQUEST.value(), "fail" , null);
+			return new CMRespDto<>(HttpStatus.CREATED.value(), "", dto);
+		} else {
+			return new CMRespDto<>(HttpStatus.BAD_REQUEST.value(), "fail", null);
 		}
+	}
+
+	@PostMapping("/pay/free")
+	public CMRespDto<?> freeSave(@RequestBody FreeSaveReqDto paySaveReqDto,
+			@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		User user = principalDetails.getUser();
+		Pay pay = paySaveReqDto.toEntity();
+
+		// 무료 강의이기 때문에 강제로 값넣기.
+		pay.setStatus("paid");
+		pay.setUser(user);
+		pay.setBuyer_name(user.getName());
+		pay.setBuyer_email(user.getEmail());
+
+		// 페이테이블 저장
+		Pay payEntity = payService.저장하기(pay);
+
+		if (payEntity != null) {
+			UserIdRespDto dto = new UserIdRespDto();
+			dto.setId(principalDetails.getId());
+			return new CMRespDto<>(HttpStatus.CREATED.value(), "", dto);
+		} else {
+			return new CMRespDto<>(HttpStatus.BAD_REQUEST.value(), "fail", null);
+		}
+	}
+
+	@PostMapping("/pay/check")
+	public CMRespDto<?> paidCheck(@RequestBody PayCheckReqDto payCheckReqDto,
+			@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		Pay payEntity = payService.결제체크(payCheckReqDto.getCourseId(), principalDetails.getUser().getId());
+		if(payEntity != null) {
+			return new CMRespDto<>(HttpStatus.CREATED.value(), "", payEntity);
+		}
+		else {
+			return new CMRespDto<>(HttpStatus.CREATED.value(), "", null);
+		}
+		
 	}
 
 }
