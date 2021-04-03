@@ -8,10 +8,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.cos.oauth2jwt.domain.courses.Courses;
+import com.cos.oauth2jwt.domain.file.MyFile;
+import com.cos.oauth2jwt.domain.user.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,4 +48,8 @@ public class Pay {
 
     @CreationTimestamp
     private Timestamp createDate;
+    
+    @OneToOne // 자동으로 Eager 전략
+	@JoinColumn(name = "userId")
+	private User user;
 }
