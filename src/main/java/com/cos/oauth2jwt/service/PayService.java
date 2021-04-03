@@ -27,6 +27,11 @@ public class PayService {
 		return payRepository.findUserId(userId);
 	}
 	
+	@Transactional(readOnly = true)
+	public Pay 결제체크(long courseId, long userId){
+		return payRepository.findByUserIdAndCourseId(courseId, userId);
+	}
+	
 	@Transactional
 	public Pay 저장하기(Pay pay) {
 		return payRepository.save(pay);

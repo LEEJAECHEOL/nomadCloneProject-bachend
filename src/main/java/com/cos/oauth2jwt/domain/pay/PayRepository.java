@@ -9,4 +9,7 @@ public interface PayRepository extends JpaRepository<Pay, Long> {
 
 	@Query(value="SELECT * FROM pay where userId = ?", nativeQuery=true)
 	public List<Pay> findUserId(long userId);
+	
+	@Query(value="SELECT * FROM pay where couseId = ? and userId = ? ", nativeQuery=true)
+	public Pay findByUserIdAndCourseId(long couseId, long userId);
 }
