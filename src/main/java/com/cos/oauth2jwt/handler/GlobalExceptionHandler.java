@@ -1,20 +1,21 @@
 package com.cos.oauth2jwt.handler;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.cos.oauth2jwt.handler.exception.NoLoginException;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 //	
-//	@ExceptionHandler(value=MyJWTDecodeException.class)
-//	public CMRespDto<?> myJWTDecodeException(MyJWTDecodeException e) {
-//		System.out.println(e);
-//		return new CMRespDto<>(HttpStatus.UNAUTHORIZED.value(), e.getMessage(), null);
-//	}
+	@ExceptionHandler(value=NoLoginException.class)
+	public ResponseEntity<?> noLoginException(NoLoginException e) {
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+	}
 //	
 //	@ExceptionHandler(value=MyTokenExpiredException.class)
 //	public CMRespDto<?> tokenExpiredException(TokenExpiredException e) {

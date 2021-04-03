@@ -48,28 +48,6 @@ public class CommunityRestController {
 		List<CommunityListRespDto> communityEntity = communityService.전체찾기(sort, categoryId, principalId, pageable);
 		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
 	}
-	
-//	@GetMapping("/community")
-//	public CMRespDto<?> findAll(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-//		long principalId = 0;
-//		if (principalDetails != null) {
-//			principalId = principalDetails.getUser().getId();
-//		} 
-//		List<Community> communityEntity = communityService.전체찾기();
-//		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
-//	}
-
-	@GetMapping("/community/popular/{id}")
-	public CMRespDto<?> findAllByCount(@PathVariable long id) {
-		List<Community> communityEntity = communityService.카테고리별인기순으로찾기(id);
-		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
-	}
-
-	@GetMapping("/community/new/{id}")
-	public CMRespDto<?> findAllByCreateDate(@PathVariable long id) {
-		List<Community> communityEntity = communityService.카테고리별최신순으로찾기(id);
-		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
-	}
 
 	@PostMapping("/community")
 	public CMRespDto<?> save(@RequestBody CommunitySaveReqDto communitySaveReqDto,
@@ -83,8 +61,11 @@ public class CommunityRestController {
 	@GetMapping("/community/{id}")
 	public CMRespDto<?> findById(@PathVariable long id,@AuthenticationPrincipal PrincipalDetails principalDetails) {
 		Community communityEntity = communityService.한건찾기(id);
-		
-		LikeClickRespDto respdto = communityQuery.LikeClick(principalDetails.getUser().getId(), communityEntity.getId());
+		long principalId = 0;
+		if (principalDetails != null) {
+			principalId = principalDetails.getUser().getId();
+		} 
+		LikeClickRespDto respdto = communityQuery.LikeClick(principalId, id);
 		
 		CommunityItemRespDto communityRespDto = new CommunityItemRespDto();
 		communityRespDto.setCommunity(communityEntity);
@@ -92,13 +73,6 @@ public class CommunityRestController {
 		communityRespDto.setLikeCount(respdto.getLikeCount());
 		communityRespDto.setLikeCheck(respdto.getLikeCheck());		
 		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityRespDto);
-	}
-
-	@GetMapping("/community/category/{id}")
-	public CMRespDto<?> findByCategoryId(@PathVariable long id) {
-		System.out.println("카테고리아이디는?" + id);
-		List<Community> communityEntity = communityService.카테고리로찾기(id);
-		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
 	}
 
 	@PutMapping("/community/{id}")
@@ -112,4 +86,33 @@ public class CommunityRestController {
 		communityService.삭제하기(id);
 		return new CMRespDto<>(HttpStatus.OK.value(), "성공", null);
 	}
+//	@GetMapping("/community")
+//	public CMRespDto<?> findAll(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+//		long principalId = 0;
+//		if (principalDetails != null) {
+//			principalId = principalDetails.getUser().getId();
+//		} 
+//		List<Community> communityEntity = communityService.전체찾기();
+//		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
+//	}
+
+//	@GetMapping("/community/popular/{id}")
+//	public CMRespDto<?> findAllByCount(@PathVariable long id) {
+//		List<Community> communityEntity = communityService.카테고리별인기순으로찾기(id);
+//		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
+//	}
+//
+//	@GetMapping("/community/new/{id}")
+//	public CMRespDto<?> findAllByCreateDate(@PathVariable long id) {
+//		List<Community> communityEntity = communityService.카테고리별최신순으로찾기(id);
+//		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
+//	}
+
+//	@GetMapping("/community/category/{id}")
+//	public CMRespDto<?> findByCategoryId(@PathVariable long id) {
+//		System.out.println("카테고리아이디는?" + id);
+//		List<Community> communityEntity = communityService.카테고리로찾기(id);
+//		return new CMRespDto<>(HttpStatus.OK.value(), "성공", communityEntity);
+//	}
+
 }

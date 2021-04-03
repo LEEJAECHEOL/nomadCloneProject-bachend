@@ -37,14 +37,11 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		
 		System.out.println("인증이나 권한이 필요한 주소 요청이 됨.");
-
-		System.out.println(JwtProperties.HEADER_STRING);
+		
 		String jwtHeader = request.getHeader(JwtProperties.HEADER_STRING);
 		System.out.println("jwtHeader : " + jwtHeader);
 
-//		System.out.println(jwtHeader.startsWith("Bearer"));
 		// header가 있는지 확인
 		if(jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
 			chain.doFilter(request, response);
@@ -53,8 +50,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		
 		// JWT 토큰을 검증해서 정상적인 사용자 인지 확인
 		String jwtToken = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX, "");
+		System.out.println("jwtToken : " + jwtToken);
 		// 토큰이 null 이면 로그인 한게 아님.
-		if(jwtToken == null) {
+		if(jwtToken.equals("null")) {
 			chain.doFilter(request, response);
 			return;
 		}
