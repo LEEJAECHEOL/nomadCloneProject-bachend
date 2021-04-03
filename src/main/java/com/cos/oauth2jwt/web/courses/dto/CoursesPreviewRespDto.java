@@ -20,6 +20,4 @@ public class CoursesPreviewRespDto {
 	private String subTitle;
 	private String level;
 	private Map<String, Object> previewImage = new HashMap<>();
-	private String price;
-	private List<Map<String, Object>> tech = new ArrayList<>();
 }
