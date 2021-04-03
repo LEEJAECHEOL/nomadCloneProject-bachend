@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.oauth2jwt.config.auth.PrincipalDetails;
 import com.cos.oauth2jwt.domain.community.CReply;
+import com.cos.oauth2jwt.handler.exception.NoLoginException;
 import com.cos.oauth2jwt.service.CReplyService;
 import com.cos.oauth2jwt.web.community.dto.CReplySaveReqDto;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
@@ -26,8 +27,9 @@ public class CReplyRestController {
 	
 	@PostMapping("/cReply")
 	public CMRespDto<?> save(@RequestBody CReplySaveReqDto cReplySaveReqDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-		// 데이터 들어오니?	
-		System.out.println("들어오는 데이터는 : " + cReplySaveReqDto.toString());
+		if(principalDetails == null) {
+			throw new NoLoginException("로그인 하시면 댓글을 작성할 수 있어요!");
+		}
 		CReply cReply = cReplySaveReqDto.toEntity();
 		cReply.setUser(principalDetails.getUser());
 		CReply cReplyEntity = cReplyService.댓글저장(cReply);

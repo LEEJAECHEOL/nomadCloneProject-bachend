@@ -1,6 +1,8 @@
 package com.cos.oauth2jwt.web.courses.dto;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
@@ -18,4 +20,6 @@ public class CoursesPreviewRespDto {
 	private String subTitle;
 	private String level;
 	private Map<String, Object> previewImage = new HashMap<>();
+	private String price;
+	private List<Map<String, Object>> tech = new ArrayList<>();
 }

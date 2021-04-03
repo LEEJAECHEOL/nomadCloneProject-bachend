@@ -55,23 +55,23 @@ public class CommunityService {
 		return CommuniyEntity;
 	}
 	
-	@Transactional(readOnly = true)
-	public List<Community> 카테고리로찾기(long id) {
-		List<Community> CommuniyEntity = communityRepository.categoryCommunity(id);
-		return CommuniyEntity;
-	}
-
-	@Transactional(readOnly = true)
-	public List<Community> 카테고리별인기순으로찾기(long id) {
-		List<Community> CommuniyEntity = communityRepository.popularCommunity(id);
-		return CommuniyEntity;
-	}
-
-	@Transactional(readOnly = true)
-	public List<Community> 카테고리별최신순으로찾기(long id) {
-		List<Community> CommuniyEntity = communityRepository.createDateCommunity(id);
-		return CommuniyEntity;
-	}
+//	@Transactional(readOnly = true)
+//	public List<Community> 카테고리로찾기(long id) {
+//		List<Community> CommuniyEntity = communityRepository.categoryCommunity(id);
+//		return CommuniyEntity;
+//	}
+//
+//	@Transactional(readOnly = true)
+//	public List<Community> 카테고리별인기순으로찾기(long id) {
+//		List<Community> CommuniyEntity = communityRepository.popularCommunity(id);
+//		return CommuniyEntity;
+//	}
+//
+//	@Transactional(readOnly = true)
+//	public List<Community> 카테고리별최신순으로찾기(long id) {
+//		List<Community> CommuniyEntity = communityRepository.createDateCommunity(id);
+//		return CommuniyEntity;
+//	}
 
 	@Transactional
 	public Community 글저장(Community community) {

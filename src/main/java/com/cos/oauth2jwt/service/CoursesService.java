@@ -31,6 +31,8 @@ public class CoursesService {
 						.subTitle(item.getSubTitle())
 						.level(item.getLevel())
 						.previewImage(item.getPreviewImage())
+						.price(item.getPrice())
+						.tech(item.getTech())
 						.build()
 					);
 		});
