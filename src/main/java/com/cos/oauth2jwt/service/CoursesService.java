@@ -1,14 +1,22 @@
 package com.cos.oauth2jwt.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cos.oauth2jwt.Query.CommunityQuery;
+import com.cos.oauth2jwt.Query.CoursesQuery;
 import com.cos.oauth2jwt.domain.courses.Courses;
 import com.cos.oauth2jwt.domain.courses.CoursesRepository;
+import com.cos.oauth2jwt.web.courses.dto.CoursesFilterPreviewRespDto;
 import com.cos.oauth2jwt.web.courses.dto.CoursesPreviewRespDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class CoursesService {
 	
 	private final CoursesRepository coursesRepository;
+	private final CoursesQuery coursesQuery;
 	
 	@Transactional(readOnly = true)
 	public List<CoursesPreviewRespDto> 미리보기전체가져오기(){
@@ -31,12 +40,55 @@ public class CoursesService {
 						.subTitle(item.getSubTitle())
 						.level(item.getLevel())
 						.previewImage(item.getPreviewImage())
-						.price(item.getPrice())
-						.tech(item.getTech())
 						.build()
 					);
 		});
 		return previewDto;
+	}
+	
+	@Transactional(readOnly = true)
+	public List<CoursesPreviewRespDto> 미리보기필터링하기(String level, String isFree, Long techId){
+		List<CoursesFilterPreviewRespDto> entity = coursesQuery.findByFilter(level, isFree);
+		List<CoursesPreviewRespDto> resp = new ArrayList<>();
+		if(techId != 0) {
+			entity.stream().forEach((course) -> {
+				String tech = course.getTech();
+				if(tech.contains("\"techId\": " + techId)) {
+					CoursesPreviewRespDto dto = new CoursesPreviewRespDto();
+					dto.setId(course.getId().longValue());
+					dto.setTitle(course.getTitle());
+					dto.setSubTitle(course.getSubTitle());
+					dto.setLevel(course.getLevel());
+					Map<String, Object> previewImage = new HashMap<>();
+					ObjectMapper objectMapper = new ObjectMapper();
+					try {
+						previewImage= objectMapper.readValue(course.getPreviewImage(), HashMap.class);
+					} catch (Exception e) {
+						e.printStackTrace();
+					} 
+					dto.setPreviewImage(previewImage);
+					resp.add(dto);
+				}
+			});
+		}else {
+			entity.stream().forEach((course) -> {
+				CoursesPreviewRespDto dto = new CoursesPreviewRespDto();
+				dto.setId(course.getId().longValue());
+				dto.setTitle(course.getTitle());
+				dto.setSubTitle(course.getSubTitle());
+				dto.setLevel(course.getLevel());
+				Map<String, Object> previewImage = new HashMap<>();
+				ObjectMapper objectMapper = new ObjectMapper();
+				try {
+					previewImage= objectMapper.readValue(course.getPreviewImage(), HashMap.class);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
+				dto.setPreviewImage(previewImage);
+				resp.add(dto);
+			});
+		}
+		return resp;
 	}
 	
 	@Transactional(readOnly = true)

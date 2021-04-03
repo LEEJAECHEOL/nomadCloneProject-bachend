@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.oauth2jwt.domain.courses.Courses;
 import com.cos.oauth2jwt.service.CoursesService;
+import com.cos.oauth2jwt.web.courses.dto.CoursesFilterPreviewRespDto;
 import com.cos.oauth2jwt.web.courses.dto.CoursesPreviewRespDto;
 import com.cos.oauth2jwt.web.courses.dto.CoursesSaveReqDto;
 import com.cos.oauth2jwt.web.dto.CMRespDto;
@@ -31,6 +32,12 @@ public class CoursesRestController {
 		List<CoursesPreviewRespDto> entity = coursesService.미리보기전체가져오기();
 		
 		return new CMRespDto<>(HttpStatus.OK.value(), "" , entity);
+	}
+	
+	@GetMapping("/courses/filter")
+	public CMRespDto<?> findFilterPreview(String level, String isFree, Long techId) {
+		List<CoursesPreviewRespDto> resp = coursesService.미리보기필터링하기(level, isFree, techId);
+		return new CMRespDto<>(HttpStatus.OK.value(), "" , resp);
 	}
 	
 	
