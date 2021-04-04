@@ -30,5 +30,5 @@ spring:
   servlet:    multipart:      max-file-size: 10MB      max-request-size: 10MB
       enabled: true           
 file:
-  path: C:/Users/Dong/Desktop/NomadWork/nomadCloneProject-bachend/src/main/resources/uploads/
+  path: C:/Users/jap/Desktop/workspace/master/nomadCloneProject-bachend/src/main/resources/uploads/
 

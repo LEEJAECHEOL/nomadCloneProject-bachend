@@ -17,4 +17,5 @@ public class CoursesFilterPreviewRespDto {
 	private String level;
 	private String tech;
 	private String price;
+	private BigInteger videoId;
 }

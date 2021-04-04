@@ -20,7 +20,7 @@ public class CoursesQuery {
 	
 	public List<CoursesFilterPreviewRespDto> findByFilter(String level, String isFree) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT id, previewImage, title, subTitle, level, tech, price FROM courses ");
+		sb.append("SELECT id, previewImage, title, subTitle, level, tech, price, videoId FROM courses ");
 		if(level != "") {
 			sb.append("WHERE level = '" + level + "' ");
 		}else {
