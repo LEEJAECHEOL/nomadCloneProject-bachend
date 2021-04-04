@@ -23,7 +23,7 @@ public class CategoryRestController {
 
 	private final CategoryService categoryService;
 	
-	@PostMapping("/category")
+	@PostMapping("/admin/category")
 	public CMRespDto<?> save(@RequestBody CategorySaveReqDto categorySaveReqDto){
 		Category categoryEntity = categoryService.카테고리저장(categorySaveReqDto.toEntity());
 		return new CMRespDto<>(HttpStatus.CREATED.value(), "성공", categoryEntity);
@@ -36,7 +36,7 @@ public class CategoryRestController {
 		return new CMRespDto<>(HttpStatus.OK.value(), "성공", categoryEntity);
 	}
 	
-	@DeleteMapping("/category/{id}")
+	@DeleteMapping("/admin/category/{id}")
 	public CMRespDto<?> delete(@PathVariable long id){
 		categoryService.삭제하기(id);
 		return new CMRespDto<>(HttpStatus.OK.value(), "성공", null);
