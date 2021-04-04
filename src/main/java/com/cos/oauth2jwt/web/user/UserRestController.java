@@ -69,6 +69,7 @@ public class UserRestController {
       return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
 	}
    
+	
    // 리액트 프로필이미지 수정(수정할때 User객체에 imageUrl도 같이 바꿔줘야함.)
 	@PostMapping("/user/profile/{id}")
 	public CMRespDto<?> profile(@PathVariable long id, UserProfileUpdateDto userProfileUpdateDto, HttpServletRequest request){
@@ -81,14 +82,11 @@ public class UserRestController {
 	}
    
    // 리액트 프로필 이름 수정   
-	@PostMapping("/user/{id}")
+	@PutMapping("/user/name/{id}")
 	public CMRespDto<?> username(@PathVariable long id, @RequestBody String name){
 		String updateName = name.replaceAll("\\\"","");
-		int result = userService.이름수정(updateName, id);
-		if(result!=1) {
-			throw new IllegalArgumentException();
-		}
-		return new CMRespDto<>(HttpStatus.CREATED.value(),"성공",null);
+		User user = userService.이름수정(updateName, id);
+		return new CMRespDto<>(HttpStatus.CREATED.value(),"성공",user);
 	}
 	
    // 안드로이드 프로필이미지 수정
