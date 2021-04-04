@@ -96,18 +96,25 @@ public class PayRestController {
 	}
 	
 	
-	@PostMapping("/pay/refund")
+	// 환불신청
+	@PutMapping("/pay/refund")
 	public CMRespDto<?> refunding(@RequestBody RefundReqDto refundReqDto,
 			@AuthenticationPrincipal PrincipalDetails principalDetails) {
 		long payId = refundReqDto.getPayId();
-		int result = payService.환불신청(payId);
-		if(result == 1) {
-			Pay payEntity = payService.한건찾기(payId);
-			return new CMRespDto<>(HttpStatus.OK.value(),"성공",payEntity);
-		}
-		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
+		Pay payEntity = payService.환불신청(payId);
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",payEntity);
 	}
 	
+	// 환불하기
+		@PutMapping("/pay/refunded")
+		public CMRespDto<?> refunded(@RequestBody RefundReqDto refundReqDto,
+				@AuthenticationPrincipal PrincipalDetails principalDetails) {
+			long payId = refundReqDto.getPayId();
+			Pay payEntity = payService.환불하기(payId);
+			return new CMRespDto<>(HttpStatus.OK.value(),"성공",payEntity);
+		}
+	
+	// 환불신청 취소
 	@PutMapping("/pay/refund/cancle")
 	public CMRespDto<?> refundCancle(@RequestBody RefundReqDto refundReqDto,
 			@AuthenticationPrincipal PrincipalDetails principalDetails) {
