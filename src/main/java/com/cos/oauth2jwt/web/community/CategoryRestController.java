@@ -31,14 +31,8 @@ public class CategoryRestController {
 	
 	@GetMapping("/category")
 	public CMRespDto<?> findAll(){
-		System.out.println("여기에 들어오나용?");
 		List<Category> categoryEntity = categoryService.전체찾기();
 		return new CMRespDto<>(HttpStatus.OK.value(), "성공", categoryEntity);
 	}
 	
-	@DeleteMapping("/admin/category/{id}")
-	public CMRespDto<?> delete(@PathVariable long id){
-		categoryService.삭제하기(id);
-		return new CMRespDto<>(HttpStatus.OK.value(), "성공", null);
-	}
 }

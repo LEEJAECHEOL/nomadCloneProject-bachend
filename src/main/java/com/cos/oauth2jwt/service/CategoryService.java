@@ -25,9 +25,4 @@ public class CategoryService {
 		return categoryEntity;
 	}
 	
-	@Transactional
-	public void 삭제하기(long id) {
-		categoryRepository.deleteById(id);
-	}
-	
 }
