@@ -5,6 +5,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,7 @@ import com.cos.oauth2jwt.web.dto.CMRespDto;
 import com.cos.oauth2jwt.web.pay.dto.FreeSaveReqDto;
 import com.cos.oauth2jwt.web.pay.dto.PayCheckReqDto;
 import com.cos.oauth2jwt.web.pay.dto.PaySaveReqDto;
+import com.cos.oauth2jwt.web.pay.dto.RefundReqDto;
 import com.cos.oauth2jwt.web.user.dto.UserIdRespDto;
 
 import lombok.RequiredArgsConstructor;
@@ -92,5 +94,28 @@ public class PayRestController {
 		}
 		
 	}
-
+	
+	
+	@PostMapping("/pay/refund")
+	public CMRespDto<?> refunding(@RequestBody RefundReqDto refundReqDto,
+			@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		long payId = refundReqDto.getPayId();
+		int result = payService.환불신청(payId);
+		if(result == 1) {
+			Pay payEntity = payService.한건찾기(payId);
+			return new CMRespDto<>(HttpStatus.OK.value(),"성공",payEntity);
+		}
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
+	}
+	
+	@PutMapping("/pay/refund/cancle")
+	public CMRespDto<?> refundCancle(@RequestBody RefundReqDto refundReqDto,
+			@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		
+		long payId = refundReqDto.getPayId(); // 페이아이디 가져오는거 
+		
+		Pay payEntity = payService.환불신청취소(payId); 
+		
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",payEntity);
+	}
 }
