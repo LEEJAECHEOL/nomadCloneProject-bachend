@@ -48,9 +48,10 @@ public class UserService {
     }
 
     @Transactional
-    public int 이름수정(String name, long id) {
-        int result = userRepository.updateName(name, id);
-        return result;
+    public User 이름수정(String name, long id) {
+        User user = userRepository.findById(id).get();
+        user.setName(name);
+        return user;
     }
 
 }
