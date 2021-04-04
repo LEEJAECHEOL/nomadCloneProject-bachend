@@ -41,42 +41,38 @@ public class VideoRestController {
 	@GetMapping("/video/{id}")
 	public CMRespDto<?> userfindById(@PathVariable long id, @AuthenticationPrincipal PrincipalDetails principalDetails){
 		Video videoEntity = videoService.한건찾기(id);
-		// 무료는 다 공개 -> 그러면 코스 데이터를 가져와야 됨.
-		// 결제 했는지 안했는지 참조 -> 결제했으면 다 공개
-		// 관리자 다 공개
-		Courses course = coursesService.한건가져오기(id);
+		boolean isPay = false; // 결제안함.
+		System.out.println(principalDetails);
 		if(principalDetails != null) { // 로그인 한 경우
-			User user = principalDetails.getUser();
-//			Pay pay = payService.
-			if(!(user.getRoles()).equals("ROLE_ADMIN")) {
-				// 유저가 결제 안했을 때 
-//				if(!course.getPrice().equals("0")) { // 무료가 아닐 때
-//					List<Map<String, Object>> contents = videoEntity.getContents();
-//					contents.stream().forEach((content)->{ // 강의 리스트
-//						List<Map<String, Object>> contentItem = (List<Map<String, Object>>) content.get("list");
-//						contentItem.stream().forEach((item)->{ // 영상 리스트
-//							Map<String, Object> originItem = item;
-//							if(!(boolean) originItem.get("isFree")) {
-//								originItem.replace("vimeoId", "");
-//							}
-//						});
-//					});
-//				}
+			System.out.println("로그인 했음!");
+			User user = principalDetails.getUser(); // 유저정보
+			if((user.getRoles()).equals("ROLE_ADMIN")) { // 관리자일때
+				isPay = true;
+			}else { // 유저 일때
+				Courses course = coursesService.비디오로한건가져오기(id); // 해당 비디오 아이디를 가지고있는 코스 정보
+				Pay pay = payService.결제체크(course.getId(), user.getId()); // 코스 아이디, 유저아이디를 가지고있는 pay정보
+				if(pay != null) {
+					System.out.println(pay.getStatus());
+					if(pay.getStatus().equals("paid")) {
+						isPay = true;
+					}
+				} 
 			}
-		}else {	// 로그인 안한 경우
-			if(!course.getPrice().equals("0")) { // 무료가 아닐 때
-				List<Map<String, Object>> contents = videoEntity.getContents();
-				contents.stream().forEach((content)->{ // 강의 리스트
-					List<Map<String, Object>> contentItem = (List<Map<String, Object>>) content.get("list");
-					contentItem.stream().forEach((item)->{ // 영상 리스트
-						Map<String, Object> originItem = item;
-						if(!(boolean) originItem.get("isFree")) {
-							originItem.replace("vimeoId", "");
-						}
-					});
+		}  // 로그인 안한 경우 -> false 
+		
+		if(!isPay) {
+			List<Map<String, Object>> contents = videoEntity.getContents();
+			contents.stream().forEach((content)->{ // 강의 리스트
+				List<Map<String, Object>> contentItem = (List<Map<String, Object>>) content.get("list");
+				contentItem.stream().forEach((item)->{ // 영상 리스트
+					Map<String, Object> originItem = item;
+					if(!(boolean) originItem.get("isFree")) {
+						originItem.replace("vimeoId", ""); // 
+					}
 				});
-			}
+			});
 		}
+		System.out.println(isPay);
 		if(videoEntity != null) {
 			return new CMRespDto<>(HttpStatus.OK.value(),"성공", videoEntity);
 		}else {

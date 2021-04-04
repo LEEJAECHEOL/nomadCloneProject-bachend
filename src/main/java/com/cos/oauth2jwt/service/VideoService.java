@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cos.oauth2jwt.domain.courses.CoursesRepository;
 import com.cos.oauth2jwt.domain.video.Video;
 import com.cos.oauth2jwt.domain.video.VideoRepository;
 import com.cos.oauth2jwt.domain.video.dto.VideoSaveReqDto;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class VideoService {
 	private final VideoRepository videoRepository;
+	private final CoursesRepository coursesRepository;
 	
 	@Transactional(readOnly = true)
 	public List<Video> 전체가져오기(){
