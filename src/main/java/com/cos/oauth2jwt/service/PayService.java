@@ -37,4 +37,24 @@ public class PayService {
 		return payRepository.save(pay);
 	}
 
+	@Transactional
+	public int 환불신청(long payId) {
+		int result = payRepository.refunding(payId);
+		return result;
+	}
+	
+	@Transactional(readOnly = true)
+	public Pay 한건찾기(long payId){
+		return payRepository.findById(payId).get();
+	}
+	
+	@Transactional
+	public Pay 환불신청취소(long payId) {
+		Pay payEntity = payRepository.findById(payId).get(); // refunding일떄만 가능한 행위. 관리가자 환불했을땐 refunded 이기떄문에. status를 검사
+		if(payEntity.getStatus().equals("refunding")) {
+			payEntity.setStatus("paid");
+			
+		}
+		return payEntity;
+	}
 }
