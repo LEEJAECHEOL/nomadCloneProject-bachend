@@ -28,6 +28,11 @@ public class CoursesService {
 	private final CoursesQuery coursesQuery;
 	
 	@Transactional(readOnly = true)
+	public Courses 비디오로한건가져오기(long videoId){
+		return coursesRepository.findByVideoId(videoId);
+	}
+	
+	@Transactional(readOnly = true)
 	public List<CoursesPreviewRespDto> 미리보기전체가져오기(){
 		List<Courses> coursesEntity = coursesRepository.findAll();
 		List<CoursesPreviewRespDto> previewDto = new ArrayList<>();
