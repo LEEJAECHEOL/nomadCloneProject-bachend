@@ -20,4 +20,5 @@ public class CoursesPreviewRespDto {
 	private String subTitle;
 	private String level;
 	private Map<String, Object> previewImage = new HashMap<>();
+	private Long videoId; // 프리뷰 클릭했을때 구매한 코스면 바로 리스트페이지 넘어가서 뿌리기위해 필요
 }

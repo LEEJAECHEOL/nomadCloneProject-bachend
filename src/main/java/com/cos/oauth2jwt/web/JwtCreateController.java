@@ -94,7 +94,7 @@ public class JwtCreateController {
 				.withClaim("id", userEntity.getId()).withClaim("username", userEntity.getUsername())
 				.sign(Algorithm.HMAC512(JwtProperties.SECRET));
 
-		LoginRespDto loginRespDto = LoginRespDto.builder().name(userEntity.getName()).provider(userEntity.getProvider())
+		LoginRespDto loginRespDto = LoginRespDto.builder().id(userEntity.getId()).name(userEntity.getName()).provider(userEntity.getProvider())
 				.email(userEntity.getEmail()).roles(userEntity.getRoles()).token(jwtToken).build();
 		return new CMRespDto<>(HttpStatus.OK.value(), "", loginRespDto);
 	}

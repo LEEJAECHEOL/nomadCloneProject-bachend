@@ -64,6 +64,7 @@ public class CoursesService {
 					dto.setTitle(course.getTitle());
 					dto.setSubTitle(course.getSubTitle());
 					dto.setLevel(course.getLevel());
+					dto.setVideoId(course.getVideoId().longValue()); // 추가
 					Map<String, Object> previewImage = new HashMap<>();
 					ObjectMapper objectMapper = new ObjectMapper();
 					try {
@@ -108,6 +109,7 @@ public class CoursesService {
 						.title(item.getTitle())
 						.subTitle(item.getSubTitle())
 						.level(item.getLevel())
+						.videoId(item.getVideo().getId())
 						.previewImage(item.getPreviewImage())
 						.build()
 					);
