@@ -29,6 +29,7 @@ public class MyFileRestController {
 	
 	@PostMapping("/upload")
 	public FileRespDto fileinsert(FileReqDto fileReqDto, HttpServletRequest request){
+		System.out.println(fileReqDto.getFile());
 		MyFile fileEntity =  filesService.이미지업로드(fileReqDto.getFile(), request);
 		FileRespDto fileRespDto = new FileRespDto();
 		fileRespDto.setId(fileEntity.getId());
