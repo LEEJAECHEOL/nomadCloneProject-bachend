@@ -18,6 +18,7 @@ import com.cos.oauth2jwt.Query.CommunityQuery;
 import com.cos.oauth2jwt.config.auth.PrincipalDetails;
 import com.cos.oauth2jwt.domain.community.Community;
 import com.cos.oauth2jwt.domain.likes.Likes;
+import com.cos.oauth2jwt.handler.exception.NoLoginException;
 import com.cos.oauth2jwt.service.CommunityService;
 import com.cos.oauth2jwt.service.LikeService;
 import com.cos.oauth2jwt.web.community.dto.CommunityItemRespDto;
@@ -52,6 +53,9 @@ public class CommunityRestController {
 	@PostMapping("/community")
 	public CMRespDto<?> save(@RequestBody CommunitySaveReqDto communitySaveReqDto,
 			@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		if(principalDetails == null) {
+			throw new NoLoginException("로그인이 필요한 서비스입니다.");
+		}
 		Community community = communitySaveReqDto.toEntity();
 		community.setUser(principalDetails.getUser());
 		Community communityEntity = communityService.글저장(community);

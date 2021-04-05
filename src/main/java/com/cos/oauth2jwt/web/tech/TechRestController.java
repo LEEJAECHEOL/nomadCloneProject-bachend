@@ -57,7 +57,7 @@ public class TechRestController {
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공", techResp);
 	}
 
-	@DeleteMapping("/tech/{id}")
+	@DeleteMapping("/admin/tech/{id}")
 	public CMRespDto<?> deleteById(@PathVariable long id){
 		techService.테크삭제(id);
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);

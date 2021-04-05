@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cos.oauth2jwt.config.auth.PrincipalDetails;
 import com.cos.oauth2jwt.domain.file.MyFile;
 import com.cos.oauth2jwt.domain.user.User;
+import com.cos.oauth2jwt.handler.exception.NoLoginException;
+import com.cos.oauth2jwt.handler.exception.NoMeException;
 import com.cos.oauth2jwt.service.MyFileService;
 import com.cos.oauth2jwt.service.UserService;
 import com.cos.oauth2jwt.web.auth.dto.LoginRespDto;
@@ -58,18 +60,24 @@ public class UserRestController {
    //edit profile (name)
 	@PutMapping("/user/{id}")
 	public CMRespDto<?> findById(@PathVariable Long id, @RequestBody UserUpdateReqDto userUpdateReqDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-      User userEntity = userService.프로필수정(id, userUpdateReqDto);
-      principalDetails.setUser(userEntity);
-      return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
+		if(principalDetails == null) {
+			throw new NoLoginException("로그인이 필요한 서비스입니다.");
+		}
+		if(principalDetails.getUser().getId() != id) {
+			throw new NoMeException("잘못된 접근입니다.");
+		}
+		User userEntity = userService.프로필수정(id, userUpdateReqDto);
+		principalDetails.setUser(userEntity);
+		return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
 	}
    
    // 회원탈퇴
-	@DeleteMapping("/user/{id}")
-	public CMRespDto<?> deleteById(@PathVariable Long id) {
-      userService.회원탈퇴(id);
-      return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
-	}
-   
+//	@DeleteMapping("/user/{id}")
+//	public CMRespDto<?> deleteById(@PathVariable Long id) {
+//      userService.회원탈퇴(id);
+//      return new CMRespDto<>(HttpStatus.OK.value(),"성공",null);
+//	}
+//   
 	
    // 리액트 프로필이미지 수정(수정할때 User객체에 imageUrl도 같이 바꿔줘야함.)
 	@PostMapping("/user/profile/{id}")

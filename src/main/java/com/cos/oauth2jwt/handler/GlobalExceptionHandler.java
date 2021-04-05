@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.cos.oauth2jwt.handler.exception.ExceptionList;
 import com.cos.oauth2jwt.handler.exception.NoDataException;
 import com.cos.oauth2jwt.handler.exception.NoLoginException;
+import com.cos.oauth2jwt.handler.exception.NoMeException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +31,11 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(value=NoDataException.class)
 	public ResponseEntity<?> oDataException(NoDataException e) {
+		exceptionList.addExceptionList("[" + format.format(time) + "] " + e.getMessage());
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(value=NoMeException.class)
+	public ResponseEntity<?> noMeException(NoMeException e) {
 		exceptionList.addExceptionList("[" + format.format(time) + "] " + e.getMessage());
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 	}
