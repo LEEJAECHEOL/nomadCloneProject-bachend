@@ -33,11 +33,9 @@ public class PayRestController {
 		return new CMRespDto<>(HttpStatus.OK.value(), "", payService.전체찾기());
 	}
 
+	// 회원 결제조회	
 	@GetMapping("/pay/{id}")
 	public CMRespDto<?> findByUserId(@PathVariable long id) {
-		System.out.println("=======");
-		System.out.println("회원 결제조회");
-		System.out.println("=======");
 		return new CMRespDto<>(HttpStatus.OK.value(), "", payService.유저아이디로찾기(id));
 	}
 
@@ -108,6 +106,7 @@ public class PayRestController {
 		@PutMapping("/pay/refunded")
 		public CMRespDto<?> refunded(@RequestBody RefundReqDto refundReqDto,
 				@AuthenticationPrincipal PrincipalDetails principalDetails) {
+			System.out.println("환불들어오나요?");
 			long payId = refundReqDto.getPayId();
 			Pay payEntity = payService.환불하기(payId);
 			return new CMRespDto<>(HttpStatus.OK.value(),"성공",payEntity);

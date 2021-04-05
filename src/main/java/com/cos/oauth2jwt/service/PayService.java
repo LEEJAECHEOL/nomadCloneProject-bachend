@@ -56,6 +56,8 @@ public class PayService {
 		Pay payEntity = payRepository.findById(payId).get(); // refunding일떄만 가능한 행위. 관리가자 환불했을땐 refunded 이기떄문에. status를 검사
 		if(payEntity.getStatus().equals("refunding")) {
 			payEntity.setStatus("refunded");
+			System.out.println("여기 실행됨?");
+			payEntity.setCourse(null);
 		}
 		return payEntity;
 	}
