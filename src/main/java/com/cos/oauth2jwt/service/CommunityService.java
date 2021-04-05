@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cos.oauth2jwt.Query.CommunityQuery;
 import com.cos.oauth2jwt.domain.community.Community;
 import com.cos.oauth2jwt.domain.community.CommunityRepository;
+import com.cos.oauth2jwt.handler.exception.NoDataException;
 import com.cos.oauth2jwt.web.community.dto.CommunityListRespDto;
 import com.cos.oauth2jwt.web.community.dto.CommunityUpdateReqDto;
 
@@ -26,23 +27,6 @@ public class CommunityService {
 		return communityQuery.findAllByCategoryAndSort(sort, categoryId, principalId, pageable);
 	}
 
-//	@Transactional(readOnly = true)
-//	public List<Community> 전체찾기(long principalId) {
-//		List<Community> CommuniyEntity = communityRepository.findAll();
-//		
-//		CommuniyEntity.forEach((community) -> {
-//			int likeCount = community.getLikes().size();
-//			community.setLikeCount(likeCount);
-//			community.getLikes().forEach((like) -> {
-//				if (like.getUser().getId() == principalId) {
-//					community.setLikeCheck(true);
-//				}
-//			});
-//		});
-//
-//		return CommuniyEntity;
-//	}
-
 	@Transactional(readOnly = true)
 	public List<Community> 전체찾기() {
 		List<Community> CommuniyEntity = communityRepository.findAll();
@@ -54,24 +38,6 @@ public class CommunityService {
 
 		return CommuniyEntity;
 	}
-	
-//	@Transactional(readOnly = true)
-//	public List<Community> 카테고리로찾기(long id) {
-//		List<Community> CommuniyEntity = communityRepository.categoryCommunity(id);
-//		return CommuniyEntity;
-//	}
-//
-//	@Transactional(readOnly = true)
-//	public List<Community> 카테고리별인기순으로찾기(long id) {
-//		List<Community> CommuniyEntity = communityRepository.popularCommunity(id);
-//		return CommuniyEntity;
-//	}
-//
-//	@Transactional(readOnly = true)
-//	public List<Community> 카테고리별최신순으로찾기(long id) {
-//		List<Community> CommuniyEntity = communityRepository.createDateCommunity(id);
-//		return CommuniyEntity;
-//	}
 
 	@Transactional
 	public Community 글저장(Community community) {
@@ -81,13 +47,17 @@ public class CommunityService {
 
 	@Transactional(readOnly = true) // 쓰는이유 1. 변경감지안함 2. 고립성
 	public Community 한건찾기(long id) {
-		Community communityEntity = communityRepository.findById(id).get();
+		Community communityEntity = communityRepository.findById(id).orElseThrow(()->{
+			throw new NoDataException("게시물이 존재하지 않습니다.");
+		});
 		return communityEntity;
 	}
 
 	@Transactional
 	public Community 수정하기(long id, CommunityUpdateReqDto communityUpdateReqDto) {
-		Community communityEntity = communityRepository.findById(id).get();
+		Community communityEntity = communityRepository.findById(id).orElseThrow(()->{
+			throw new NoDataException("게시물이 존재하지 않습니다.");
+		});
 		communityEntity.setTitle(communityUpdateReqDto.getTitle());
 		communityEntity.setContent(communityUpdateReqDto.getContent());
 		return communityEntity;

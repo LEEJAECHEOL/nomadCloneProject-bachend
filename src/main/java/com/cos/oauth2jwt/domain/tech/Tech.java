@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 
 import com.cos.oauth2jwt.domain.file.MyFile;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -28,6 +29,7 @@ public class Tech {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotBlank
 	private String title;
 	
 	@OneToOne // 자동으로 Eager 전략

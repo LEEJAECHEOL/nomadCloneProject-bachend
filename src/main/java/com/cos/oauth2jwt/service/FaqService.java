@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cos.oauth2jwt.domain.faq.Faq;
 import com.cos.oauth2jwt.domain.faq.FaqCategoryRepository;
 import com.cos.oauth2jwt.domain.faq.FaqRepository;
+import com.cos.oauth2jwt.handler.exception.NoDataException;
 import com.cos.oauth2jwt.web.faq.dto.FaqSaveReqDto;
 import com.cos.oauth2jwt.web.faq.dto.FaqUpdateReqDto;
 
@@ -26,7 +27,9 @@ public class FaqService {
 	
 	@Transactional(readOnly = true)
 	public Faq 상세보기(long id) {
-		return faqRepository.findById(id).get();
+		return faqRepository.findById(id).orElseThrow(()->{
+			throw new NoDataException("해당 게시물이 존재하지 않습니다.");
+		});
 	}
 	
 	@Transactional
@@ -36,7 +39,9 @@ public class FaqService {
 	
 	@Transactional
 	public void 수정하기(long id, FaqUpdateReqDto dto) {
-		Faq faqEntity = faqRepository.findById(id).get();
+		Faq faqEntity = faqRepository.findById(id).orElseThrow(()->{
+			throw new NoDataException("해당 게시물이 존재하지 않습니다.");
+		});
 		faqEntity.setTitle(dto.getTitle());
 		faqEntity.setContent(dto.getContent());
 	}
