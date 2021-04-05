@@ -35,8 +35,6 @@ public class FaqRestController {
 	@GetMapping("/faq/{id}")
 	public CMRespDto<?> findById(@PathVariable long id) {
 		Faq faqEntity = faqService.상세보기(id);
-//		FaqRespDto faqRespDto = new FaqRespDto(faqEntity);
-//		System.out.println("결과값은? : " + faqRespDto.toString());
 		return new CMRespDto<>(HttpStatus.OK.value(),"성공",faqEntity);
 	}
 	
