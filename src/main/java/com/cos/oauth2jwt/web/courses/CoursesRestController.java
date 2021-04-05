@@ -65,13 +65,13 @@ public class CoursesRestController {
 		}
 	}
 	
-	@DeleteMapping("/courses/{id}")
+	@DeleteMapping("/admin/courses/{id}")
 	public CMRespDto<?> delete(@PathVariable Long id){
 		coursesService.삭제하기(id);
 		return new CMRespDto<>(HttpStatus.OK.value(), "" , null);
 	}
 	
-	@PutMapping("/courses/{id}")
+	@PutMapping("/admin/courses/{id}")
 	public CMRespDto<?> update(@PathVariable Long id, @RequestBody CoursesSaveReqDto coursesSaveReqDto){
 		coursesService.수정하기(id, coursesSaveReqDto.toEntity());
 		return new CMRespDto<>(HttpStatus.OK.value(), "" , null);

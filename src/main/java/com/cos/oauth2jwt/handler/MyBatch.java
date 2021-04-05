@@ -17,7 +17,7 @@ public class MyBatch {
 	private final ExceptionList exceptionList;
 	private final MyErrorService errorService;
 	
-	@Scheduled(fixedDelay = 1000*60) // Cron 정기적 실행
+	@Scheduled(fixedDelay = 1000*60 * 30) // Cron 정기적 실행
 	public void excute() {
 		System.out.println("batch is run");
 		List<MyError> msg = exceptionList.getData();
