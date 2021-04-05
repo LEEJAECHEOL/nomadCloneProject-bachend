@@ -83,6 +83,7 @@ public class CoursesService {
 				dto.setTitle(course.getTitle());
 				dto.setSubTitle(course.getSubTitle());
 				dto.setLevel(course.getLevel());
+				dto.setVideoId(course.getVideoId().longValue()); 
 				Map<String, Object> previewImage = new HashMap<>();
 				ObjectMapper objectMapper = new ObjectMapper();
 				try {
