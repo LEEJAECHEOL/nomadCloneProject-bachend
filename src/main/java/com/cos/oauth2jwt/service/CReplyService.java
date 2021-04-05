@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.cos.oauth2jwt.domain.community.CReply;
 import com.cos.oauth2jwt.domain.community.CReplyRepository;
+import com.cos.oauth2jwt.handler.exception.NoDataException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +34,9 @@ public class CReplyService {
 	
 	@Transactional(readOnly = true)
 	public CReply 한건찾기(long id){
-		CReply cReplyEntity = cReplyRepository.findById(id).get();
+		CReply cReplyEntity = cReplyRepository.findById(id).orElseThrow(()->{
+			throw new NoDataException("해당 댓글이 존재하지 않습니다.");
+		});
 		return cReplyEntity;
 	}
 	

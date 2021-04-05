@@ -10,6 +10,7 @@ import com.cos.oauth2jwt.domain.video.Video;
 import com.cos.oauth2jwt.domain.video.VideoRepository;
 import com.cos.oauth2jwt.domain.video.dto.VideoSaveReqDto;
 import com.cos.oauth2jwt.domain.video.dto.VideoUpdateReqDto;
+import com.cos.oauth2jwt.handler.exception.NoDataException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +27,9 @@ public class VideoService {
 	
 	@Transactional(readOnly = true)
 	public Video 한건찾기(Long id){
-		Video videoEntity = videoRepository.findById(id).get();
+		Video videoEntity = videoRepository.findById(id).orElseThrow(()->{
+			throw new NoDataException("해당 비디오는 존재하지 않습니다.");
+		});
 		return videoEntity;
 	}
 	

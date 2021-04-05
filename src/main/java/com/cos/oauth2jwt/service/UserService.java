@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cos.oauth2jwt.domain.file.MyFile;
 import com.cos.oauth2jwt.domain.user.User;
 import com.cos.oauth2jwt.domain.user.UserRepository;
+import com.cos.oauth2jwt.handler.exception.NoDataException;
 import com.cos.oauth2jwt.web.user.dto.UserUpdateReqDto;
 
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,9 @@ public class UserService {
 
     @Transactional
     public User 프로필수정(long id, UserUpdateReqDto userUpdateReqDto) {
-        User userEntity = userRepository.findById(id).get();
+        User userEntity = userRepository.findById(id).orElseThrow(()->{
+			throw new NoDataException("해당 프로필은 존재하지 않습니다.");
+		});
         userEntity.setName(userUpdateReqDto.getName());
         return userEntity;
     }
@@ -31,7 +34,9 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public User 유저정보(long id) {
-        User userEntity = userRepository.findById(id).get();
+        User userEntity = userRepository.findById(id).orElseThrow(()->{
+			throw new NoDataException("해당 프로필은 존재하지 않습니다.");
+		});
         return userEntity;
     }
 
@@ -49,7 +54,9 @@ public class UserService {
 
     @Transactional
     public User 이름수정(String name, long id) {
-        User user = userRepository.findById(id).get();
+        User user = userRepository.findById(id).orElseThrow(()->{
+			throw new NoDataException("해당 프로필은 존재하지 않습니다.");
+		});
         user.setName(name);
         return user;
     }

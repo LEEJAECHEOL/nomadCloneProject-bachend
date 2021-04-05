@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -44,11 +45,16 @@ public class Courses {
 	@Column(name = "mainImage", columnDefinition = "json")
 	@Convert(converter = JsonToMapConverter.class)
 	private Map<String, Object> mainImage = new HashMap<>();
-	
+
+	@NotBlank
 	private String title;
+	@NotBlank
 	private String subTitle;
+	@NotBlank
 	private String backgroundColor;
+	@NotBlank
 	private String textColor;
+	@NotBlank
 	private String level;
 	
 	@Column(name = "tech", columnDefinition = "json")

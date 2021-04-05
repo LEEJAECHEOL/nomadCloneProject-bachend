@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cos.oauth2jwt.domain.pay.Pay;
 import com.cos.oauth2jwt.domain.pay.PayRepository;
+import com.cos.oauth2jwt.handler.exception.NoDataException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,7 +40,9 @@ public class PayService {
 	
 	@Transactional(readOnly = true)
 	public Pay 한건찾기(long payId){
-		return payRepository.findById(payId).get();
+		return payRepository.findById(payId).orElseThrow(()->{
+			throw new NoDataException("해당 결제리스트는 존재하지 않습니다.");
+		});
 	}
 	
 	@Transactional

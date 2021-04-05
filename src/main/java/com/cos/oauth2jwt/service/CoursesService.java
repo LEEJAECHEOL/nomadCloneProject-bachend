@@ -12,6 +12,7 @@ import com.cos.oauth2jwt.Query.CommunityQuery;
 import com.cos.oauth2jwt.Query.CoursesQuery;
 import com.cos.oauth2jwt.domain.courses.Courses;
 import com.cos.oauth2jwt.domain.courses.CoursesRepository;
+import com.cos.oauth2jwt.handler.exception.NoDataException;
 import com.cos.oauth2jwt.web.courses.dto.CoursesFilterPreviewRespDto;
 import com.cos.oauth2jwt.web.courses.dto.CoursesPreviewRespDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -120,7 +121,9 @@ public class CoursesService {
 	
 	@Transactional(readOnly = true)
 	public Courses 한건가져오기(long id){
-		Courses coursesEntity = coursesRepository.findById(id).get();
+		Courses coursesEntity = coursesRepository.findById(id).orElseThrow(()->{
+			throw new NoDataException("게시물이 존재하지 않습니다.");
+		});
 		return coursesEntity;
 	}
 	

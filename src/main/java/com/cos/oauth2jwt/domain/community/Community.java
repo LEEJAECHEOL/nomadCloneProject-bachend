@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -40,9 +41,11 @@ public class Community {
 	private Long id;
 	
 	@Column(nullable = false,length = 100)
+	@NotBlank
 	private String title;
 	
 	@Lob
+	@NotBlank
 	private String content;	
 	
 	@ManyToOne // 자동으로 Eager 전략
