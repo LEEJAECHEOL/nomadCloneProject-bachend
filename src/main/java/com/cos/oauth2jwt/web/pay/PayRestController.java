@@ -80,10 +80,10 @@ public class PayRestController {
 		}
 	}
 
-	@PostMapping("/pay/check")
-	public CMRespDto<?> paidCheck(@RequestBody PayCheckReqDto payCheckReqDto,
+	@GetMapping("/pay/check/{id}")
+	public CMRespDto<?> paidCheck(@PathVariable Long id,
 			@AuthenticationPrincipal PrincipalDetails principalDetails) {
-		Pay payEntity = payService.결제체크(payCheckReqDto.getCourseId(), principalDetails.getUser().getId());
+		Pay payEntity = payService.결제체크(id, principalDetails.getUser().getId());
 		if(payEntity != null) {
 			return new CMRespDto<>(HttpStatus.CREATED.value(), "", payEntity);
 		}

@@ -73,5 +73,4 @@ public class Community {
     
     @Transient
 	private int likeCount; // 추천 카운트
-
 }
