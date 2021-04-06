@@ -60,12 +60,12 @@ public class Community {
     private Timestamp createDate;	
 	
     @JsonIgnoreProperties({"community"})
-	@OneToMany(mappedBy = "community", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)  // mappedBy : reply의 변수명
+	@OneToMany(mappedBy = "community", fetch = FetchType.LAZY, cascade = CascadeType.ALL)  // mappedBy : reply의 변수명
 	@OrderBy("id desc")
 	private List<CReply> replys;
     
     @JsonIgnoreProperties({"community"})
-    @OneToMany(mappedBy = "community")
+    @OneToMany(mappedBy = "community",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Likes> likes; 
     
     @Transient
