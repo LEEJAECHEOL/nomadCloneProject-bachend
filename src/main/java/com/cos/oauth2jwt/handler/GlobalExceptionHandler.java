@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class GlobalExceptionHandler {
 	
 	private final ExceptionList exceptionList;
+	
 	SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
 	Date time = new Date();
 	

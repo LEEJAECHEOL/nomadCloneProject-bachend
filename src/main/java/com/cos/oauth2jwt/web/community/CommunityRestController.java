@@ -87,6 +87,7 @@ public class CommunityRestController {
 
 	@DeleteMapping("/community/{id}")
 	public CMRespDto<?> delete(@PathVariable long id) {
+		System.out.println("아이디값은? : "+id);
 		communityService.삭제하기(id);
 		return new CMRespDto<>(HttpStatus.OK.value(), "성공", null);
 	}

@@ -65,6 +65,7 @@ public class CommunityService {
 
 	@Transactional
 	public void 삭제하기(long id) {
+		System.out.println("여기들어옴?1");
 		communityRepository.deleteById(id);
 	}
 }
