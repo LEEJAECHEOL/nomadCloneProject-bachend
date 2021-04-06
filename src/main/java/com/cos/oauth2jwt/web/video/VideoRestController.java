@@ -42,9 +42,7 @@ public class VideoRestController {
 	public CMRespDto<?> userfindById(@PathVariable long id, @AuthenticationPrincipal PrincipalDetails principalDetails){
 		Video videoEntity = videoService.한건찾기(id);
 		boolean isPay = false; // 결제안함.
-		System.out.println(principalDetails);
 		if(principalDetails != null) { // 로그인 한 경우
-			System.out.println("로그인 했음!");
 			User user = principalDetails.getUser(); // 유저정보
 			if((user.getRoles()).equals("ROLE_ADMIN")) { // 관리자일때
 				isPay = true;
@@ -72,7 +70,6 @@ public class VideoRestController {
 				});
 			});
 		}
-		System.out.println(isPay);
 		if(videoEntity != null) {
 			return new CMRespDto<>(HttpStatus.OK.value(),"성공", videoEntity);
 		}else {
